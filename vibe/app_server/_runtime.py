@@ -2213,7 +2213,7 @@ class HarnessProcess:
                         else None,
                     ),
                     settings=RustHarnessSettings(
-                        prompts=RustPromptSettings(guidance="stock"),
+                        prompts=RustPromptSettings(guidance="none"),
                         turn=RustTurnSettings(
                             max_iterations=max_iterations,
                             # A cut-off answer is discarded and asked for again
@@ -2242,6 +2242,8 @@ class HarnessProcess:
                             # when subagents or background processes are enabled.
                             model_wait=RustEnabledModelWait(),
                             programmatic=RustProgrammaticToolSettings(
+                                mode="disabled",
+                                sleep="disabled",
                                 max_effects=128,
                                 max_operations=1024,
                                 max_elapsed_ms=60_000,

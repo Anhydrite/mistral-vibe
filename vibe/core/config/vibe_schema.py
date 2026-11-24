@@ -1021,7 +1021,7 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
         ),
     )
     enabled_tools: Annotated[list[str], WithReplaceMerge()] = Field(
-        default_factory=list,
+        default_factory=lambda: ["bash", "read_file", "write_file", "edit"],
         description=(
             "An explicit list of tool names/patterns to enable. If set, only these"
             " tools will be active. Supports glob patterns (e.g., 'serena_*') and"
@@ -1042,8 +1042,8 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
     ] = Field(
         default_factory=list, description="Preferred MCP server configuration entries."
     )
-    enable_connectors: Annotated[bool, WithReplaceMerge()] = True
-    enable_mcp: Annotated[bool, WithReplaceMerge()] = True
+    enable_connectors: Annotated[bool, WithReplaceMerge()] = False
+    enable_mcp: Annotated[bool, WithReplaceMerge()] = False
     experimental_enable_document_library_connector: Annotated[
         bool, WithReplaceMerge()
     ] = Field(
@@ -1417,15 +1417,15 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
         deprecated="Ignored by Unified execution; remove this setting from your config.",
         description="Deprecated: accepted for older configs, with no effect on Unified execution.",
     )
-    enable_telemetry: Annotated[bool, WithReplaceMerge()] = True
-    system_prompt_id: Annotated[str, WithReplaceMerge()] = SystemPrompt.CLI
+    enable_telemetry: Annotated[bool, WithReplaceMerge()] = False
+    system_prompt_id: Annotated[str, WithReplaceMerge()] = SystemPrompt.MAKI
     # The system prompt's behavior, supplied at runtime by the GrowthBook layer.
     # When set, the Unified runtime uses it in place of the ``system_prompt_id``
     # variant's, unless a layer above GrowthBook chose ``system_prompt_id``.
     system_prompt_behavior: Annotated[str, WithReplaceMerge()] = ""
     managed_shell_tools_enabled: Annotated[bool, WithReplaceMerge()] = False
     enable_background_processes: Annotated[bool, WithReplaceMerge()] = Field(
-        default=True,
+        default=False,
         description=(
             "Offer the agent background processes (tools.process in "
             "run_typescript). Off, commands only run to completion in the "
@@ -1433,7 +1433,7 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
         ),
     )
     enable_subagents: Annotated[bool, WithReplaceMerge()] = Field(
-        default=True,
+        default=False,
         description=(
             "Offer the agent subagents (tools.subagent in run_typescript). Off, "
             "the agent works alone."

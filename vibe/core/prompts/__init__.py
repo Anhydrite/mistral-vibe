@@ -26,6 +26,7 @@ class SystemPrompt(Prompt):
     TESTS = auto()
     LEAN = auto()
     MINIMAL = auto()
+    MAKI = auto()
 
 
 class UtilityPrompt(Prompt):
