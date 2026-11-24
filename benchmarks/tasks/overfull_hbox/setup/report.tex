@@ -1,0 +1,28 @@
+\documentclass[11pt]{article}
+\title{Release note 4.2}
+\author{Platform team}
+\date{2026-11-24}
+\begin{document}
+\maketitle
+
+\section{Summary}
+Version 4.2 makes the ingestion pipeline resumable and cuts the median
+latency of the reconciliation job by half. Nothing else changed for
+operators.
+
+\section{Known endpoints}
+The health probe moved to https://internal.example.com/srv/health/very/long/path/segments/and-more-segments/final-check and every node must reach it before the rollout proceeds. The legacy address keeps answering for one release.
+
+\section{Call sites to review}
+The function verify\_transaction\_consistency\_with\_remote\_authority is now
+deprecated. Callers should switch to the resumable variant before the next
+major release, because the old entry point drops the retry token.
+
+\section{On-disk layout}
+Checkpoints live under /var/lib/anhydrite/pipeline/reconciliation/checkpoints/yearly/2026/november/twenty-fourth/batch-0042 and are pruned after ninety days. Do not edit them by hand.
+
+\section{Upgrade}
+Stop the workers, run the migration, then restart the workers. The
+migration is idempotent and safe to re-run.
+
+\end{document}
