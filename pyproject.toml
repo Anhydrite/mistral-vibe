@@ -175,6 +175,7 @@ features = ["extension-module"]
 vibe = "vibe.cli.launcher:main"
 vibe-acp = "vibe.acp.entrypoint:main"
 vibe-app-server = "vibe.app_server.stdio:main"
+vibe-headless = "vibe.cli.headless:main"
 
 [tool.uv]
 constraint-dependencies = [
