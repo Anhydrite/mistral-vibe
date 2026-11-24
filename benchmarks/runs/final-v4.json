@@ -1,0 +1,246 @@
+{
+  "run": "final-v4",
+  "date": "2026-11-24T18:03:52.463358+00:00",
+  "commit": "3dbc70c",
+  "note": "final: compressed prompt, 4 tools, 3 attempts",
+  "model": "mistral/deepseek-v4-1-flash-1017",
+  "tasks": [
+    "bugfix",
+    "csv_stats",
+    "expr_eval",
+    "merge_patch",
+    "ttl_cache"
+  ],
+  "repeat": 3,
+  "results_dir": "/home/anhydrite/Documents/beta_labo/vibe_bench/harness_bench/results/20261124T175741Z",
+  "harnesses": {
+    "maki": {
+      "n": 15,
+      "passed": 15,
+      "mean_sec": 9.7,
+      "mean_prompt_tokens": 30498,
+      "mean_effective_tokens": 6596,
+      "mean_turns": 4.1
+    },
+    "vibe": {
+      "n": 15,
+      "passed": 15,
+      "mean_sec": 14.2,
+      "mean_prompt_tokens": 17836,
+      "mean_effective_tokens": 4472,
+      "mean_turns": 4.1
+    }
+  },
+  "per_task": {
+    "bugfix__maki__1": {
+      "passed": true,
+      "sec": 4.68,
+      "turns": 4,
+      "prompt": 25408,
+      "effective": 6592
+    },
+    "bugfix__maki__2": {
+      "passed": true,
+      "sec": 3.96,
+      "turns": 4,
+      "prompt": 25462,
+      "effective": 6518
+    },
+    "bugfix__maki__3": {
+      "passed": true,
+      "sec": 4.05,
+      "turns": 4,
+      "prompt": 25891,
+      "effective": 6691
+    },
+    "bugfix__vibe__1": {
+      "passed": true,
+      "sec": 8.56,
+      "turns": 3,
+      "prompt": 10397,
+      "effective": 3997
+    },
+    "bugfix__vibe__2": {
+      "passed": true,
+      "sec": 9.26,
+      "turns": 3,
+      "prompt": 10323,
+      "effective": 3923
+    },
+    "bugfix__vibe__3": {
+      "passed": true,
+      "sec": 8.38,
+      "turns": 3,
+      "prompt": 10399,
+      "effective": 3999
+    },
+    "csv_stats__maki__1": {
+      "passed": true,
+      "sec": 6.23,
+      "turns": 3,
+      "prompt": 20111,
+      "effective": 6287
+    },
+    "csv_stats__maki__2": {
+      "passed": true,
+      "sec": 5.05,
+      "turns": 4,
+      "prompt": 26976,
+      "effective": 6496
+    },
+    "csv_stats__maki__3": {
+      "passed": true,
+      "sec": 5.15,
+      "turns": 3,
+      "prompt": 20175,
+      "effective": 6351
+    },
+    "csv_stats__vibe__1": {
+      "passed": true,
+      "sec": 10.75,
+      "turns": 3,
+      "prompt": 10975,
+      "effective": 3679
+    },
+    "csv_stats__vibe__2": {
+      "passed": true,
+      "sec": 13.64,
+      "turns": 5,
+      "prompt": 19716,
+      "effective": 4100
+    },
+    "csv_stats__vibe__3": {
+      "passed": true,
+      "sec": 23.45,
+      "turns": 7,
+      "prompt": 33368,
+      "effective": 4824
+    },
+    "expr_eval__maki__1": {
+      "passed": true,
+      "sec": 13.17,
+      "turns": 4,
+      "prompt": 29924,
+      "effective": 7140
+    },
+    "expr_eval__maki__2": {
+      "passed": true,
+      "sec": 32.2,
+      "turns": 7,
+      "prompt": 69525,
+      "effective": 7701
+    },
+    "expr_eval__maki__3": {
+      "passed": true,
+      "sec": 10.7,
+      "turns": 5,
+      "prompt": 37338,
+      "effective": 6746
+    },
+    "expr_eval__vibe__1": {
+      "passed": true,
+      "sec": 16.28,
+      "turns": 5,
+      "prompt": 24781,
+      "effective": 4301
+    },
+    "expr_eval__vibe__2": {
+      "passed": true,
+      "sec": 12.73,
+      "turns": 3,
+      "prompt": 12549,
+      "effective": 4997
+    },
+    "expr_eval__vibe__3": {
+      "passed": true,
+      "sec": 16.64,
+      "turns": 4,
+      "prompt": 18723,
+      "effective": 5539
+    },
+    "merge_patch__maki__1": {
+      "passed": true,
+      "sec": 9.05,
+      "turns": 4,
+      "prompt": 28898,
+      "effective": 6370
+    },
+    "merge_patch__maki__2": {
+      "passed": true,
+      "sec": 9.11,
+      "turns": 5,
+      "prompt": 35641,
+      "effective": 6585
+    },
+    "merge_patch__maki__3": {
+      "passed": true,
+      "sec": 7.33,
+      "turns": 4,
+      "prompt": 27591,
+      "effective": 5831
+    },
+    "merge_patch__vibe__1": {
+      "passed": true,
+      "sec": 16.66,
+      "turns": 5,
+      "prompt": 21996,
+      "effective": 4460
+    },
+    "merge_patch__vibe__2": {
+      "passed": true,
+      "sec": 12.82,
+      "turns": 3,
+      "prompt": 11236,
+      "effective": 4196
+    },
+    "merge_patch__vibe__3": {
+      "passed": true,
+      "sec": 12.04,
+      "turns": 3,
+      "prompt": 11719,
+      "effective": 4551
+    },
+    "ttl_cache__maki__1": {
+      "passed": true,
+      "sec": 13.39,
+      "turns": 3,
+      "prompt": 23697,
+      "effective": 6417
+    },
+    "ttl_cache__maki__2": {
+      "passed": true,
+      "sec": 14.24,
+      "turns": 5,
+      "prompt": 39692,
+      "effective": 6924
+    },
+    "ttl_cache__maki__3": {
+      "passed": true,
+      "sec": 7.68,
+      "turns": 3,
+      "prompt": 21138,
+      "effective": 6290
+    },
+    "ttl_cache__vibe__1": {
+      "passed": true,
+      "sec": 18.78,
+      "turns": 4,
+      "prompt": 21026,
+      "effective": 4002
+    },
+    "ttl_cache__vibe__2": {
+      "passed": true,
+      "sec": 16.43,
+      "turns": 5,
+      "prompt": 23952,
+      "effective": 4624
+    },
+    "ttl_cache__vibe__3": {
+      "passed": true,
+      "sec": 17.2,
+      "turns": 5,
+      "prompt": 26373,
+      "effective": 5893
+    }
+  }
+}

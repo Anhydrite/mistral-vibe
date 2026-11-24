@@ -14,6 +14,7 @@ relative to maki in the same run.
 | tuned-v2 | `f2d354d` | slim agent + maki prompt + efficiency rules | 10/10 vs 10/10 | 16.2s vs 9.5s | 21324 vs 29083 | 5426 vs 6593 | 4.4 vs 3.9 | -27% / -18% / +71% |
 | ttl-fix | `f2d354d` | TTL verifier relaxed; both harnesses pass | 2/2 vs 2/2 | 20.0s vs 10.9s | 19949 vs 30838 | 4397 vs 6518 | 4 vs 4 | -35% / -33% / +83% |
 | compressed-v3 | `a2d79d7` | compressed maki prompt and tool descriptions | 10/10 vs 10/10 | 15.4s vs 12.5s | 22518 vs 29613 | 4624 vs 6496 | 4.6 vs 4 | -24% / -29% / +23% |
+| final-v4 | `3dbc70c` | final: compressed prompt, 4 tools, 3 attempts | 15/15 vs 15/15 | 14.2s vs 9.7s | 17836 vs 30498 | 4472 vs 6596 | 4.1 vs 4.1 | -42% / -32% / +46% |
 
 Reproduce:
 
