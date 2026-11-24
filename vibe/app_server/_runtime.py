@@ -1,5 +1,18 @@
 from __future__ import annotations
 
+
+def _dump_prompt(text: str) -> str:
+    import os
+    from pathlib import Path
+
+    path = os.environ.get("VIBE_DUMP_PROMPT")
+    if path:
+        try:
+            Path(path).write_text(text, encoding="utf-8")
+        except OSError:
+            pass
+    return text
+
 import asyncio
 from collections.abc import Callable, Iterable, Mapping, Sequence, Set as AbstractSet
 from dataclasses import dataclass, field, replace
@@ -2190,8 +2203,10 @@ class HarnessProcess:
                 ),
                 core_config=RustHarnessConfig(
                     task_id="runtime-template",
-                    system_instructions=_build_unified_system_instructions(
-                        config,
+                    system_instructions=(
+                        _dump_prompt(
+                            _build_unified_system_instructions(
+                                config,
                         harness_files,
                         cwd=workspace_slot.workspace.cwd,
                         surface=client_surface(entrypoint),
@@ -2203,14 +2218,16 @@ class HarnessProcess:
                         background_processes=config.enable_background_processes,
                         command_environment=command_environment_mode,
                         local_desktop=entrypoint == "desktop" and sandbox is None,
-                        worktree_rule=checkout_state
-                        if agent_worktrees
-                        and not workspace_slot.moved
-                        and enter_worktree_offered(
-                            enabled_tools=config.enabled_tools,
-                            disabled_tools=config.disabled_tools,
+                                worktree_rule=checkout_state
+                                if agent_worktrees
+                                and not workspace_slot.moved
+                                and enter_worktree_offered(
+                                    enabled_tools=config.enabled_tools,
+                                    disabled_tools=config.disabled_tools,
+                                )
+                                else None,
+                            )
                         )
-                        else None,
                     ),
                     settings=RustHarnessSettings(
                         prompts=RustPromptSettings(guidance="none"),

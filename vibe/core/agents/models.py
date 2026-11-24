@@ -172,8 +172,16 @@ def _enum_field[E: StrEnum](
 DEFAULT = AgentProfile(
     BuiltinAgentName.DEFAULT,
     "Default",
-    "Vibe's own instructions, model and tools",
+    "Maki instructions and the core tool surface",
     AgentSafety.NEUTRAL,
+    overrides={
+        "system_prompt_id": "maki",
+        "enabled_tools": ["bash", "read_file", "write_file", "edit"],
+        "enable_subagents": False,
+        "enable_background_processes": False,
+        "enable_connectors": False,
+        "enable_mcp": False,
+    },
 )
 
 ASK = AgentProfile(
