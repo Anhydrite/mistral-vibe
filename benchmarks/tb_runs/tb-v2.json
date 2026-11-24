@@ -1,0 +1,82 @@
+{
+  "run": "tb-v2",
+  "date": "2026-11-24T22:07:19.232183+00:00",
+  "commit": "012ea89",
+  "note": "skill-store cleanup disabled: no background worker spawn",
+  "model": "mistral/deepseek-v4-1-flash-1017",
+  "results_dir": "/home/anhydrite/Documents/beta_labo/vibe_bench/tb_bench/results/20261124T213338Z",
+  "per_task": {
+    "cobol-modernization": {
+      "maki": {
+        "n": 2,
+        "passed": 2,
+        "median_sec": 200.0,
+        "median_effective": 33684,
+        "median_prompt": 1759124,
+        "median_turns": 52.5
+      },
+      "vibe": {
+        "n": 2,
+        "passed": 2,
+        "median_sec": 158.8,
+        "median_effective": 37546,
+        "median_prompt": 1479082,
+        "median_turns": 32.0
+      }
+    },
+    "fix-git": {
+      "maki": {
+        "n": 2,
+        "passed": 2,
+        "median_sec": 49.8,
+        "median_effective": 43670,
+        "median_prompt": 433814,
+        "median_turns": 19.0
+      },
+      "vibe": {
+        "n": 2,
+        "passed": 2,
+        "median_sec": 51.5,
+        "median_effective": 13442,
+        "median_prompt": 167618,
+        "median_turns": 17.0
+      }
+    },
+    "overfull-hbox": {
+      "maki": {
+        "n": 2,
+        "passed": 2,
+        "median_sec": 104.8,
+        "median_effective": 18355,
+        "median_prompt": 279027,
+        "median_turns": 17.5
+      },
+      "vibe": {
+        "n": 2,
+        "passed": 2,
+        "median_sec": 108.3,
+        "median_effective": 11284,
+        "median_prompt": 137108,
+        "median_turns": 14.0
+      }
+    },
+    "prove-plus-comm": {
+      "maki": {
+        "n": 2,
+        "passed": 2,
+        "median_sec": 18.4,
+        "median_effective": 8038,
+        "median_prompt": 80166,
+        "median_turns": 10.0
+      },
+      "vibe": {
+        "n": 2,
+        "passed": 2,
+        "median_sec": 30.2,
+        "median_effective": 5780,
+        "median_prompt": 57940,
+        "median_turns": 10.0
+      }
+    }
+  }
+}
