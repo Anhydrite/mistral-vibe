@@ -69,6 +69,12 @@ def aggregate(rows: list[dict]) -> dict:
         "mean_prompt_tokens": round(statistics.mean(r["prompt"] for r in rows)),
         "mean_effective_tokens": round(statistics.mean(r["effective"] for r in rows)),
         "mean_turns": round(statistics.mean(r["turns"] for r in rows), 1),
+        "median_sec": round(statistics.median(r["sec"] for r in rows), 1),
+        "median_prompt_tokens": round(statistics.median(r["prompt"] for r in rows)),
+        "median_effective_tokens": round(
+            statistics.median(r["effective"] for r in rows)
+        ),
+        "median_turns": round(statistics.median(r["turns"] for r in rows), 1),
     }
 
 
@@ -109,7 +115,7 @@ def render_history(records: list[dict]) -> str:
         "",
         "Maki vs this fork, same model (`mistral/deepseek-v4-1-flash-1017`),",
         "same prompts, fresh workspace per cell, mechanical verifiers.",
-        "`prompt` counts all prompt tokens (cached included); `effective`",
+        "Numbers are medians. `prompt` counts all prompt tokens (cached included); `effective`",
         "counts only the uncached ones. Lower is better. Percentages are",
         "relative to maki in the same run.",
         "",
@@ -129,13 +135,26 @@ def render_history(records: list[dict]) -> str:
                 commit=rec["commit"],
                 note=rec.get("note") or "",
                 vp=v["passed"], vn=v["n"], mp=m["passed"], mn=m["n"],
-                vt=v["mean_sec"], mt=m["mean_sec"],
-                vpt=v["mean_prompt_tokens"], mpt=m["mean_prompt_tokens"],
-                vet=v["mean_effective_tokens"], met=m["mean_effective_tokens"],
-                vtt=v["mean_turns"], mtt=m["mean_turns"],
-                pp=pct(v["mean_prompt_tokens"], m["mean_prompt_tokens"]),
-                pe=pct(v["mean_effective_tokens"], m["mean_effective_tokens"]),
-                ps=pct(v["mean_sec"], m["mean_sec"]),
+                vt=v.get("median_sec", v["mean_sec"]),
+                mt=m.get("median_sec", m["mean_sec"]),
+                vpt=v.get("median_prompt_tokens", v["mean_prompt_tokens"]),
+                mpt=m.get("median_prompt_tokens", m["mean_prompt_tokens"]),
+                vet=v.get("median_effective_tokens", v["mean_effective_tokens"]),
+                met=m.get("median_effective_tokens", m["mean_effective_tokens"]),
+                vtt=v.get("median_turns", v["mean_turns"]),
+                mtt=m.get("median_turns", m["mean_turns"]),
+                pp=pct(
+                    v.get("median_prompt_tokens", v["mean_prompt_tokens"]),
+                    m.get("median_prompt_tokens", m["mean_prompt_tokens"]),
+                ),
+                pe=pct(
+                    v.get("median_effective_tokens", v["mean_effective_tokens"]),
+                    m.get("median_effective_tokens", m["mean_effective_tokens"]),
+                ),
+                ps=pct(
+                    v.get("median_sec", v["mean_sec"]),
+                    m.get("median_sec", m["mean_sec"]),
+                ),
             )
         )
     lines += [
