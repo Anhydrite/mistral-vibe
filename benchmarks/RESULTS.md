@@ -17,11 +17,12 @@ relative to maki in the same run.
 | final-v4 | `3dbc70c` | compressed prompt, 3 attempts | 15/15 vs 15/15 | 13.6s vs 7.7s | 18723 vs 26976 | 4301 vs 6518 | 4 vs 4 | -31% / -34% / +77% |
 | batch-tools-v5 | `04eac90` | read_files, index, glob, multiedit provided tools | 12/12 vs 12/12 | 12.0s vs 8.7s | 16634 vs 26930 | 4832 vs 6737 | 3.5 vs 4.0 | -38% / -28% / +38% |
 | batch-tools-v6 | `6545a8c` | 6 tasks, 3 attempts, clean verifiers | 18/18 vs 18/18 | 11.8s vs 6.6s | 16024 vs 23549 | 4817 vs 6446 | 3.5 vs 3.5 | -32% / -25% / +79% |
+| complex-v1 | `49b50f1` | complex tasks: transactional KV, HTTP API, multi-file refactor (2 attempts) | 6/6 vs 6/6 | 14.2s vs 18.7s | 24092 vs 37462 | 5834 vs 7115 | 4.5 vs 5.0 | -36% / -18% / -24% |
 
 Reproduce:
 
 ```bash
 cd ../vibe_bench/harness_bench
 VIBE_BIN=~/Projets/vibe-maki/.venv/bin/vibe \
-  python3 run_bench.py --tasks bugfix csv_stats expr_eval ttl_cache merge_patch multi_fix --repeat 3
+  python3 run_bench.py --tasks bugfix csv_stats expr_eval ttl_cache merge_patch multi_fix txn_kv mini_http refactor_rates --repeat 2
 ```

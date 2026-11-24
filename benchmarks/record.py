@@ -164,7 +164,7 @@ def render_history(records: list[dict]) -> str:
         "```bash",
         "cd ../vibe_bench/harness_bench",
         "VIBE_BIN=~/Projets/vibe-maki/.venv/bin/vibe \\",
-        "  python3 run_bench.py --tasks bugfix csv_stats expr_eval ttl_cache merge_patch multi_fix --repeat 3",
+        "  python3 run_bench.py --tasks bugfix csv_stats expr_eval ttl_cache merge_patch multi_fix txn_kv mini_http refactor_rates --repeat 2",
         "```",
         "",
     ]
