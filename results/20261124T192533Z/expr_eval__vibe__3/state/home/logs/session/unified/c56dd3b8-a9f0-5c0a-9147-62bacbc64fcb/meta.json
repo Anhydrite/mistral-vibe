@@ -1,0 +1,39 @@
+{
+  "session_id": "c56dd3b8-a9f0-5c0a-9147-62bacbc64fcb",
+  "parent_session_id": null,
+  "start_time": "2026-11-24T19:28:36.651000+00:00",
+  "end_time": "2026-11-24T19:28:47.887000+00:00",
+  "git_commit": null,
+  "git_branch": null,
+  "environment": {
+    "working_directory": "/home/anhydrite/Documents/beta_labo/vibe_bench/harness_bench/results/20261124T192533Z/expr_eval__vibe__3/workspace"
+  },
+  "origin_directory": "/home/anhydrite/Documents/beta_labo/vibe_bench/harness_bench/results/20261124T192533Z/expr_eval__vibe__3/workspace",
+  "username": "anhydrite",
+  "child_sessions": [],
+  "loops": [],
+  "title": null,
+  "title_source": "auto",
+  "bumped_at": "2026-11-24T19:28:37.705965+00:00",
+  "pinned_at": null,
+  "archived_at": null,
+  "unseen_at": "2026-11-24T19:28:47.901304+00:00",
+  "seen_at": null,
+  "experiments": null,
+  "config": {
+    "active_model": "deepseek-v4-1-flash-1017",
+    "model_name": "deepseek-v4-1-flash-1017"
+  },
+  "runtime_path": "session_api",
+  "runtime": "local",
+  "import_provenance": null,
+  "created_worktree": null,
+  "project": null,
+  "artifacts": [],
+  "worktrees": [],
+  "owed_replies": [],
+  "pending_context_notes": [],
+  "repository_root": null,
+  "checkout_root": null,
+  "skill_pins": []
+}

@@ -18,6 +18,8 @@ relative to maki in the same run.
 | batch-tools-v5 | `04eac90` | read_files, index, glob, multiedit provided tools | 12/12 vs 12/12 | 12.0s vs 8.7s | 16634 vs 26930 | 4832 vs 6737 | 3.5 vs 4.0 | -38% / -28% / +38% |
 | batch-tools-v6 | `6545a8c` | 6 tasks, 3 attempts, clean verifiers | 18/18 vs 18/18 | 11.8s vs 6.6s | 16024 vs 23549 | 4817 vs 6446 | 3.5 vs 3.5 | -32% / -25% / +79% |
 | complex-v1 | `49b50f1` | complex tasks: transactional KV, HTTP API, multi-file refactor (2 attempts) | 6/6 vs 6/6 | 14.2s vs 18.7s | 24092 vs 37462 | 5834 vs 7115 | 4.5 vs 5.0 | -36% / -18% / -24% |
+| lean-prefix-v7 | `7a3cabc` | skills, plugins and commit-signature removed from the fixed per-turn prefix | 18/18 vs 18/18 | 11.0s vs 7.5s | 11910 vs 29225 | 3432 vs 6602 | 4.0 vs 4.0 | -59% / -48% / +47% |
+| lean-prefix-v7-complex | `7a3cabc` | complex tasks with the lean prefix | 6/6 vs 6/6 | 19.8s vs 13.5s | 21783 vs 45396 | 4877 vs 7014 | 5.0 vs 5.5 | -52% / -30% / +47% |
 
 Reproduce:
 
