@@ -1,0 +1,126 @@
+{
+  "run": "domain-v1",
+  "date": "2026-11-24T20:12:02.689009+00:00",
+  "commit": "c6f0faa",
+  "note": "domain tasks: COBOL port, LaTeX overfull hbox, Lean proof",
+  "model": "mistral/deepseek-v4-1-flash-1017",
+  "tasks": [
+    "cobol_modernize",
+    "overfull_hbox",
+    "prove_plus_comm"
+  ],
+  "repeat": 2,
+  "results_dir": "/home/anhydrite/Documents/beta_labo/vibe_bench/harness_bench/results/20261124T200149Z",
+  "harnesses": {
+    "maki": {
+      "n": 6,
+      "passed": 6,
+      "mean_sec": 28.6,
+      "mean_prompt_tokens": 78695,
+      "mean_effective_tokens": 8679,
+      "mean_turns": 8.8,
+      "median_sec": 19.4,
+      "median_prompt_tokens": 71768,
+      "median_effective_tokens": 8886,
+      "median_turns": 7.5
+    },
+    "vibe": {
+      "n": 6,
+      "passed": 6,
+      "mean_sec": 72.0,
+      "mean_prompt_tokens": 220960,
+      "mean_effective_tokens": 9184,
+      "mean_turns": 14.7,
+      "median_sec": 43.4,
+      "median_prompt_tokens": 54214,
+      "median_effective_tokens": 5774,
+      "median_turns": 8.5
+    }
+  },
+  "per_task": {
+    "cobol_modernize__maki__1": {
+      "passed": true,
+      "sec": 12.62,
+      "turns": 4,
+      "prompt": 35280,
+      "effective": 8912
+    },
+    "cobol_modernize__maki__2": {
+      "passed": true,
+      "sec": 21.2,
+      "turns": 8,
+      "prompt": 89291,
+      "effective": 9547
+    },
+    "cobol_modernize__vibe__1": {
+      "passed": true,
+      "sec": 32.15,
+      "turns": 7,
+      "prompt": 63687,
+      "effective": 5575
+    },
+    "cobol_modernize__vibe__2": {
+      "passed": true,
+      "sec": 23.1,
+      "turns": 6,
+      "prompt": 42198,
+      "effective": 5974
+    },
+    "overfull_hbox__maki__1": {
+      "passed": true,
+      "sec": 66.86,
+      "turns": 11,
+      "prompt": 91316,
+      "effective": 9012
+    },
+    "overfull_hbox__maki__2": {
+      "passed": true,
+      "sec": 38.8,
+      "turns": 16,
+      "prompt": 152093,
+      "effective": 8861
+    },
+    "overfull_hbox__vibe__1": {
+      "passed": true,
+      "sec": 72.93,
+      "turns": 22,
+      "prompt": 284182,
+      "effective": 14358
+    },
+    "overfull_hbox__vibe__2": {
+      "passed": true,
+      "sec": 236.39,
+      "turns": 39,
+      "prompt": 878359,
+      "effective": 21271
+    },
+    "prove_plus_comm__maki__1": {
+      "passed": true,
+      "sec": 14.23,
+      "turns": 7,
+      "prompt": 49942,
+      "effective": 7190
+    },
+    "prove_plus_comm__maki__2": {
+      "passed": true,
+      "sec": 17.7,
+      "turns": 7,
+      "prompt": 54246,
+      "effective": 8550
+    },
+    "prove_plus_comm__vibe__1": {
+      "passed": true,
+      "sec": 54.69,
+      "turns": 10,
+      "prompt": 44742,
+      "effective": 4550
+    },
+    "prove_plus_comm__vibe__2": {
+      "passed": true,
+      "sec": 12.82,
+      "turns": 4,
+      "prompt": 12589,
+      "effective": 3373
+    }
+  }
+}

@@ -20,6 +20,8 @@ relative to maki in the same run.
 | complex-v1 | `49b50f1` | complex tasks: transactional KV, HTTP API, multi-file refactor (2 attempts) | 6/6 vs 6/6 | 14.2s vs 18.7s | 24092 vs 37462 | 5834 vs 7115 | 4.5 vs 5.0 | -36% / -18% / -24% |
 | lean-prefix-v7 | `7a3cabc` | skills, plugins and commit-signature removed from the fixed per-turn prefix | 18/18 vs 18/18 | 11.0s vs 7.5s | 11910 vs 29225 | 3432 vs 6602 | 4.0 vs 4.0 | -59% / -48% / +47% |
 | lean-prefix-v7-complex | `7a3cabc` | complex tasks with the lean prefix | 6/6 vs 6/6 | 19.8s vs 13.5s | 21783 vs 45396 | 4877 vs 7014 | 5.0 vs 5.5 | -52% / -30% / +47% |
+| daemon-v1 | `c6f0faa` | long-lived vibe-serve daemon: slower per task as sessions accumulate; turn counts unreliable | 18/18 vs 18/18 | 12.3s vs 8.4s | 15131 vs 28054 | 4292 vs 6730 | 2.0 vs 4.0 | -46% / -36% / +46% |
+| domain-v1 | `c6f0faa` | domain tasks: COBOL port, LaTeX overfull hbox, Lean proof | 6/6 vs 6/6 | 43.4s vs 19.4s | 54214 vs 71768 | 5774 vs 8886 | 8.5 vs 7.5 | -24% / -35% / +124% |
 
 Reproduce:
 

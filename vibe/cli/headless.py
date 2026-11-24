@@ -41,6 +41,11 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--continue", dest="continue_session", action="store_true")
     parser.add_argument("--resume")
     parser.add_argument("--trust", action="store_true")
+    parser.add_argument(
+        "--socket",
+        default=os.environ.get("VIBE_SOCKET"),
+        help="reuse a running `vibe-serve` daemon at this unix socket",
+    )
     return parser
 
 
@@ -57,6 +62,45 @@ def _read_prompt(args: argparse.Namespace) -> str:
 
 
 _BOOTSTRAPPED = False
+
+
+def _via_daemon(args: argparse.Namespace, prompt: str) -> int:
+    """Send one request to a running daemon and mirror the local run's output."""
+    import socket
+
+    request = {
+        "cwd": str(Path.cwd().resolve()),
+        "prompt": prompt,
+        "model": args.model,
+        "max_turns": args.max_turns,
+        "auto_approve": bool(args.auto_approve),
+    }
+    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as client:
+        client.settimeout(args.time_limit or 600)
+        client.connect(args.socket)
+        client.sendall(json.dumps(request).encode() + b"\n")
+        chunks = []
+        while True:
+            chunk = client.recv(65536)
+            if not chunk:
+                break
+            chunks.append(chunk)
+            if chunk.endswith(b"\n"):
+                break
+    exported = json.loads(b"".join(chunks).decode())
+    if exported.get("outcome") == "error":
+        print(f"vibe-headless: {exported.get('error')}", file=sys.stderr)
+        return 1
+    if args.output == "json":
+        print(json.dumps(exported, ensure_ascii=False))
+    elif exported.get("text"):
+        print(exported["text"])
+    if args.output_dir is not None:
+        args.output_dir.mkdir(parents=True, exist_ok=True)
+        (args.output_dir / "export.json").write_text(
+            json.dumps(exported, indent=1, ensure_ascii=False), encoding="utf-8"
+        )
+    return 0
 
 
 def _bootstrap() -> None:
@@ -194,6 +238,11 @@ async def _run(args: argparse.Namespace) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    if args.socket:
+        try:
+            return _via_daemon(args, _read_prompt(args))
+        except OSError:
+            pass  # No daemon listening: run locally.
     try:
         if args.time_limit:
             return asyncio.run(asyncio.wait_for(_run(args), args.time_limit))
