@@ -1,6 +1,6 @@
 {
   "run": "upstream-1",
-  "date": "2026-11-24T17:51:20.054205+00:00",
+  "date": "2026-11-24T18:38:49.698563+00:00",
   "commit": "fb7511a",
   "note": "upstream vibe, no changes (bugfix+csv, 1 attempt)",
   "model": "mistral/deepseek-v4-1-flash-1017",
@@ -17,7 +17,11 @@
       "mean_sec": 4.8,
       "mean_prompt_tokens": 19594,
       "mean_effective_tokens": 6346,
-      "mean_turns": 3
+      "mean_turns": 3,
+      "median_sec": 4.8,
+      "median_prompt_tokens": 19594,
+      "median_effective_tokens": 6346,
+      "median_turns": 3.0
     },
     "vibe": {
       "n": 2,
@@ -25,7 +29,11 @@
       "mean_sec": 20.9,
       "mean_prompt_tokens": 79065,
       "mean_effective_tokens": 11481,
-      "mean_turns": 0
+      "mean_turns": 0,
+      "median_sec": 20.9,
+      "median_prompt_tokens": 79065,
+      "median_effective_tokens": 11481,
+      "median_turns": 0.0
     }
   },
   "per_task": {

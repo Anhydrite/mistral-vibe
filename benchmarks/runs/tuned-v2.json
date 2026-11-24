@@ -1,6 +1,6 @@
 {
   "run": "tuned-v2",
-  "date": "2026-11-24T17:51:20.310630+00:00",
+  "date": "2026-11-24T18:38:50.004811+00:00",
   "commit": "f2d354d",
   "note": "slim agent + maki prompt + efficiency rules",
   "model": "mistral/deepseek-v4-1-flash-1017",
@@ -20,7 +20,11 @@
       "mean_sec": 9.5,
       "mean_prompt_tokens": 29083,
       "mean_effective_tokens": 6593,
-      "mean_turns": 3.9
+      "mean_turns": 3.9,
+      "median_sec": 7.5,
+      "median_prompt_tokens": 23696,
+      "median_effective_tokens": 6563,
+      "median_turns": 3.5
     },
     "vibe": {
       "n": 10,
@@ -28,7 +32,11 @@
       "mean_sec": 16.2,
       "mean_prompt_tokens": 21324,
       "mean_effective_tokens": 5426,
-      "mean_turns": 4.4
+      "mean_turns": 4.4,
+      "median_sec": 16.1,
+      "median_prompt_tokens": 18556,
+      "median_effective_tokens": 4556,
+      "median_turns": 4.0
     }
   },
   "per_task": {

@@ -1,8 +1,8 @@
 {
   "run": "compressed-v3",
-  "date": "2026-11-24T17:57:32.991424+00:00",
-  "commit": "a2d79d7",
-  "note": "compressed maki prompt and tool descriptions",
+  "date": "2026-11-24T18:38:50.178805+00:00",
+  "commit": "a2d99d7",
+  "note": "compressed prompt and tool descriptions",
   "model": "mistral/deepseek-v4-1-flash-1017",
   "tasks": [
     "bugfix",
@@ -20,7 +20,11 @@
       "mean_sec": 12.5,
       "mean_prompt_tokens": 29613,
       "mean_effective_tokens": 6496,
-      "mean_turns": 4
+      "mean_turns": 4,
+      "median_sec": 8.3,
+      "median_prompt_tokens": 26026,
+      "median_effective_tokens": 6440,
+      "median_turns": 4.0
     },
     "vibe": {
       "n": 10,
@@ -28,7 +32,11 @@
       "mean_sec": 15.4,
       "mean_prompt_tokens": 22518,
       "mean_effective_tokens": 4624,
-      "mean_turns": 4.6
+      "mean_turns": 4.6,
+      "median_sec": 13.0,
+      "median_prompt_tokens": 14602,
+      "median_effective_tokens": 4122,
+      "median_turns": 4.0
     }
   },
   "per_task": {

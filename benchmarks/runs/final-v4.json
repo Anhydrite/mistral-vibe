@@ -1,8 +1,8 @@
 {
   "run": "final-v4",
-  "date": "2026-11-24T18:03:52.463358+00:00",
+  "date": "2026-11-24T18:38:50.290460+00:00",
   "commit": "3dbc70c",
-  "note": "final: compressed prompt, 4 tools, 3 attempts",
+  "note": "compressed prompt, 3 attempts",
   "model": "mistral/deepseek-v4-1-flash-1017",
   "tasks": [
     "bugfix",
@@ -20,7 +20,11 @@
       "mean_sec": 9.7,
       "mean_prompt_tokens": 30498,
       "mean_effective_tokens": 6596,
-      "mean_turns": 4.1
+      "mean_turns": 4.1,
+      "median_sec": 7.7,
+      "median_prompt_tokens": 26976,
+      "median_effective_tokens": 6518,
+      "median_turns": 4
     },
     "vibe": {
       "n": 15,
@@ -28,7 +32,11 @@
       "mean_sec": 14.2,
       "mean_prompt_tokens": 17836,
       "mean_effective_tokens": 4472,
-      "mean_turns": 4.1
+      "mean_turns": 4.1,
+      "median_sec": 13.6,
+      "median_prompt_tokens": 18723,
+      "median_effective_tokens": 4301,
+      "median_turns": 4
     }
   },
   "per_task": {

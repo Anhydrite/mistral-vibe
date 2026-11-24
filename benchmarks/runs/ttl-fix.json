@@ -1,8 +1,8 @@
 {
   "run": "ttl-fix",
-  "date": "2026-11-24T17:51:20.399311+00:00",
+  "date": "2026-11-24T18:38:50.090765+00:00",
   "commit": "f2d354d",
-  "note": "TTL verifier relaxed; both harnesses pass",
+  "note": "TTL verifier relaxed; both pass",
   "model": "mistral/deepseek-v4-1-flash-1017",
   "tasks": [
     "ttl_cache"
@@ -16,7 +16,11 @@
       "mean_sec": 10.9,
       "mean_prompt_tokens": 30838,
       "mean_effective_tokens": 6518,
-      "mean_turns": 4
+      "mean_turns": 4,
+      "median_sec": 10.9,
+      "median_prompt_tokens": 30838,
+      "median_effective_tokens": 6518,
+      "median_turns": 4.0
     },
     "vibe": {
       "n": 2,
@@ -24,7 +28,11 @@
       "mean_sec": 20.0,
       "mean_prompt_tokens": 19949,
       "mean_effective_tokens": 4397,
-      "mean_turns": 4
+      "mean_turns": 4,
+      "median_sec": 20.0,
+      "median_prompt_tokens": 19949,
+      "median_effective_tokens": 4397,
+      "median_turns": 4.0
     }
   },
   "per_task": {

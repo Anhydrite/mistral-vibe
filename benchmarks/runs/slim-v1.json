@@ -1,8 +1,8 @@
 {
   "run": "slim-v1",
-  "date": "2026-11-24T17:51:20.218904+00:00",
+  "date": "2026-11-24T18:38:49.904217+00:00",
   "commit": "13375bc",
-  "note": "maki prompt, 4 tools, no programmatic/subagents; TTL verifier was over-specified at the time",
+  "note": "maki prompt, 4 tools, no programmatic/subagents; TTL verifier was over-specified",
   "model": "mistral/deepseek-v4-1-flash-1017",
   "tasks": [
     "bugfix",
@@ -20,7 +20,11 @@
       "mean_sec": 8.0,
       "mean_prompt_tokens": 24862,
       "mean_effective_tokens": 6494,
-      "mean_turns": 3.5
+      "mean_turns": 3.5,
+      "median_sec": 6.7,
+      "median_prompt_tokens": 24610,
+      "median_effective_tokens": 6413,
+      "median_turns": 3.5
     },
     "vibe": {
       "n": 10,
@@ -28,7 +32,11 @@
       "mean_sec": 18.9,
       "mean_prompt_tokens": 25923,
       "mean_effective_tokens": 4816,
-      "mean_turns": 5.2
+      "mean_turns": 5.2,
+      "median_sec": 17.9,
+      "median_prompt_tokens": 20608,
+      "median_effective_tokens": 4307,
+      "median_turns": 5.0
     }
   },
   "per_task": {

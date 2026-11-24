@@ -1,6 +1,6 @@
 {
   "run": "batch-tools-v5",
-  "date": "2026-11-24T18:23:34.175346+00:00",
+  "date": "2026-11-24T18:38:50.396177+00:00",
   "commit": "04eac90",
   "note": "read_files, index, glob, multiedit provided tools",
   "model": "mistral/deepseek-v4-1-flash-1017",
@@ -21,7 +21,11 @@
       "mean_sec": 16.7,
       "mean_prompt_tokens": 60625,
       "mean_effective_tokens": 8348,
-      "mean_turns": 5.1
+      "mean_turns": 5.1,
+      "median_sec": 8.7,
+      "median_prompt_tokens": 26930,
+      "median_effective_tokens": 6737,
+      "median_turns": 4.0
     },
     "vibe": {
       "n": 12,
@@ -29,7 +33,11 @@
       "mean_sec": 13.5,
       "mean_prompt_tokens": 21070,
       "mean_effective_tokens": 5134,
-      "mean_turns": 4.1
+      "mean_turns": 4.1,
+      "median_sec": 12.0,
+      "median_prompt_tokens": 16634,
+      "median_effective_tokens": 4832,
+      "median_turns": 3.5
     }
   },
   "per_task": {
