@@ -1021,7 +1021,10 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
         ),
     )
     enabled_tools: Annotated[list[str], WithReplaceMerge()] = Field(
-        default_factory=lambda: ["bash", "read_file", "write_file", "edit"],
+        default_factory=lambda: [
+            "bash", "read_file", "write_file", "edit",
+            "read_files", "index", "glob", "multiedit",
+        ],
         description=(
             "An explicit list of tool names/patterns to enable. If set, only these"
             " tools will be active. Supports glob patterns (e.g., 'serena_*') and"

@@ -167,6 +167,29 @@ from vibe.core.tools.builtins.todo import (
 )
 from vibe.core.utils.matching import name_matches
 
+from vibe.app_server._maki_tools import (
+    GLOB_DESCRIPTION,
+    GLOB_TOOL_NAME,
+    INDEX_DESCRIPTION,
+    INDEX_TOOL_NAME,
+    MULTIEDIT_DESCRIPTION,
+    MULTIEDIT_TOOL_NAME,
+    READ_FILES_DESCRIPTION,
+    READ_FILES_TOOL_NAME,
+    GlobArgs,
+    GlobResult,
+    IndexArgs,
+    IndexResult,
+    MultiEditArgs,
+    MultiEditResult,
+    ReadFilesArgs,
+    ReadFilesResult,
+    run_glob,
+    run_index,
+    run_multiedit,
+    run_read_files,
+)
+
 VIBE_TOOL_GROUP = "vibe"
 
 TODO_TOOL_NAME = "todo"
@@ -188,6 +211,10 @@ VIBE_PROVIDED_TOOL_NAMES = {
     f"{VIBE_TOOL_GROUP}.{ENTER_WORKTREE_TOOL_NAME}": ENTER_WORKTREE_TOOL_NAME,
     f"{VIBE_TOOL_GROUP}.{LIST_PROJECTS_TOOL_NAME}": LIST_PROJECTS_TOOL_NAME,
     f"{VIBE_TOOL_GROUP}.{MOVE_TO_PROJECT_TOOL_NAME}": MOVE_TO_PROJECT_TOOL_NAME,
+    f"{VIBE_TOOL_GROUP}.{READ_FILES_TOOL_NAME}": READ_FILES_TOOL_NAME,
+    f"{VIBE_TOOL_GROUP}.{INDEX_TOOL_NAME}": INDEX_TOOL_NAME,
+    f"{VIBE_TOOL_GROUP}.{GLOB_TOOL_NAME}": GLOB_TOOL_NAME,
+    f"{VIBE_TOOL_GROUP}.{MULTIEDIT_TOOL_NAME}": MULTIEDIT_TOOL_NAME,
 }
 
 # "ask" routes through Vibe's permission resolver. Cron defaults to allowed there,
@@ -216,6 +243,10 @@ VIBE_PROVIDED_TOOL_MODES: dict[str, ToolApprovalMode] = {
     # Listing defaults to allowed in the resolver; a move asks unless its folder is trusted.
     LIST_PROJECTS_TOOL_NAME: "ask",
     MOVE_TO_PROJECT_TOOL_NAME: "ask",
+    READ_FILES_TOOL_NAME: "allow",
+    INDEX_TOOL_NAME: "allow",
+    GLOB_TOOL_NAME: "allow",
+    MULTIEDIT_TOOL_NAME: "ask",
 }
 
 
@@ -261,6 +292,22 @@ def vibe_tool_groups(  # noqa: PLR0913 - independent optional client capabilitie
                 exposure="direct",
             )
         )
+    for name, description, args, result in (
+        (READ_FILES_TOOL_NAME, READ_FILES_DESCRIPTION, ReadFilesArgs, ReadFilesResult),
+        (INDEX_TOOL_NAME, INDEX_DESCRIPTION, IndexArgs, IndexResult),
+        (GLOB_TOOL_NAME, GLOB_DESCRIPTION, GlobArgs, GlobResult),
+        (MULTIEDIT_TOOL_NAME, MULTIEDIT_DESCRIPTION, MultiEditArgs, MultiEditResult),
+    ):
+        if _passes_tool_filters(name, enabled=enabled_tools, disabled=disabled_tools):
+            tools.append(
+                RustProvidedToolDefinition(
+                    name=name,
+                    description=description,
+                    input_schema=args.model_json_schema(),
+                    output_schema=result.model_json_schema(),
+                    exposure="direct",
+                )
+            )
     if _passes_tool_filters(
         CRON_TOOL_NAME, enabled=enabled_tools, disabled=disabled_tools
     ):
@@ -453,6 +500,7 @@ class VibeProvidedTools:
         self,
         storage_root: str | Path,
         *,
+        cwd: Callable[[], Path] | None = None,
         max_todos: Callable[[], int],
         scheduled_loops: Callable[[str], Awaitable[UnifiedScheduledLoops]]
         | None = None,
@@ -473,6 +521,7 @@ class VibeProvidedTools:
         def build(session_id: str) -> ProvidedToolExecutor:
             todos = self._todos.setdefault(session_id, [])
             directory = scratchpad_dir(root, session_id)
+            workspace = cwd or Path.cwd
 
             async def execute(
                 action: RustProvidedToolCallAction,
@@ -551,6 +600,7 @@ class VibeProvidedTools:
                             todos=todos,
                             directory=directory,
                             max_todos=max_todos(),
+                            cwd=workspace(),
                         )
                 # A rejected call reaches the model as a correctable tool failure
                 # rather than killing the turn.
@@ -590,12 +640,29 @@ async def _run(
     todos: list[TodoItem],
     directory: Path,
     max_todos: int,
+    cwd: Path,
 ) -> BaseModel:
     if call.tool_name == TODO_TOOL_NAME:
         return _run_todo(call.arguments, todos, max_todos=max_todos)
     if call.tool_name == SCRATCHPAD_TOOL_NAME:
         args = ScratchpadArgs.model_validate(call.arguments)
         return await asyncio.to_thread(run_scratchpad, args, directory=directory)
+    if call.tool_name == READ_FILES_TOOL_NAME:
+        return await asyncio.to_thread(
+            run_read_files, ReadFilesArgs.model_validate(call.arguments), cwd=cwd
+        )
+    if call.tool_name == INDEX_TOOL_NAME:
+        return await asyncio.to_thread(
+            run_index, IndexArgs.model_validate(call.arguments), cwd=cwd
+        )
+    if call.tool_name == GLOB_TOOL_NAME:
+        return await asyncio.to_thread(
+            run_glob, GlobArgs.model_validate(call.arguments), cwd=cwd
+        )
+    if call.tool_name == MULTIEDIT_TOOL_NAME:
+        return await asyncio.to_thread(
+            run_multiedit, MultiEditArgs.model_validate(call.arguments), cwd=cwd
+        )
     raise ValueError(f"Unsupported {VIBE_TOOL_GROUP} tool: {call.tool_name}")
 
 

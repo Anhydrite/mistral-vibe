@@ -176,7 +176,10 @@ DEFAULT = AgentProfile(
     AgentSafety.NEUTRAL,
     overrides={
         "system_prompt_id": "maki",
-        "enabled_tools": ["bash", "read_file", "write_file", "edit"],
+        "enabled_tools": [
+            "bash", "read_file", "write_file", "edit",
+            "read_files", "index", "glob", "multiedit",
+        ],
         "enable_subagents": False,
         "enable_background_processes": False,
         "enable_connectors": False,

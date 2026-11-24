@@ -4523,6 +4523,11 @@ class UnifiedHarnessBackendHostAdapter:  # noqa: PLR0904 - implements app-server
                 [VIBE_TOOL_GROUP],
                 context.vibe_tools.executor_factory(
                     context.storage_root,
+                    cwd=lambda: (
+                        context.workspace.workspace.cwd
+                        if context.workspace is not None
+                        else Path.cwd()
+                    ),
                     scheduled_loops=self.cron_scheduler,
                     session_spawner=context.session_spawner,
                     session_origin=self.spawn_origin,
@@ -6549,6 +6554,11 @@ class UnifiedHarnessBackendHostAdapter:  # noqa: PLR0904 - implements app-server
             [VIBE_TOOL_GROUP],
             context.vibe_tools.executor_factory(
                 context.storage_root,
+                cwd=lambda: (
+                    context.workspace.workspace.cwd
+                    if context.workspace is not None
+                    else Path.cwd()
+                ),
                 scheduled_loops=self.cron_scheduler,
                 session_spawner=context.session_spawner,
                 session_origin=self.spawn_origin,
