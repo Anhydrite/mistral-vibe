@@ -1,0 +1,61 @@
+{
+  "run": "upstream-1",
+  "date": "2026-11-24T17:51:20.054205+00:00",
+  "commit": "fb7511a",
+  "note": "upstream vibe, no changes (bugfix+csv, 1 attempt)",
+  "model": "mistral/deepseek-v4-1-flash-1017",
+  "tasks": [
+    "bugfix",
+    "csv_stats"
+  ],
+  "repeat": 1,
+  "results_dir": "/home/anhydrite/Documents/beta_labo/vibe_bench/harness_bench/results/20261124T172127Z",
+  "harnesses": {
+    "maki": {
+      "n": 2,
+      "passed": 2,
+      "mean_sec": 4.8,
+      "mean_prompt_tokens": 19594,
+      "mean_effective_tokens": 6346,
+      "mean_turns": 3
+    },
+    "vibe": {
+      "n": 2,
+      "passed": 2,
+      "mean_sec": 20.9,
+      "mean_prompt_tokens": 79065,
+      "mean_effective_tokens": 11481,
+      "mean_turns": 0
+    }
+  },
+  "per_task": {
+    "bugfix__maki__1": {
+      "passed": true,
+      "sec": 2.63,
+      "turns": 3,
+      "prompt": 18828,
+      "effective": 6412
+    },
+    "bugfix__vibe__1": {
+      "passed": true,
+      "sec": 12.19,
+      "turns": 0,
+      "prompt": 36653,
+      "effective": 6445
+    },
+    "csv_stats__maki__1": {
+      "passed": true,
+      "sec": 6.92,
+      "turns": 3,
+      "prompt": 20361,
+      "effective": 6281
+    },
+    "csv_stats__vibe__1": {
+      "passed": true,
+      "sec": 29.52,
+      "turns": 0,
+      "prompt": 121477,
+      "effective": 16517
+    }
+  }
+}

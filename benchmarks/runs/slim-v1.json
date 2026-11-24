@@ -1,0 +1,176 @@
+{
+  "run": "slim-v1",
+  "date": "2026-11-24T17:51:20.218904+00:00",
+  "commit": "13375bc",
+  "note": "maki prompt, 4 tools, no programmatic/subagents; TTL verifier was over-specified at the time",
+  "model": "mistral/deepseek-v4-1-flash-1017",
+  "tasks": [
+    "bugfix",
+    "csv_stats",
+    "expr_eval",
+    "merge_patch",
+    "ttl_cache"
+  ],
+  "repeat": 2,
+  "results_dir": "/home/anhydrite/Documents/beta_labo/vibe_bench/harness_bench/results/20261124T173958Z",
+  "harnesses": {
+    "maki": {
+      "n": 10,
+      "passed": 8,
+      "mean_sec": 8.0,
+      "mean_prompt_tokens": 24862,
+      "mean_effective_tokens": 6494,
+      "mean_turns": 3.5
+    },
+    "vibe": {
+      "n": 10,
+      "passed": 8,
+      "mean_sec": 18.9,
+      "mean_prompt_tokens": 25923,
+      "mean_effective_tokens": 4816,
+      "mean_turns": 5.2
+    }
+  },
+  "per_task": {
+    "bugfix__maki__1": {
+      "passed": true,
+      "sec": 5.99,
+      "turns": 4,
+      "prompt": 25530,
+      "effective": 6330
+    },
+    "bugfix__maki__2": {
+      "passed": true,
+      "sec": 3.51,
+      "turns": 4,
+      "prompt": 25844,
+      "effective": 6644
+    },
+    "bugfix__vibe__1": {
+      "passed": true,
+      "sec": 12.47,
+      "turns": 5,
+      "prompt": 18486,
+      "effective": 4406
+    },
+    "bugfix__vibe__2": {
+      "passed": true,
+      "sec": 11.03,
+      "turns": 5,
+      "prompt": 17685,
+      "effective": 3989
+    },
+    "csv_stats__maki__1": {
+      "passed": true,
+      "sec": 5.31,
+      "turns": 4,
+      "prompt": 27467,
+      "effective": 6347
+    },
+    "csv_stats__maki__2": {
+      "passed": true,
+      "sec": 3.76,
+      "turns": 3,
+      "prompt": 19588,
+      "effective": 6276
+    },
+    "csv_stats__vibe__1": {
+      "passed": true,
+      "sec": 17.72,
+      "turns": 5,
+      "prompt": 21232,
+      "effective": 4208
+    },
+    "csv_stats__vibe__2": {
+      "passed": true,
+      "sec": 12.44,
+      "turns": 5,
+      "prompt": 19984,
+      "effective": 4112
+    },
+    "expr_eval__maki__1": {
+      "passed": true,
+      "sec": 15.45,
+      "turns": 4,
+      "prompt": 33802,
+      "effective": 7050
+    },
+    "expr_eval__maki__2": {
+      "passed": true,
+      "sec": 10.61,
+      "turns": 3,
+      "prompt": 23689,
+      "effective": 6537
+    },
+    "expr_eval__vibe__1": {
+      "passed": true,
+      "sec": 17.12,
+      "turns": 5,
+      "prompt": 24972,
+      "effective": 5388
+    },
+    "expr_eval__vibe__2": {
+      "passed": true,
+      "sec": 23.26,
+      "turns": 5,
+      "prompt": 26463,
+      "effective": 4191
+    },
+    "merge_patch__maki__1": {
+      "passed": true,
+      "sec": 6.49,
+      "turns": 3,
+      "prompt": 19656,
+      "effective": 6344
+    },
+    "merge_patch__maki__2": {
+      "passed": true,
+      "sec": 6.88,
+      "turns": 3,
+      "prompt": 19714,
+      "effective": 6402
+    },
+    "merge_patch__vibe__1": {
+      "passed": true,
+      "sec": 17.98,
+      "turns": 4,
+      "prompt": 18203,
+      "effective": 4123
+    },
+    "merge_patch__vibe__2": {
+      "passed": true,
+      "sec": 20.97,
+      "turns": 4,
+      "prompt": 16118,
+      "effective": 4726
+    },
+    "ttl_cache__maki__1": {
+      "passed": false,
+      "sec": 8.61,
+      "turns": 3,
+      "prompt": 22040,
+      "effective": 6424
+    },
+    "ttl_cache__maki__2": {
+      "passed": false,
+      "sec": 13.3,
+      "turns": 4,
+      "prompt": 31294,
+      "effective": 6590
+    },
+    "ttl_cache__vibe__1": {
+      "passed": false,
+      "sec": 24.88,
+      "turns": 7,
+      "prompt": 46004,
+      "effective": 6836
+    },
+    "ttl_cache__vibe__2": {
+      "passed": false,
+      "sec": 31.26,
+      "turns": 7,
+      "prompt": 50087,
+      "effective": 6183
+    }
+  }
+}
