@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
 from vibe.core.skills.models import SkillScope
+from vibe.core.utils.matching import name_matches
 
 if TYPE_CHECKING:
     from vibe.core.config import VibeConfigSchema
@@ -31,10 +32,16 @@ def is_required_plugin(plugin: PluginDescriptor) -> bool:
 def is_plugin_enabled(plugin: PluginDescriptor, config: VibeConfigSchema) -> bool:
     # le-chat decides a library plugin (only those that are on are synced),
     # so ``disabled_plugins`` naming it cannot turn it off.
-    if is_required_plugin(plugin) or plugin.scope is SkillScope.REMOTE:
+    if plugin.scope is SkillScope.REMOTE:
         return True
-    if plugin.name in config.disabled_plugins:
+    # A required plugin stays on unless the config names it or a wildcard
+    # pattern that matches it: the fork turns the built-in plugin off this way.
+    if config.disabled_plugins and name_matches(
+        plugin.name, list(config.disabled_plugins)
+    ):
         return False
+    if is_required_plugin(plugin):
+        return True
     return plugin.default_enabled or plugin.name in config.enabled_plugins
 
 

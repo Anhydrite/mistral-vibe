@@ -1193,7 +1193,7 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
         ),
     )
     disabled_skills: Annotated[list[str], WithConcatMerge()] = Field(
-        default_factory=list,
+        default_factory=lambda: ["*"],
         description=(
             "A list of skill names/patterns to disable. Ignored if 'enabled_skills'"
             " is set. Supports glob patterns and regex with 're:' prefix."
@@ -1207,7 +1207,7 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
         ),
     )
     disabled_plugins: Annotated[list[str], WithConcatMerge()] = Field(
-        default_factory=list,
+        default_factory=lambda: ["*"],
         description=(
             "Names of installed plugins to disable. A disabled plugin stays"
             " installed but contributes nothing to sessions."
@@ -1466,7 +1466,7 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
         description="Retired: accepted for older configs, with no effect.",
     )
     title_prompt_id: Annotated[str, WithReplaceMerge()] = UtilityPrompt.SESSION_TITLE
-    include_commit_signature: Annotated[bool, WithReplaceMerge()] = True
+    include_commit_signature: Annotated[bool, WithReplaceMerge()] = False
     include_model_info: Annotated[bool, WithReplaceMerge()] = Field(
         default=True,
         deprecated="No longer used; remove this setting from your config.",

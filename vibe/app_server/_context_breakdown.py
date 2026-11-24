@@ -95,6 +95,7 @@ class ModelRequestLog:
             self._sessions_dir = sessions_dir
 
     def record(self, request: ModelRequest) -> None:
+        _dump_request(request)
         sizes = payload_sizes(request.messages, request.tools)
         child, separator, _ = request.turn_id.rpartition(_CHILD_TURN_SEPARATOR)
         with self._lock:
@@ -118,6 +119,23 @@ class ModelRequestLog:
         if sessions_dir is None:
             return None
         return _read_sizes(sessions_dir / session_id)
+
+
+def _dump_request(request: ModelRequest) -> None:
+    """Debug hook: append each model input to ``VIBE_DUMP_REQUEST`` as JSON."""
+    path = os.environ.get("VIBE_DUMP_REQUEST")
+    if not path:
+        return
+    try:
+        payload = {
+            "turn_id": request.turn_id,
+            "messages": [m.model_dump(mode="json") for m in request.messages],
+            "tools": [t.model_dump(mode="json") for t in request.tools],
+        }
+        with open(path, "a", encoding="utf-8") as handle:
+            handle.write(json.dumps(payload, ensure_ascii=False) + "\n")
+    except Exception:
+        logger.debug("Could not dump the model request", exc_info=True)
 
 
 def _write_sizes(session_dir: Path, sizes: PayloadSizes) -> None:
