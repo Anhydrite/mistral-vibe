@@ -9146,7 +9146,17 @@ class UnifiedHarnessBackendAdapter(  # noqa: PLR0904 - implements app-server ses
             config=lambda: self._context.config_orchestrator.config,
             credentials=lambda: self._context.platform_credentials,
             refresh=refresh_registry_skills,
-            cleanup=None if context.skill_store is None else context.skill_store.run,
+            # With every skill disabled there is nothing for the store to
+            # prune, and starting the background worker costs a process spawn
+            # plus its shutdown on every one-shot run.
+            cleanup=(
+                None
+                if context.skill_store is None
+                or _skills_fully_disabled(
+                    self._context.config_orchestrator.config
+                )
+                else context.skill_store.run
+            ),
             roots=lambda: self._context.harness_files.project_roots,
             running=lambda: self._running.registry_versions,
             resolve=self._resolved_registry_versions,
@@ -20769,6 +20779,12 @@ def _session_connector_state(
             source.alias: source.error for source in sources if source.error is not None
         },
     )
+
+
+def _skills_fully_disabled(config: Any) -> bool:
+    """Whether the config turns every skill off, by name or by wildcard."""
+    patterns = [str(pattern).strip().lower() for pattern in config.disabled_skills]
+    return any(pattern in {"*", "re:.*"} for pattern in patterns)
 
 
 def _goal_without_live_counts(goal: PublicGoal | None) -> PublicGoal | None:
