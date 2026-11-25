@@ -9,10 +9,15 @@ import json
 from pathlib import Path
 import statistics
 import subprocess
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 HISTORY = ROOT / "benchmarks" / "tb_history.jsonl"
 RESULTS = ROOT / "benchmarks" / "TB_RESULTS.md"
+CHARTS = ROOT / "benchmarks" / "charts"
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import plot_tb  # noqa: E402  (sibling script, imported for its chart builders)
 
 
 def commit() -> str:
@@ -130,6 +135,22 @@ def _overall(records: list[dict]) -> dict:
     }
 
 
+def refresh_charts(records: list[dict]) -> list[tuple[str, str]]:
+    """Redraw benchmarks/charts from the recorded results dirs, named by run."""
+    dirs = [Path(r.get("results_dir", "")) for r in records]
+    roots = [d for d in dirs if d.is_dir()]
+    if not roots:
+        return []
+    runs = plot_tb.load(roots)
+    names = {Path(r["results_dir"]).name: r["run"] for r in records
+             if Path(r.get("results_dir", "")).is_dir()}
+    plot_tb.write_outputs(
+        runs, plot_tb.harnesses_of(runs), CHARTS, png=True,
+        titles=lambda name: names.get(name, plot_tb.label(name)),
+    )
+    return [(f"{stem}.png", title) for stem, title in plot_tb.chart_names()]
+
+
 def render(records: list[dict]) -> str:
     lines = [
         "# Terminal-Bench tasks: maki vs this fork",
@@ -188,6 +209,22 @@ def render(records: list[dict]) -> str:
                 f"{data['minutes_per_resolved']} | {data.get('tool_share', 'n/a')} | "
                 f"{data['p95_sec']} |"
             )
+    charts = [(name, title) for name, title in
+              ((f"{stem}.png", title) for stem, title in plot_tb.chart_names())
+              if (CHARTS / name).is_file()]
+    if charts:
+        lines += [
+            "",
+            "## Graphs",
+            "",
+            "One chart per question over every recorded run: pass rate, work time",
+            "and uncached tokens per task, median time per run, and both harnesses",
+            "against each other. `record_tb.py` redraws them here, and",
+            "`python3 benchmarks/plot_tb.py` reproduces them alone.",
+            "",
+        ]
+        for name, title in charts:
+            lines += [f"![{title}](charts/{name})", ""]
     lines.append("")
     return "\n".join(lines)
 
@@ -254,6 +291,7 @@ def main() -> int:
             (runs_dir / f"{entry['run']}.json").write_text(
                 json.dumps(entry, indent=2)
             )
+        refresh_charts(rebuilt)
         RESULTS.write_text(render(rebuilt))
         print(f"refreshed {len(rebuilt)} runs")
         return 0
@@ -270,6 +308,7 @@ def main() -> int:
     runs_dir.mkdir(parents=True, exist_ok=True)
     (runs_dir / f"{args.run}.json").write_text(json.dumps(record, indent=2))
     records = [json.loads(l) for l in HISTORY.read_text().splitlines() if l.strip()]
+    refresh_charts(records)
     RESULTS.write_text(render(records))
     print(json.dumps(record["per_task"], indent=1))
     return 0

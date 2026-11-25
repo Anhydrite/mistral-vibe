@@ -1,70 +1,53 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="980" height="424" viewBox="0 0 980 424" font-family="Helvetica, Arial, sans-serif">
-<rect width="980" height="424" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="336" viewBox="0 0 980 336" font-family="Helvetica, Arial, sans-serif">
+<rect width="980" height="336" fill="#ffffff"/>
 <text x="24.0" y="34.0" font-size="17" fill="#243040" text-anchor="start" font-weight="bold">Temps de travail par tâche</text>
 <text x="24.0" y="54.0" font-size="11.5" fill="#6b7785" text-anchor="start">Le plus court est le meilleur (médiane par tâche, en s)</text>
-<line x1="190.0" y1="73.0" x2="190.0" y2="379.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
-<text x="190.0" y="394.0" font-size="10" fill="#6b7785" text-anchor="middle">0</text>
-<line x1="330.0" y1="73.0" x2="330.0" y2="379.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
-<text x="330.0" y="394.0" font-size="10" fill="#6b7785" text-anchor="middle">60</text>
-<line x1="470.0" y1="73.0" x2="470.0" y2="379.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
-<text x="470.0" y="394.0" font-size="10" fill="#6b7785" text-anchor="middle">120</text>
-<line x1="610.0" y1="73.0" x2="610.0" y2="379.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
-<text x="610.0" y="394.0" font-size="10" fill="#6b7785" text-anchor="middle">180</text>
-<line x1="750.0" y1="73.0" x2="750.0" y2="379.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
-<text x="750.0" y="394.0" font-size="10" fill="#6b7785" text-anchor="middle">240</text>
-<line x1="890.0" y1="73.0" x2="890.0" y2="379.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
-<text x="890.0" y="394.0" font-size="10" fill="#6b7785" text-anchor="middle">300</text>
-<text x="178.0" y="132.5" font-size="11.5" fill="#243040" text-anchor="end">overfull-hbox</text>
-<rect x="190.0" y="98.0" width="300.0" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>overfull-hbox maki: 128.6 s</title></rect>
-<text x="496.0" y="106.0" font-size="9.5" fill="#6b7785" text-anchor="start">129</text>
-<rect x="190.0" y="109.0" width="329.4" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>overfull-hbox vibe: 141.2 s</title></rect>
-<text x="525.4" y="117.0" font-size="9.5" fill="#6b7785" text-anchor="start">141</text>
+<line x1="190.0" y1="73.0" x2="190.0" y2="291.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
+<text x="190.0" y="306.0" font-size="10" fill="#6b7785" text-anchor="middle">0</text>
+<line x1="330.0" y1="73.0" x2="330.0" y2="291.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
+<text x="330.0" y="306.0" font-size="10" fill="#6b7785" text-anchor="middle">60</text>
+<line x1="470.0" y1="73.0" x2="470.0" y2="291.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
+<text x="470.0" y="306.0" font-size="10" fill="#6b7785" text-anchor="middle">120</text>
+<line x1="610.0" y1="73.0" x2="610.0" y2="291.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
+<text x="610.0" y="306.0" font-size="10" fill="#6b7785" text-anchor="middle">180</text>
+<line x1="750.0" y1="73.0" x2="750.0" y2="291.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
+<text x="750.0" y="306.0" font-size="10" fill="#6b7785" text-anchor="middle">240</text>
+<line x1="890.0" y1="73.0" x2="890.0" y2="291.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
+<text x="890.0" y="306.0" font-size="10" fill="#6b7785" text-anchor="middle">300</text>
+<text x="178.0" y="121.5" font-size="11.5" fill="#243040" text-anchor="end">overfull-hbox</text>
+<rect x="190.0" y="98.0" width="296.7" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>overfull-hbox maki: 127.2 s</title></rect>
+<text x="492.7" y="106.0" font-size="9.5" fill="#6b7785" text-anchor="start">127</text>
+<rect x="190.0" y="109.0" width="278.9" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>overfull-hbox vibe: 119.5 s</title></rect>
+<text x="474.9" y="117.0" font-size="9.5" fill="#6b7785" text-anchor="start">120</text>
 <rect x="190.0" y="120.0" width="649.0" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>overfull-hbox vibe@low: 278.1 s</title></rect>
 <text x="845.0" y="128.0" font-size="9.5" fill="#6b7785" text-anchor="start">278</text>
-<rect x="190.0" y="131.0" width="524.2" height="9.0" rx="2" fill="#59a14f" opacity="1.0"><title>overfull-hbox vibe@no-check: 224.6 s</title></rect>
-<text x="720.2" y="139.0" font-size="9.5" fill="#6b7785" text-anchor="start">225</text>
-<text x="196.0" y="151.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
-<rect x="20.0" y="160.0" width="936.0" height="71.0" rx="3" fill="#f7f8fa" opacity="1.0"></rect>
-<text x="178.0" y="203.5" font-size="11.5" fill="#243040" text-anchor="end">cobol-modernization</text>
-<rect x="190.0" y="169.0" width="258.3" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>cobol-modernization maki: 110.7 s</title></rect>
-<text x="454.3" y="177.0" font-size="9.5" fill="#6b7785" text-anchor="start">111</text>
-<rect x="190.0" y="180.0" width="476.6" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>cobol-modernization vibe: 204.3 s</title></rect>
-<text x="672.6" y="188.0" font-size="9.5" fill="#6b7785" text-anchor="start">204</text>
-<rect x="190.0" y="191.0" width="290.3" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>cobol-modernization vibe@low: 124.4 s</title></rect>
-<text x="486.3" y="199.0" font-size="9.5" fill="#6b7785" text-anchor="start">124</text>
-<rect x="190.0" y="202.0" width="317.2" height="9.0" rx="2" fill="#59a14f" opacity="1.0"><title>cobol-modernization vibe@no-check: 136.0 s</title></rect>
-<text x="513.2" y="210.0" font-size="9.5" fill="#6b7785" text-anchor="start">136</text>
-<rect x="190.0" y="213.0" width="360.4" height="9.0" rx="2" fill="#9a9a9a" opacity="1.0"><title>cobol-modernization vibe@off: 154.4 s</title></rect>
-<text x="556.4" y="221.0" font-size="9.5" fill="#6b7785" text-anchor="start">154</text>
-<text x="178.0" y="274.5" font-size="11.5" fill="#243040" text-anchor="end">fix-git</text>
-<rect x="190.0" y="240.0" width="56.2" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>fix-git maki: 24.1 s</title></rect>
-<text x="252.2" y="248.0" font-size="9.5" fill="#6b7785" text-anchor="start">24</text>
-<rect x="190.0" y="251.0" width="77.4" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>fix-git vibe: 33.2 s</title></rect>
-<text x="273.4" y="259.0" font-size="9.5" fill="#6b7785" text-anchor="start">33</text>
-<rect x="190.0" y="262.0" width="58.2" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>fix-git vibe@low: 24.9 s</title></rect>
-<text x="254.2" y="270.0" font-size="9.5" fill="#6b7785" text-anchor="start">25</text>
-<rect x="190.0" y="273.0" width="68.5" height="9.0" rx="2" fill="#59a14f" opacity="1.0"><title>fix-git vibe@no-check: 29.4 s</title></rect>
-<text x="264.5" y="281.0" font-size="9.5" fill="#6b7785" text-anchor="start">29</text>
-<text x="196.0" y="293.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
-<rect x="20.0" y="302.0" width="936.0" height="71.0" rx="3" fill="#f7f8fa" opacity="1.0"></rect>
-<text x="178.0" y="345.5" font-size="11.5" fill="#243040" text-anchor="end">prove-plus-comm</text>
-<rect x="190.0" y="311.0" width="44.5" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>prove-plus-comm maki: 19.1 s</title></rect>
-<text x="240.5" y="319.0" font-size="9.5" fill="#6b7785" text-anchor="start">19</text>
-<rect x="190.0" y="322.0" width="63.5" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>prove-plus-comm vibe: 27.2 s</title></rect>
-<text x="259.5" y="330.0" font-size="9.5" fill="#6b7785" text-anchor="start">27</text>
-<rect x="190.0" y="333.0" width="46.4" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>prove-plus-comm vibe@low: 19.9 s</title></rect>
-<text x="242.4" y="341.0" font-size="9.5" fill="#6b7785" text-anchor="start">20</text>
-<rect x="190.0" y="344.0" width="74.9" height="9.0" rx="2" fill="#59a14f" opacity="1.0"><title>prove-plus-comm vibe@no-check: 32.1 s</title></rect>
-<text x="270.9" y="352.0" font-size="9.5" fill="#6b7785" text-anchor="start">32</text>
-<text x="196.0" y="364.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="20.0" y="138.0" width="936.0" height="49.0" rx="3" fill="#f7f8fa" opacity="1.0"></rect>
+<text x="178.0" y="170.5" font-size="11.5" fill="#243040" text-anchor="end">cobol-modernization</text>
+<rect x="190.0" y="147.0" width="264.9" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>cobol-modernization maki: 113.5 s</title></rect>
+<text x="460.9" y="155.0" font-size="9.5" fill="#6b7785" text-anchor="start">114</text>
+<rect x="190.0" y="158.0" width="523.2" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>cobol-modernization vibe: 224.2 s</title></rect>
+<text x="719.2" y="166.0" font-size="9.5" fill="#6b7785" text-anchor="start">224</text>
+<rect x="190.0" y="169.0" width="290.3" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>cobol-modernization vibe@low: 124.4 s</title></rect>
+<text x="486.3" y="177.0" font-size="9.5" fill="#6b7785" text-anchor="start">124</text>
+<text x="178.0" y="219.5" font-size="11.5" fill="#243040" text-anchor="end">fix-git</text>
+<rect x="190.0" y="196.0" width="47.7" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>fix-git maki: 20.5 s</title></rect>
+<text x="243.7" y="204.0" font-size="9.5" fill="#6b7785" text-anchor="start">20</text>
+<rect x="190.0" y="207.0" width="76.6" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>fix-git vibe: 32.8 s</title></rect>
+<text x="272.6" y="215.0" font-size="9.5" fill="#6b7785" text-anchor="start">33</text>
+<rect x="190.0" y="218.0" width="58.2" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>fix-git vibe@low: 24.9 s</title></rect>
+<text x="254.2" y="226.0" font-size="9.5" fill="#6b7785" text-anchor="start">25</text>
+<rect x="20.0" y="236.0" width="936.0" height="49.0" rx="3" fill="#f7f8fa" opacity="1.0"></rect>
+<text x="178.0" y="268.5" font-size="11.5" fill="#243040" text-anchor="end">prove-plus-comm</text>
+<rect x="190.0" y="245.0" width="38.3" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>prove-plus-comm maki: 16.4 s</title></rect>
+<text x="234.3" y="253.0" font-size="9.5" fill="#6b7785" text-anchor="start">16</text>
+<rect x="190.0" y="256.0" width="48.0" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>prove-plus-comm vibe: 20.6 s</title></rect>
+<text x="244.0" y="264.0" font-size="9.5" fill="#6b7785" text-anchor="start">21</text>
+<rect x="190.0" y="267.0" width="46.4" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>prove-plus-comm vibe@low: 19.9 s</title></rect>
+<text x="242.4" y="275.0" font-size="9.5" fill="#6b7785" text-anchor="start">20</text>
 <rect x="190.0" y="62.0" width="10.0" height="10.0" rx="2" fill="#d1495b" opacity="1.0"></rect>
 <text x="205.0" y="71.0" font-size="11" fill="#243040" text-anchor="start">maki</text>
 <rect x="238.8" y="62.0" width="10.0" height="10.0" rx="2" fill="#2f6db5" opacity="1.0"></rect>
 <text x="253.8" y="71.0" font-size="11" fill="#243040" text-anchor="start">vibe</text>
 <rect x="287.6" y="62.0" width="10.0" height="10.0" rx="2" fill="#7fa8d4" opacity="1.0"></rect>
 <text x="302.6" y="71.0" font-size="11" fill="#243040" text-anchor="start">vibe@low</text>
-<rect x="365.2" y="62.0" width="10.0" height="10.0" rx="2" fill="#59a14f" opacity="1.0"></rect>
-<text x="380.2" y="71.0" font-size="11" fill="#243040" text-anchor="start">vibe@no-check</text>
-<rect x="478.8" y="62.0" width="10.0" height="10.0" rx="2" fill="#9a9a9a" opacity="1.0"></rect>
-<text x="493.8" y="71.0" font-size="11" fill="#243040" text-anchor="start">vibe@off</text>
 </svg>

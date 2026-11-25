@@ -81,3 +81,21 @@ that actually resolved, so a run that fails cheaply does not look good.
 | tb-v7 | vibe@low | 100% | 230633 | 216576 | 14057 | 14.2 | 0.93 | 1.86 | 0.498 | 430.7 |
 | tb-v8 | maki | 100% | 108793 | 98446 | 10347 | 10.8 | None | 1.13 | None | 250.6 |
 | tb-v8 | vibe | 89% | 80146 | 69936 | 10210 | 10.4 | 0.88 | 1.46 | 0.599 | 372.8 |
+
+## Graphs
+
+One chart per question over every recorded run: pass rate, work time
+and uncached tokens per task, median time per run, and both harnesses
+against each other. `record_tb.py` redraws them here, and
+`python3 benchmarks/plot_tb.py` reproduces them alone.
+
+![Taux de réussite par run](charts/01-reussite.png)
+
+![Temps de travail par tâche](charts/02-temps-par-tache.png)
+
+![Tokens non cachés par tâche](charts/03-tokens-par-tache.png)
+
+![Temps médian par run](charts/04-temps-par-run.png)
+
+![maki vs vibe par tâche](charts/05-maki-vs-vibe.png)
+

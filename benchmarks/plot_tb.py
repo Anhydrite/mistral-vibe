@@ -62,13 +62,18 @@ def uncached_tokens(record: dict) -> float:
 
 
 def load(roots: list[Path]) -> dict[str, list[dict]]:
-    """Run label -> records, keeping the roots' directory order sorted by name."""
+    """Run name -> records.
+
+    A root is either a run directory, holding one <cell>/result.json per
+    attempt, or a parent of run directories.
+    """
     runs: dict[str, list[dict]] = {}
-    for root in roots:
-        for path in sorted(root.glob("*/result.json")):
-            runs.setdefault(path.parent.name, []).append(json.loads(path.read_text()))
-        for path in sorted(root.glob("*/*/result.json")):
-            runs.setdefault(path.parent.parent.name, []).append(json.loads(path.read_text()))
+    for root in dict.fromkeys(roots):
+        for pattern in ("*/result.json", "*/*/result.json"):
+            for path in sorted(root.glob(pattern)):
+                depth = len(path.relative_to(root).parts)
+                name = root.name if depth == 2 else path.relative_to(root).parts[0]
+                runs.setdefault(name, []).append(json.loads(path.read_text()))
     return dict(sorted(runs.items()))
 
 
@@ -211,8 +216,9 @@ def legend(body, ordered, x, y, max_width=None) -> None:
 # --------------------------------------------------------------------------- charts
 
 
-def chart_pass_rate(runs, ordered) -> str:
+def chart_pass_rate(runs, ordered, titles=None) -> str:
     """Share of passing cells per run, one line per harness."""
+    titles = titles or label
     body: list[str] = []
     top = 100.0
     x0, x1 = 110, W - 40
@@ -228,7 +234,7 @@ def chart_pass_rate(runs, ordered) -> str:
     xs = {name: x0 + step * i for i, name in enumerate(names)}
     for i, name in enumerate(names):
         if len(names) <= 8 or i % 2 == 0:
-            body.append(txt(xs[name] + 12, y1 + 34, label(name), size=9.5, fill=MUTED,
+            body.append(txt(xs[name] + 12, y1 + 34, titles(name), size=9.5, fill=MUTED,
                             anchor="end", rotate=-35))
 
     for harness in ordered:
@@ -245,12 +251,11 @@ def chart_pass_rate(runs, ordered) -> str:
         for name, x, y, share, count in points:
             body.append(
                 f'<g>{circle(x, y, 4.5, color(harness, ordered))}'
-                f"<title>{esc(harness)} {label(name)}: {share:.0f}% "
+                f"<title>{esc(harness)} {titles(name)}: {share:.0f}% "
                 f"({count} cellules)</title></g>"
             )
     legend(body, ordered, x0, 72)
-    body.append(txt((x0 + x1) / 2, 496, "run (date et heure)", size=11, fill=MUTED,
-                    anchor="middle"))
+    body.append(txt((x0 + x1) / 2, 496, "run", size=11, fill=MUTED, anchor="middle"))
     return doc(W, 520, "Taux de réussite par run",
                "Part des cellules passées, par harnais et par run", body)
 
@@ -365,8 +370,9 @@ def chart_scatter(runs, ordered) -> str:
                "Un point par tâche, médiane du temps de travail", body)
 
 
-def chart_trend(runs, ordered) -> str:
+def chart_trend(runs, ordered, titles=None) -> str:
     """Median work time per run, one line per harness."""
+    titles = titles or label
     body: list[str] = []
     values = []
     for records in runs.values():
@@ -386,7 +392,7 @@ def chart_trend(runs, ordered) -> str:
     xs = {name: x0 + step * i for i, name in enumerate(names)}
     for i, name in enumerate(names):
         if len(names) <= 8 or i % 2 == 0:
-            body.append(txt(xs[name] + 12, y1 + 34, label(name), size=9.5, fill=MUTED,
+            body.append(txt(xs[name] + 12, y1 + 34, titles(name), size=9.5, fill=MUTED,
                             anchor="end", rotate=-35))
 
     for harness in ordered:
@@ -402,12 +408,11 @@ def chart_trend(runs, ordered) -> str:
         for name, x, y, value, count in points:
             body.append(
                 f"<g>{circle(x, y, 4.5, color(harness, ordered))}"
-                f"<title>{esc(harness)} {label(name)}: {value:,.0f}s "
+                f"<title>{esc(harness)} {titles(name)}: {value:,.0f}s "
                 f"({count} cellules)</title></g>"
             )
     legend(body, ordered, x0, 72)
-    body.append(txt((x0 + x1) / 2, 496, "run (date et heure)", size=11, fill=MUTED,
-                    anchor="middle"))
+    body.append(txt((x0 + x1) / 2, 496, "run", size=11, fill=MUTED, anchor="middle"))
     return doc(W, 520, "Temps médian par run",
                "Médiane du temps de travail des cellules mesurées, par harnais", body)
 
@@ -472,12 +477,14 @@ td:first-child,th:first-child{text-align:left}
 """
 
 
-def write_index(out: Path, runs, ordered, charts: list[tuple[str, str, str]]) -> None:
+def write_index(out: Path, runs, ordered, charts, titles=None) -> None:
     sections = "".join(
         f'<section><a href="{svg}"><img src="{svg}" alt="{esc(title)}"></a></section>'
         for svg, title, _ in charts
     )
-    runs_note = f"{len(runs)} runs, du {label(next(iter(runs)))} au {label(next(reversed(runs)))}"
+    titles = titles or label
+    runs_note = (f"{len(runs)} runs, du {titles(next(iter(runs)))} "
+                 f"au {titles(next(reversed(runs)))}")
     page = (
         "<!doctype html><html lang=fr><meta charset=utf-8>"
         "<title>Terminal-Bench : graphiques</title>"
@@ -491,12 +498,14 @@ def write_index(out: Path, runs, ordered, charts: list[tuple[str, str, str]]) ->
     (out / "index.html").write_text(page)
 
 
-def write_markdown(out: Path, runs, ordered, charts, extension: str) -> None:
+def write_markdown(out: Path, runs, ordered, charts, extension: str, titles=None) -> None:
     """Same content as index.html, as a file to read or paste elsewhere."""
+    titles = titles or label
     lines = [
         "# Terminal-Bench : graphiques",
         "",
-        f"{len(runs)} runs, du {label(next(iter(runs)))} au {label(next(reversed(runs)))}.",
+        f"{len(runs)} runs, du {titles(next(iter(runs)))} "
+        f"au {titles(next(reversed(runs)))}.",
         "",
         "Médianes par harnais ; les temps excluent les cellules non mesurées.",
         "",
@@ -523,6 +532,49 @@ def to_png(svg: Path) -> str | None:
     return png.name
 
 
+def chart_names() -> list[tuple[str, str]]:
+    """File stem and title of every chart, in display order."""
+    return [
+        ("01-reussite", "Taux de réussite par run"),
+        ("02-temps-par-tache", "Temps de travail par tâche"),
+        ("03-tokens-par-tache", "Tokens non cachés par tâche"),
+        ("04-temps-par-run", "Temps médian par run"),
+        ("05-maki-vs-vibe", "maki vs vibe par tâche"),
+    ]
+
+
+def build_charts(runs, ordered, titles=None) -> list[tuple[str, str, str]]:
+    """(svg name, title, svg body) for every chart; titles names a run."""
+    titles = titles or label
+    bodies = {
+        "01-reussite": lambda: chart_pass_rate(runs, ordered, titles),
+        "02-temps-par-tache": lambda: chart_per_task(
+            runs, ordered, sec, "Temps de travail par tâche",
+            "Le plus court est le meilleur", "s", "{:,.0f}"),
+        "03-tokens-par-tache": lambda: chart_per_task(
+            runs, ordered, uncached_tokens, "Tokens non cachés par tâche",
+            "Entrée + sortie, hors lectures de cache", "tokens", "{:,.0f}"),
+        "04-temps-par-run": lambda: chart_trend(runs, ordered, titles),
+        "05-maki-vs-vibe": lambda: chart_scatter(runs, ordered),
+    }
+    return [(f"{stem}.svg", title, bodies[stem]()) for stem, title in chart_names()]
+
+
+def write_outputs(runs, ordered, out: Path, png: bool = False, titles=None) -> list[str]:
+    """Write every chart plus index.html and rapport.md, and report the file names."""
+    out.mkdir(parents=True, exist_ok=True)
+    charts = build_charts(runs, ordered, titles)
+    for name, _, svg in charts:
+        (out / name).write_text(svg)
+    converted = [to_png(out / name) for name, _, _ in charts] if png else []
+    # The markdown links PNGs only when every chart got one.
+    extension = "png" if converted and all(converted) else "svg"
+    write_index(out, runs, ordered, charts, titles)
+    write_markdown(out, runs, ordered, charts, extension, titles)
+    return [f"{name} -> {as_png}" if as_png else name for (name, _, _), as_png in
+            zip(charts, converted or [None] * len(charts))]
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("roots", nargs="*", type=Path, default=None,
@@ -540,36 +592,12 @@ def main() -> int:
     if not runs:
         print("no result.json under", ", ".join(str(r) for r in roots))
         return 1
-    ordered = harnesses_of(runs)
-    args.out.mkdir(parents=True, exist_ok=True)
-
-    charts = [
-        ("01-reussite.svg", "Taux de réussite par run", chart_pass_rate(runs, ordered)),
-        ("02-temps-par-tache.svg", "Temps de travail par tâche",
-         chart_per_task(runs, ordered, sec, "Temps de travail par tâche",
-                        "Le plus court est le meilleur", "s", "{:,.0f}")),
-        ("03-tokens-par-tache.svg", "Tokens non cachés par tâche",
-         chart_per_task(runs, ordered, uncached_tokens, "Tokens non cachés par tâche",
-                        "Entrée + sortie, hors lectures de cache", "tokens", "{:,.0f}")),
-        ("04-temps-par-run.svg", "Temps médian par run", chart_trend(runs, ordered)),
-        ("05-maki-vs-vibe.svg", "maki vs vibe par tâche", chart_scatter(runs, ordered)),
-    ]
-    for name, _, svg in charts:
-        (args.out / name).write_text(svg)
-
-    converted = [to_png(args.out / name) for name, _, _ in charts] if args.png else []
-    # The markdown links PNGs only when every chart got one.
-    extension = "png" if converted and all(converted) else "svg"
-    write_index(args.out, runs, ordered, charts)
-    write_markdown(args.out, runs, ordered, charts, extension)
+    written = write_outputs(runs, harnesses_of(runs), args.out, png=args.png)
 
     print(f"{args.out}/index.html")
     print(f"{args.out}/rapport.md")
-    for (name, _, _), png in zip(charts, converted or [None] * len(charts)):
-        line_out = f"  {name}"
-        if args.png:
-            line_out += f"  -> {png}" if png else "  (rsvg-convert absent, pas de PNG)"
-        print(line_out)
+    for name in written:
+        print(f"  {name}")
     return 0
 
 
