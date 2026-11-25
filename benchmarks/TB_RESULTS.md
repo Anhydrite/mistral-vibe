@@ -109,6 +109,8 @@ together: resolve, prompt tokens, tool calls, wall-clock work time
 | tb-v14 | `642e057` | overfull-hbox | vibe | 2/2 | 89564 | 77696 | 11868 | 8.5 | 80.2 | 86.0 | 2.54 | 110.1 | maki |
 | tb-v14 | `642e057` | prove-plus-comm | maki | 2/2 | 90960 | 83392 | 7568 | 11.0 | 1.5 | 1.1 | 2.44 | 28.7 | - |
 | tb-v14 | `642e057` | prove-plus-comm | vibe | 2/2 | 22246 | 17920 | 4326 | 4.0 | 0.8 | 5.8 | 1.97 | 16.7 | vibe |
+| tb-v15 | `f387947` | mvcc-lsm-compaction | maki | 0/3 | 170879 | 152704 | 18175 | 12 | 20.7 | 20.3 | 4.02 | 67.9 | - |
+| tb-v15 | `f387947` | mvcc-lsm-compaction | vibe | 1/3 | 101600 | 88960 | 12640 | 8 | 20.4 | 25.4 | 1.83 | 41.8 | vibe (resolve) |
 
 ## Cost per resolved task
 
@@ -152,6 +154,8 @@ that actually resolved, so a run that fails cheaply does not look good.
 | tb-v13 | vibe@prog | 100% | 189985 | 177744 | 12241 | 12.0 | 0.58 | 0.68 | 0.65 | 1.33 | 220.0 |
 | tb-v14 | maki | 100% | 328952 | 315296 | 13656 | 16.2 | 0.42 | 0.42 | 0.81 | 1.23 | 341.9 |
 | tb-v14 | vibe | 100% | 85466 | 75680 | 9786 | 8.4 | 0.37 | 0.46 | 0.4 | 0.86 | 113.4 |
+| tb-v15 | maki | 0% | 611223 | 558464 | 52759 | 41.0 | 1.03 | 1.01 | 2.52 | 3.53 | 83.4 |
+| tb-v15 | vibe | 33% | 292049 | 254080 | 37969 | 26.0 | 0.97 | 1.24 | 1.16 | 2.4 | 66.6 |
 
 ## Graphs
 

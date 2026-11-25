@@ -39,6 +39,8 @@
 <text x="441.7" y="235.5" font-size="10.5" fill="#243040" text-anchor="start">cobol-modernization</text>
 <g><circle cx="442.8" cy="266.3" r="6" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>overfull-hbox: maki 125s vs vibe 102s</title></g>
 <text x="452.8" y="270.3" font-size="10.5" fill="#243040" text-anchor="start">overfull-hbox</text>
+<g><circle cx="359.1" cy="329.0" r="6" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>mvcc-lsm-compaction: maki 68s vs vibe 42s</title></g>
+<text x="369.1" y="333.0" font-size="10.5" fill="#243040" text-anchor="start">mvcc-lsm-compaction</text>
 <text x="412.5" y="474.0" font-size="11" fill="#6b7785" text-anchor="middle">maki (s, échelle log)</text>
 <text x="34.0" y="267.5" font-size="11" fill="#6b7785" text-anchor="middle" transform="rotate(-90 34.0 267.5)">vibe (s, échelle log)</text>
 <rect x="760.0" y="105.0" width="12.0" height="12.0" rx="2" fill="#2f6db5" opacity="1.0"></rect>

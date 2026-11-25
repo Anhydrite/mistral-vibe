@@ -1,13 +1,13 @@
 # Terminal-Bench : graphiques
 
-15 runs, du tb-v1 au tb-v14.
+16 runs, du tb-v1 au tb-v15.
 
 Médianes par harnais ; les temps excluent les cellules non mesurées.
 
 | harnais | cellules | réussite | temps médian | tokens facturés | lectures cache | coût médian | tours médians |
 |---|---|---|---|---|---|---|---|
-| maki | 96 | 98% (94/96) | 42 s | 17,554 | 109,696 | $0.010 | 12 |
-| vibe | 96 | 97% (93/96) | 41 s | 14,128 | 67,392 | non rapporté | 10 |
+| maki | 99 | 95% (94/99) | 44 s | 17,879 | 114,688 | $0.011 | 12 |
+| vibe | 99 | 95% (94/99) | 41 s | 14,564 | 70,144 | non rapporté | 10 |
 | vibe@low | 8 | 100% (8/8) | 52 s | 18,804 | 111,168 | non rapporté | 12 |
 | vibe@no-check | 8 | 100% (8/8) | 85 s | 15,284 | 66,176 | non rapporté | 10 |
 | vibe@high | 3 | 100% (3/3) | 28 s | 12,371 | 64,000 | non rapporté | 11 |
