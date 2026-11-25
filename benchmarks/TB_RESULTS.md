@@ -66,6 +66,17 @@ together: resolve, prompt tokens, tool calls, wall-clock work time
 | tb-v9 | `e08d961` | prove-plus-comm | maki | 2/2 | 64946 | 57920 | 7026 | 8.0 | n/a | 32.6 | - |
 | tb-v9 | `e08d961` | prove-plus-comm | vibe@no-check | 2/2 | 34486 | 29696 | 4790 | 7.5 | 1.4 | 32.1 | vibe |
 | tb-v9 | `e08d961` | prove-plus-comm | vibe | 2/2 | 68027 | 62784 | 5243 | 12.0 | 2.0 | 36.5 | maki |
+| tb-v10 | `29acb07` | cobol-modernization | maki | 3/3 | 821093 | 794752 | 24723 | 29 | n/a | 233.6 | - |
+| tb-v10 | `29acb07` | cobol-modernization | vibe | 3/3 | 790163 | 766464 | 23699 | 32 | 20.8 | 166.5 | vibe |
+| tb-v10 | `29acb07` | fix-git | maki | 3/3 | 90681 | 79232 | 10201 | 10 | n/a | 18.8 | - |
+| tb-v10 | `29acb07` | fix-git | vibe | 3/3 | 41588 | 36096 | 6881 | 8 | 1.0 | 22.0 | maki |
+| tb-v10 | `29acb07` | overfull-hbox | maki | 3/3 | 150524 | 125056 | 13920 | 11 | n/a | 118.4 | - |
+| tb-v10 | `29acb07` | overfull-hbox | vibe | 3/3 | 158841 | 145920 | 12704 | 12 | 5.5 | 64.9 | vibe |
+| tb-v10 | `29acb07` | prove-plus-comm | maki | 3/3 | 90660 | 83328 | 7332 | 11 | n/a | 32.0 | - |
+| tb-v10 | `29acb07` | prove-plus-comm | vibe | 3/3 | 31035 | 26880 | 4155 | 7 | 0.9 | 30.4 | vibe |
+| tb-instr | `29acb07` | fix-git | maki | 3/3 | 74968 | 65536 | 9432 | 9 | 0.6 | 16.1 | - |
+| tb-instr | `29acb07` | fix-git | vibe@high | 3/3 | 73304 | 64000 | 9304 | 13 | 1.0 | 27.8 | maki |
+| tb-instr | `29acb07` | fix-git | vibe | 3/3 | 53509 | 44032 | 7124 | 7 | 0.5 | 26.2 | maki |
 
 ## Cost per resolved task
 
@@ -96,6 +107,11 @@ that actually resolved, so a run that fails cheaply does not look good.
 | tb-v9 | maki | 100% | 177340 | 163008 | 14332 | 13.6 | None | 1.09 | None | 146.0 |
 | tb-v9 | vibe | 100% | 256204 | 239952 | 16252 | 13.9 | 0.42 | 1.7 | 0.248 | 243.9 |
 | tb-v9 | vibe@no-check | 100% | 635967 | 618976 | 16991 | 18.0 | 0.82 | 2.27 | 0.362 | 382.7 |
+| tb-v10 | maki | 100% | 345377 | 330592 | 14785 | 17.3 | None | 1.75 | None | 243.8 |
+| tb-v10 | vibe | 100% | 241009 | 229749 | 11260 | 13.8 | 0.16 | 1.17 | 0.135 | 166.5 |
+| tb-instr | maki | 100% | 73290 | 63744 | 9546 | 10.0 | 0.01 | 0.26 | 0.032 | 16.9 |
+| tb-instr | vibe | 100% | 48312 | 40576 | 7736 | 7.7 | 0.01 | 0.43 | 0.021 | 33.2 |
+| tb-instr | vibe@high | 100% | 80990 | 70784 | 10206 | 13.0 | 0.02 | 0.51 | 0.037 | 39.4 |
 
 ## Graphs
 

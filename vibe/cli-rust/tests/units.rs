@@ -429,6 +429,8 @@ mod quit_confirmation;
 mod quit_manager_state;
 #[path = "units/reader_frame_split.rs"]
 mod reader_frame_split;
+#[path = "units/reasoning_header.rs"]
+mod reasoning_header;
 #[path = "units/release_notes.rs"]
 mod release_notes;
 #[path = "units/release_notes_frame.rs"]
