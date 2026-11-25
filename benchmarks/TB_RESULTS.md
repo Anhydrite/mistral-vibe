@@ -21,6 +21,7 @@ together: resolve, prompt tokens, tool calls, wall-clock work time
 | tb-v4 | `48c18a4` | cobol-modernization | 3/3 | 279972 | 0 | 54.2 | 3/3 | 137693 | 0 | 749.2 | maki |
 | tb-v5 | `69f9ae0` | cobol-modernization | 3/3 | 434485 | 0 | 115.0 | 2/3 | 237978 | 0 | 187.0 | maki (resolve) |
 | tb-v6 | `eb7e3dd` | cobol-modernization | 3/3 | 553096 | 29 | 91.0 | 3/3 | 152566 | 11 | 192.6 | maki |
+| tb-transfer-glm | `2e59bf8` | cobol-modernization | 0/1 | 1860956 | 47 | 672.6 | 0/1 | 0 | 0 | 338.8 | vibe |
 
 ## Cost per resolved task
 
@@ -31,3 +32,5 @@ that actually resolved, so a run that fails cheaply does not look good.
 |---|---|---|---|---|---|---|
 | tb-v6 | maki | 100% | 1455374 | 37.7 | 2.71 | 367.5 |
 | tb-v6 | vibe | 100% | 188140 | 11.0 | 3.79 | 356.6 |
+| tb-transfer-glm | maki | 0% | 1860956 | 47.0 | 11.21 | 672.6 |
+| tb-transfer-glm | vibe | 0% | 0 | 0.0 | 5.65 | 338.8 |

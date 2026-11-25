@@ -1,0 +1,64 @@
+{
+  "run": "tb-transfer-glm",
+  "date": "2026-11-25T11:24:15.274905+00:00",
+  "commit": "2e59bf8",
+  "note": "transfer test on zai-glm-5-3-flash: both fail on cobol",
+  "model": "mistral/deepseek-v4-1-flash-1017",
+  "results_dir": "/home/anhydrite/Documents/beta_labo/vibe_bench/tb_bench/results_transfer/20261125T110115Z",
+  "per_task": {
+    "cobol-modernization": {
+      "maki": {
+        "n": 1,
+        "passed": 0,
+        "resolve_rate": 0.0,
+        "sum_prompt": 1860956,
+        "sum_effective": 333404,
+        "sum_tool_calls": 47,
+        "sum_work_sec": 672.6,
+        "tokens_per_resolved": 1860956,
+        "calls_per_resolved": 47.0,
+        "minutes_per_resolved": 11.21,
+        "median_sec": 672.6,
+        "p95_sec": 672.6,
+        "median_effective": 333404,
+        "median_prompt": 1860956,
+        "median_turns": 48,
+        "median_tool_calls": 47
+      },
+      "vibe": {
+        "n": 1,
+        "passed": 0,
+        "resolve_rate": 0.0,
+        "sum_prompt": 0,
+        "sum_effective": 0,
+        "sum_tool_calls": 0,
+        "sum_work_sec": 338.8,
+        "tokens_per_resolved": 0,
+        "calls_per_resolved": 0.0,
+        "minutes_per_resolved": 5.65,
+        "median_sec": 338.8,
+        "p95_sec": 338.8,
+        "median_effective": 0,
+        "median_prompt": 0,
+        "median_turns": 0,
+        "median_tool_calls": 0
+      }
+    }
+  },
+  "summary": {
+    "maki": {
+      "resolve_rate": 0.0,
+      "tokens_per_resolved": 1860956,
+      "calls_per_resolved": 47.0,
+      "minutes_per_resolved": 11.21,
+      "p95_sec": 672.6
+    },
+    "vibe": {
+      "resolve_rate": 0.0,
+      "tokens_per_resolved": 0,
+      "calls_per_resolved": 0.0,
+      "minutes_per_resolved": 5.65,
+      "p95_sec": 338.8
+    }
+  }
+}
