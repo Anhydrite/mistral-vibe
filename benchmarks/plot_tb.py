@@ -20,6 +20,7 @@ import argparse
 import html
 import json
 import math
+import re
 from pathlib import Path
 import shutil
 import statistics
@@ -57,8 +58,38 @@ def sec(record: dict) -> float:
     return float(record.get("work_sec") or record.get("elapsed_sec") or 0.0)
 
 
-def uncached_tokens(record: dict) -> float:
-    return float(record.get("input_tokens") or 0) + float(record.get("output_tokens") or 0)
+def usage(record: dict) -> dict[str, float]:
+    """Split one attempt's tokens so both harnesses can be compared.
+
+    The two CLIs do not agree on what ``input_tokens`` contains, and reading
+    the raw field makes the fork look enormous. The Maki profile reports
+    Anthropic-style usage: ``input_tokens`` is only the uncached part, and
+    ``cached_tokens`` is the cache served on the side. Stock vibe reports
+    Mistral-style usage: ``input_tokens`` counts the cache reads it served.
+
+    Normalised, every attempt exposes ``prompt`` (all input), ``cached`` (the
+    cache reads inside it), ``fresh`` (what was not cached), ``output``, and
+    ``billed`` (fresh input plus output).
+    """
+    given = float(record.get("input_tokens") or 0)
+    cached = float(record.get("cached_tokens") or 0)
+    output = float(record.get("output_tokens") or 0)
+    if record["harness"].split("@")[0] == "maki":
+        prompt, fresh = given + cached, given
+    else:
+        prompt, fresh = given, max(given - cached, 0.0)
+    return {
+        "prompt": prompt, "cached": cached, "fresh": fresh,
+        "output": output, "billed": fresh + output,
+    }
+
+
+def billed_tokens(record: dict) -> float:
+    return usage(record)["billed"]
+
+
+def cached_tokens(record: dict) -> float:
+    return usage(record)["cached"]
 
 
 def load(roots: list[Path]) -> dict[str, list[dict]]:
@@ -434,7 +465,8 @@ def summary_rows(runs, ordered) -> list[dict[str, str]]:
             "cellules": str(len(cells)),
             "reussite": f"{100 * passed / len(cells):.0f}% ({passed}/{len(cells)})",
             "temps": f"{med([sec(r) for r in cells]):,.0f} s",
-            "tokens": f"{med([uncached_tokens(r) for r in cells]):,.0f}",
+            "tokens": f"{med([billed_tokens(r) for r in cells]):,.0f}",
+            "cache": f"{med([cached_tokens(r) for r in cells]):,.0f}",
             "cout": f"${med(costs):.3f}" if any(costs) else "non rapporté",
             "tours": f"{med([float(r.get('turns') or 0) for r in cells]):,.0f}",
         })
@@ -443,8 +475,8 @@ def summary_rows(runs, ordered) -> list[dict[str, str]]:
 
 COLUMNS = [
     ("harnais", "harnais"), ("cellules", "cellules"), ("reussite", "réussite"),
-    ("temps", "temps médian"), ("tokens", "tokens non cachés"),
-    ("cout", "coût médian"), ("tours", "tours médians"),
+    ("temps", "temps médian"), ("tokens", "tokens facturés"),
+    ("cache", "lectures cache"), ("cout", "coût médian"), ("tours", "tours médians"),
 ]
 
 
@@ -537,9 +569,10 @@ def chart_names() -> list[tuple[str, str]]:
     return [
         ("01-reussite", "Taux de réussite par run"),
         ("02-temps-par-tache", "Temps de travail par tâche"),
-        ("03-tokens-par-tache", "Tokens non cachés par tâche"),
-        ("04-temps-par-run", "Temps médian par run"),
-        ("05-maki-vs-vibe", "maki vs vibe par tâche"),
+        ("03-tokens-par-tache", "Tokens facturés par tâche"),
+        ("04-cache-par-tache", "Lectures de cache par tâche"),
+        ("05-temps-par-run", "Temps médian par run"),
+        ("06-maki-vs-vibe", "maki vs vibe par tâche"),
     ]
 
 
@@ -552,10 +585,13 @@ def build_charts(runs, ordered, titles=None) -> list[tuple[str, str, str]]:
             runs, ordered, sec, "Temps de travail par tâche",
             "Le plus court est le meilleur", "s", "{:,.0f}"),
         "03-tokens-par-tache": lambda: chart_per_task(
-            runs, ordered, uncached_tokens, "Tokens non cachés par tâche",
-            "Entrée + sortie, hors lectures de cache", "tokens", "{:,.0f}"),
-        "04-temps-par-run": lambda: chart_trend(runs, ordered, titles),
-        "05-maki-vs-vibe": lambda: chart_scatter(runs, ordered),
+            runs, ordered, billed_tokens, "Tokens facturés par tâche",
+            "Entrée non cachée + sortie", "tokens", "{:,.0f}"),
+        "04-cache-par-tache": lambda: chart_per_task(
+            runs, ordered, cached_tokens, "Lectures de cache par tâche",
+            "Relues à chaque tour, facturées bien moins cher", "tokens", "{:,.0f}"),
+        "05-temps-par-run": lambda: chart_trend(runs, ordered, titles),
+        "06-maki-vs-vibe": lambda: chart_scatter(runs, ordered),
     }
     return [(f"{stem}.svg", title, bodies[stem]()) for stem, title in chart_names()]
 
@@ -564,6 +600,11 @@ def write_outputs(runs, ordered, out: Path, png: bool = False, titles=None) -> l
     """Write every chart plus index.html and rapport.md, and report the file names."""
     out.mkdir(parents=True, exist_ok=True)
     charts = build_charts(runs, ordered, titles)
+    keep = {name for name, _, _ in charts} | {Path(name).with_suffix(".png").name
+                                              for name, _, _ in charts}
+    for stale in out.iterdir():
+        if re.fullmatch(r"\d\d-[\w-]+\.(svg|png)", stale.name) and stale.name not in keep:
+            stale.unlink()
     for name, _, svg in charts:
         (out / name).write_text(svg)
     converted = [to_png(out / name) for name, _, _ in charts] if png else []

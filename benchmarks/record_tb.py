@@ -37,21 +37,14 @@ def load(run_dir: Path) -> dict[str, dict[str, list[dict]]]:
     return table
 
 
-def _usage(record: dict) -> dict[str, int]:
+def _usage(record: dict) -> dict[str, float]:
     """The token budgets of one attempt, cache reads kept apart.
 
     A cache read is billed and served far cheaper than a fresh prompt token,
-    so a total that mixes them hides which harness really costs more. Every
-    attempt reports ``prompt`` (all input tokens), ``cached`` (the cache reads
-    inside it) and ``fresh`` (what was not cached).
+    so a total that mixes them hides which harness really costs more. The
+    per-harness normalisation lives in plot_tb.usage, shared with the charts.
     """
-    given = record.get("input_tokens") or 0
-    cached = record.get("cached_tokens") or 0
-    if record["harness"].split("@")[0] == "maki":
-        # Anthropic-style usage: input_tokens excludes the cache reads.
-        return {"prompt": given + cached, "cached": cached, "fresh": given}
-    # Mistral-style usage: input_tokens counts the cache reads it served.
-    return {"prompt": given, "cached": cached, "fresh": max(given - cached, 0)}
+    return plot_tb.usage(record)
 
 
 def _p95(values: list[float]) -> float:
@@ -217,10 +210,11 @@ def render(records: list[dict]) -> str:
             "",
             "## Graphs",
             "",
-            "One chart per question over every recorded run: pass rate, work time",
-            "and uncached tokens per task, median time per run, and both harnesses",
-            "against each other. `record_tb.py` redraws them here, and",
-            "`python3 benchmarks/plot_tb.py` reproduces them alone.",
+            "One chart per question over every recorded run: pass rate, work time,",
+            "billed tokens and cache reads per task, median time per run, and both",
+            "harnesses against each other. Tokens are normalised first, since the",
+            "two CLIs count cache reads differently. `record_tb.py` redraws the",
+            "charts here, and `python3 benchmarks/plot_tb.py` reproduces them alone.",
             "",
         ]
         for name, title in charts:

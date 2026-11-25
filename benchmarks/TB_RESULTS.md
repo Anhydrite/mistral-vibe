@@ -84,18 +84,21 @@ that actually resolved, so a run that fails cheaply does not look good.
 
 ## Graphs
 
-One chart per question over every recorded run: pass rate, work time
-and uncached tokens per task, median time per run, and both harnesses
-against each other. `record_tb.py` redraws them here, and
-`python3 benchmarks/plot_tb.py` reproduces them alone.
+One chart per question over every recorded run: pass rate, work time,
+billed tokens and cache reads per task, median time per run, and both
+harnesses against each other. Tokens are normalised first, since the
+two CLIs count cache reads differently. `record_tb.py` redraws the
+charts here, and `python3 benchmarks/plot_tb.py` reproduces them alone.
 
 ![Taux de réussite par run](charts/01-reussite.png)
 
 ![Temps de travail par tâche](charts/02-temps-par-tache.png)
 
-![Tokens non cachés par tâche](charts/03-tokens-par-tache.png)
+![Tokens facturés par tâche](charts/03-tokens-par-tache.png)
 
-![Temps médian par run](charts/04-temps-par-run.png)
+![Lectures de cache par tâche](charts/04-cache-par-tache.png)
 
-![maki vs vibe par tâche](charts/05-maki-vs-vibe.png)
+![Temps médian par run](charts/05-temps-par-run.png)
+
+![maki vs vibe par tâche](charts/06-maki-vs-vibe.png)
 
