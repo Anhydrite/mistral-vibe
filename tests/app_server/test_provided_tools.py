@@ -22,14 +22,13 @@ from mistralai_vibe_local_harness.protocol import (
 )
 from tests.conftest import build_test_vibe_config
 from tests.stubs.fake_config_orchestrator import FakeConfigOrchestrator
-from vibe.app_server._cron import CRON_TOOL_NAME, CronArgs
-from vibe.app_server._maki_tools import (
+from vibe.app_server._batch_tools import (
     GLOB_TOOL_NAME,
     INDEX_TOOL_NAME,
     MULTIEDIT_TOOL_NAME,
     READ_FILES_TOOL_NAME,
 )
-from vibe.app_server._web_tools import WEBFETCH_TOOL_NAME, WEBSEARCH_TOOL_NAME
+from vibe.app_server._cron import CRON_TOOL_NAME, CronArgs
 from vibe.app_server._provided_tools import (
     TODO_TOOL_NAME,
     VIBE_PROVIDED_TOOL_MODES,
@@ -56,6 +55,7 @@ from vibe.app_server._unified_scheduled_loops import (
     UnifiedScheduledLoops,
 )
 from vibe.app_server._unified_scratchpad import SCRATCHPAD_TOOL_NAME, scratchpad_dir
+from vibe.app_server._web_tools import WEBFETCH_TOOL_NAME, WEBSEARCH_TOOL_NAME
 from vibe.app_server.protocol import (
     SessionSpawnCheckout,
     SessionSpawnDirectory,

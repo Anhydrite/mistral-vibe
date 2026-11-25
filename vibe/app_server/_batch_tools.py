@@ -1,4 +1,4 @@
-"""Maki-style tools for the slim Vibe agent.
+"""Batch tools for the slim Vibe agent.
 
 These run in the app server as provided tools, so they need no harness change.
 They cut round-trips and tokens: read several files at once, look at a file

@@ -2235,7 +2235,7 @@ class HarnessProcess:
                         prompts=RustPromptSettings(
                             guidance=(
                                 "none"
-                                if active_profile.name == "maki"
+                                if active_profile.name == "slim"
                                 else "stock"
                             )
                         ),
@@ -2269,7 +2269,7 @@ class HarnessProcess:
                             programmatic=RustProgrammaticToolSettings(
                                 **(
                                     {"mode": "disabled", "sleep": "disabled"}
-                                    if active_profile.name == "maki"
+                                    if active_profile.name == "slim"
                                     and not ablated("programmatic")
                                     else {}
                                 ),

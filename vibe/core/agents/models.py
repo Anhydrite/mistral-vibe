@@ -177,17 +177,17 @@ DEFAULT = AgentProfile(
     AgentSafety.NEUTRAL,
 )
 
-# The lean agent the benchmark runs: the Maki prompt, eight tools, no skills,
+# The lean agent the benchmark runs: the slim prompt, eight tools, no skills,
 # plugins, MCP, connectors, subagents or background processes. It is a profile
 # of its own so that plain ``vibe`` keeps every stock feature, and selecting it
-# (``--agent maki``) is what trades them for a smaller prompt.
-MAKI = AgentProfile(
-    "maki",
-    "Maki",
-    "Maki instructions and the core tool surface",
+# (``--agent slim``) is what trades them for a smaller prompt.
+SLIM = AgentProfile(
+    "slim",
+    "Slim",
+    "Compact instructions and the core tool surface",
     AgentSafety.NEUTRAL,
     overrides={
-        "system_prompt_id": "maki",
+        "system_prompt_id": "slim",
         "enabled_tools": [
             "bash", "read_file", "write_file", "edit",
             "webfetch", "websearch",
@@ -300,7 +300,7 @@ LEAN = AgentProfile(
 
 BUILTIN_AGENTS: dict[str, AgentProfile] = {
     BuiltinAgentName.DEFAULT: DEFAULT,
-    "maki": MAKI,
+    "slim": SLIM,
     BuiltinAgentName.EXPLORE: EXPLORE,
     BuiltinAgentName.LEAN: LEAN,
 }

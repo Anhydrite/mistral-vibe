@@ -1,6 +1,6 @@
 """Web tools for the Vibe agent: fetch a page, search the web.
 
-Maki ships both, and they are what makes research possible without a plugin or
+The slim agent ships both, and they are what makes research possible without a plugin or
 an MCP server. They run in the app server as provided tools, so the harness
 needs no change. `websearch` asks DuckDuckGo's HTML endpoint, which needs no
 key; an Exa key, when set, gives better ranking and is used first.

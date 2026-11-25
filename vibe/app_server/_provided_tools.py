@@ -38,6 +38,28 @@ if TYPE_CHECKING:
         ToolApprovalMode,
     )
 
+from vibe.app_server._batch_tools import (
+    GLOB_DESCRIPTION,
+    GLOB_TOOL_NAME,
+    INDEX_DESCRIPTION,
+    INDEX_TOOL_NAME,
+    MULTIEDIT_DESCRIPTION,
+    MULTIEDIT_TOOL_NAME,
+    READ_FILES_DESCRIPTION,
+    READ_FILES_TOOL_NAME,
+    GlobArgs,
+    GlobResult,
+    IndexArgs,
+    IndexResult,
+    MultiEditArgs,
+    MultiEditResult,
+    ReadFilesArgs,
+    ReadFilesResult,
+    run_glob,
+    run_index,
+    run_multiedit,
+    run_read_files,
+)
 from vibe.app_server._cron import (
     CRON_TOOL_DESCRIPTION,
     CRON_TOOL_NAME,
@@ -146,6 +168,18 @@ from vibe.app_server._unified_scratchpad import (
     run_scratchpad,
     scratchpad_dir,
 )
+from vibe.app_server._web_tools import (
+    WEBFETCH_DESCRIPTION,
+    WEBFETCH_TOOL_NAME,
+    WEBSEARCH_DESCRIPTION,
+    WEBSEARCH_TOOL_NAME,
+    WebfetchArgs,
+    WebfetchResult,
+    WebsearchArgs,
+    WebsearchResult,
+    run_webfetch,
+    run_websearch,
+)
 from vibe.app_server.protocol import (
     SessionPeerArchiveResponse,
     SessionPeerListResponse,
@@ -166,41 +200,6 @@ from vibe.core.tools.builtins.todo import (
     write_todos,
 )
 from vibe.core.utils.matching import name_matches
-
-from vibe.app_server._web_tools import (
-    WEBFETCH_DESCRIPTION,
-    WEBFETCH_TOOL_NAME,
-    WEBSEARCH_DESCRIPTION,
-    WEBSEARCH_TOOL_NAME,
-    WebfetchArgs,
-    WebfetchResult,
-    WebsearchArgs,
-    WebsearchResult,
-    run_webfetch,
-    run_websearch,
-)
-from vibe.app_server._maki_tools import (
-    GLOB_DESCRIPTION,
-    GLOB_TOOL_NAME,
-    INDEX_DESCRIPTION,
-    INDEX_TOOL_NAME,
-    MULTIEDIT_DESCRIPTION,
-    MULTIEDIT_TOOL_NAME,
-    READ_FILES_DESCRIPTION,
-    READ_FILES_TOOL_NAME,
-    GlobArgs,
-    GlobResult,
-    IndexArgs,
-    IndexResult,
-    MultiEditArgs,
-    MultiEditResult,
-    ReadFilesArgs,
-    ReadFilesResult,
-    run_glob,
-    run_index,
-    run_multiedit,
-    run_read_files,
-)
 
 VIBE_TOOL_GROUP = "vibe"
 
@@ -497,17 +496,6 @@ def enter_worktree_offered(
     return _passes_tool_filters(
         ENTER_WORKTREE_TOOL_NAME, enabled=enabled_tools, disabled=disabled_tools
     )
-
-
-# The Maki agent's batch tools. They are opt-in: a config that lists no
-# enabled tools keeps the stock group, so plain vibe offers no redundant
-# `read_files` beside `read_file`.
-MAKI_BATCH_TOOL_NAMES = frozenset({
-    READ_FILES_TOOL_NAME,
-    INDEX_TOOL_NAME,
-    GLOB_TOOL_NAME,
-    MULTIEDIT_TOOL_NAME,
-})
 
 
 def _passes_tool_filters(
