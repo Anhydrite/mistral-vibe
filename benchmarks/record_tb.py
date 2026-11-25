@@ -50,14 +50,22 @@ def _p95(values: list[float]) -> float:
 
 
 def agg(records: list[dict]) -> dict:
-    """The four metrics, always together: resolve rate, tokens, calls, time."""
-    pairs = [_usage(r) for r in records]
-    seconds = [r.get("work_sec", r["elapsed_sec"]) for r in records]
-    calls = [r.get("tool_calls") or 0 for r in records]
-    passed = sum(1 for r in records if r["passed"])
+    """The four metrics, always together: resolve rate, tokens, calls, time.
+
+    A run that hit the time limit is censored: its cost is unknown, so it is
+    left out of every average and only shows in the resolve rate.
+    """
+    if any(r.get("timed_out") for r in records):
+        pass
+    pairs = [_usage(r) for r in records if not r.get("timed_out")]
+    measured = [r for r in records if not r.get("timed_out")]
+    seconds = [r.get("work_sec", r["elapsed_sec"]) for r in measured]
+    calls = [r.get("tool_calls") or 0 for r in measured]
+    passed = sum(1 for r in measured if r["passed"])
     resolved = passed or 1
     return {
         "n": len(records),
+        "measured": len(measured),
         "passed": passed,
         "resolve_rate": round(passed / len(records), 3),
         "sum_prompt": sum(p for p, _ in pairs),
@@ -87,12 +95,14 @@ def pct(value: float, base: float) -> str:
 
 def _overall(records: list[dict]) -> dict:
     """The four metrics over every task of a run, cost per resolved task."""
-    passed = sum(1 for r in records if r["passed"]) or 1
-    pairs = [_usage(r) for r in records]
-    seconds = [r.get("work_sec", r["elapsed_sec"]) for r in records]
-    calls = sum(r.get("tool_calls") or 0 for r in records)
+    measured = [r for r in records if not r.get("timed_out")]
+    passed = sum(1 for r in measured if r["passed"]) or 1
+    pairs = [_usage(r) for r in measured]
+    seconds = [r.get("work_sec", r["elapsed_sec"]) for r in measured]
+    calls = sum(r.get("tool_calls") or 0 for r in measured)
     return {
         "resolve_rate": round(sum(1 for r in records if r["passed"]) / len(records), 3),
+        "measured": len(measured),
         "tokens_per_resolved": round(sum(p for p, _ in pairs) / passed),
         "calls_per_resolved": round(calls / passed, 1),
         "minutes_per_resolved": round(sum(seconds) / 60 / passed, 2),

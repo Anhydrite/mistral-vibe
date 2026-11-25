@@ -1,14 +1,15 @@
 {
   "run": "tb-transfer-glm",
-  "date": "2026-11-25T11:24:15.274905+00:00",
-  "commit": "2e59bf8",
-  "note": "transfer test on zai-glm-5-3-flash: both fail on cobol",
+  "date": "2026-11-25T11:24:23.794468+00:00",
+  "commit": "153f621",
+  "note": "transfer on zai-glm-5-3-flash: maki fails 673s, fork hits the 900s limit (censored)",
   "model": "mistral/deepseek-v4-1-flash-1017",
   "results_dir": "/home/anhydrite/Documents/beta_labo/vibe_bench/tb_bench/results_transfer/20261125T110115Z",
   "per_task": {
     "cobol-modernization": {
       "maki": {
         "n": 1,
+        "measured": 1,
         "passed": 0,
         "resolve_rate": 0.0,
         "sum_prompt": 1860956,
@@ -27,6 +28,7 @@
       },
       "vibe": {
         "n": 1,
+        "measured": 1,
         "passed": 0,
         "resolve_rate": 0.0,
         "sum_prompt": 0,
@@ -48,6 +50,7 @@
   "summary": {
     "maki": {
       "resolve_rate": 0.0,
+      "measured": 1,
       "tokens_per_resolved": 1860956,
       "calls_per_resolved": 47.0,
       "minutes_per_resolved": 11.21,
@@ -55,6 +58,7 @@
     },
     "vibe": {
       "resolve_rate": 0.0,
+      "measured": 1,
       "tokens_per_resolved": 0,
       "calls_per_resolved": 0.0,
       "minutes_per_resolved": 5.65,

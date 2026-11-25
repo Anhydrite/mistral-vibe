@@ -21,7 +21,7 @@ together: resolve, prompt tokens, tool calls, wall-clock work time
 | tb-v4 | `48c18a4` | cobol-modernization | 3/3 | 279972 | 0 | 54.2 | 3/3 | 137693 | 0 | 749.2 | maki |
 | tb-v5 | `69f9ae0` | cobol-modernization | 3/3 | 434485 | 0 | 115.0 | 2/3 | 237978 | 0 | 187.0 | maki (resolve) |
 | tb-v6 | `eb7e3dd` | cobol-modernization | 3/3 | 553096 | 29 | 91.0 | 3/3 | 152566 | 11 | 192.6 | maki |
-| tb-transfer-glm | `2e59bf8` | cobol-modernization | 0/1 | 1860956 | 47 | 672.6 | 0/1 | 0 | 0 | 338.8 | vibe |
+| tb-transfer-glm | `153f621` | cobol-modernization | 0/1 | 1860956 | 47 | 672.6 | 0/1 | 0 | 0 | 338.8 | vibe |
 
 ## Cost per resolved task
 
