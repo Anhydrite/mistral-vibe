@@ -1,0 +1,28 @@
+{
+  "run": "tb-v5",
+  "date": "2026-11-25T09:55:49.896866+00:00",
+  "commit": "69f9ae0",
+  "note": "one check is enough: 750s -> 192s median, one run still hits the limit",
+  "model": "mistral/deepseek-v4-1-flash-1017",
+  "results_dir": "/home/anhydrite/Documents/beta_labo/vibe_bench/tb_bench/results/20261125T092533Z",
+  "per_task": {
+    "cobol-modernization": {
+      "maki": {
+        "n": 3,
+        "passed": 3,
+        "median_sec": 115.0,
+        "median_effective": 18123,
+        "median_prompt": 434485,
+        "median_turns": 23
+      },
+      "vibe": {
+        "n": 3,
+        "passed": 2,
+        "median_sec": 187.0,
+        "median_effective": 30618,
+        "median_prompt": 237978,
+        "median_turns": 5
+      }
+    }
+  }
+}
