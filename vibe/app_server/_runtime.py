@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from vibe.ablations import ablated
+
 
 def _dump_prompt(text: str) -> str:
     import os
@@ -2268,6 +2270,7 @@ class HarnessProcess:
                                 **(
                                     {"mode": "disabled", "sleep": "disabled"}
                                     if active_profile.name == "maki"
+                                    and not ablated("programmatic")
                                     else {}
                                 ),
                                 max_effects=128,
@@ -2534,7 +2537,8 @@ class HarnessProcess:
         # lazy AGENTS.md injection restores the legacy read_file's discovery of
         # subdirectory docs (see _agents_md_hooks). The handler is registered
         # Host-globally, so only the binding rides the session here.
-        hooks = merge_agents_md_hook(hooks)
+        if not ablated("no-agents-hook"):
+            hooks = merge_agents_md_hook(hooks)
         scoped_post_agent_hooks, main_post_agent_hooks = _post_agent_hook_counts(
             hook_result, plugin_hooks
         )

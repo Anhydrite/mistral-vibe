@@ -339,6 +339,8 @@ conversation/tool_approval_scroll 4053416836f8
 
 conversation/tool_approval_warning c774d4977819
 
+conversation/tool_group_batch_read 8bd85b125d5a
+
 conversation/tool_group_consecutive_rounds c774d4977819
 
 conversation/tool_group_counts c774d4977819
@@ -347,7 +349,7 @@ conversation/tool_group_ctrl_o 147eddd62f92
 
 conversation/tool_group_distinct_files c774d4977819
 
-conversation/tool_group_expand ab64ea28b43e
+conversation/tool_group_expand f4079cda0bc9
 
 conversation/tool_group_keeps_unfolded_call c774d4977819
 
@@ -355,11 +357,11 @@ conversation/tool_group_last_status 22ac37833f87
 
 conversation/tool_group_oversized_result c774d4977819
 
-conversation/tool_group_packing ed57e0547d85
+conversation/tool_group_packing 6d2275c0b86c
 
 conversation/tool_group_resume_settled f017ea2887ed
 
-conversation/tool_group_thought_wrap 31ec834d088c
+conversation/tool_group_thought_wrap 71ec227a4eb5
 
 conversation/tool_result_warnings 384210ccc746
 

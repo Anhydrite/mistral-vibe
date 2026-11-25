@@ -30,6 +30,10 @@ fn reasoning(id: &str) -> Value {
     json!({"id": id, "type": "reasoning", "text": "thinking"})
 }
 
+fn reasoning_text(id: &str, text: &str) -> Value {
+    json!({"id": id, "type": "reasoning", "text": text})
+}
+
 #[test]
 fn a_single_call_stays_ungrouped() {
     let transcript = live(&[
@@ -232,6 +236,64 @@ fn file_call(id: &str, kind: &str, path: Option<&str>) -> Value {
     let mut call = effect_of_kind(id, "completed", Some(kind));
     call["detail"]["input"] = json!(path.map(|path| json!({"filePath": path})));
     call
+}
+
+/// A batch call arrives as a generic one: no kind to count it by, a tool name
+/// and one input holding several targets.
+fn batch_call(id: &str, tool_name: &str, input: Value) -> Value {
+    let mut call = effect_of_kind(id, "completed", Some("tool"));
+    call["detail"]["toolName"] = json!(tool_name);
+    call["detail"]["input"] = input;
+    call
+}
+
+/// A batch call counts its targets, not itself: `read_files` on three paths is
+/// three reads, and a path already counted is not counted twice.
+#[test]
+fn a_batch_call_counts_each_of_its_targets() {
+    let transcript = live(&[
+        batch_call(
+            "e1",
+            "read_files",
+            json!({"paths": ["a.py", "b.py", "c.py"]}),
+        ),
+        batch_call("e2", "read_files", json!({"paths": ["c.py", "d.py"]})),
+        batch_call("e3", "multiedit", json!({"file_path": "a.py", "edits": []})),
+        batch_call("e4", "index", json!({"path": "b.py"})),
+        batch_call("e5", "glob", json!({"pattern": "**/*.py"})),
+    ]);
+    assert_eq!(
+        transcript.group_of("e1").expect("groups").label(),
+        "Read 4 files, edited 1 file, ran 1 search"
+    );
+}
+
+/// The targets of a batch call that fails to report any still make it one read.
+#[test]
+fn a_batch_call_without_targets_counts_once() {
+    let transcript = live(&[
+        batch_call("e1", "read_files", json!({"paths": []})),
+        batch_call("e2", "multiedit", json!({"file_path": "a.py"})),
+    ]);
+    assert_eq!(
+        transcript.group_of("e1").expect("groups").label(),
+        "Read 1 file, edited 1 file"
+    );
+}
+
+/// The header sizes the reasoning it packs, so a long trace reads as one.
+#[test]
+fn the_header_counts_the_reasoning_lines() {
+    let mut transcript = live(&[
+        reasoning_text("r1", "one\ntwo\nthree"),
+        effect("e1", "completed"),
+        effect("e2", "completed"),
+    ]);
+    transcript.set_show_reasoning(true);
+    assert_eq!(
+        transcript.group_of("r1").expect("groups").label(),
+        "Ran 2 commands, thought (3 lines)"
+    );
 }
 
 #[test]

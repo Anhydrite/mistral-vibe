@@ -643,6 +643,44 @@ def read_file(
     )
 
 
+def batch_tool(
+    tool_name: str, arguments: dict[str, Any], message: str
+) -> AppServerEvent:
+    """A batch tool call: generic on the wire, several targets in one input."""
+    return _added(
+        _entry(
+            "effect",
+            title=tool_name,
+            detail={
+                "toolName": tool_name,
+                "kind": "tool",
+                "input": arguments,
+                "display": {
+                    "summary": f"Running {tool_name}",
+                    "content": None,
+                    "suffix": "",
+                    "verb": "Running",
+                    "message": message,
+                    "settledVerb": "Ran",
+                    "settledMessage": message,
+                    "statusText": f"Running {tool_name}",
+                },
+            },
+            state={
+                "status": "completed",
+                "output": None,
+                "outputText": message,
+                "display": {
+                    "success": True,
+                    "verb": "Ran",
+                    "message": message,
+                    "warnings": [],
+                },
+            },
+        )
+    )
+
+
 def oversized_read_file(path: str) -> AppServerEvent:
     """A Unified read whose result the Harness swapped for a large-output receipt."""
     return _added(

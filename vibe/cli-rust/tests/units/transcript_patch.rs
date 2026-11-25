@@ -285,6 +285,7 @@ fn group_of(kinds: Vec<(&'static str, usize)>, reasoning: bool) -> Group<'static
         kinds,
         running: Vec::new(),
         reasoning,
+        reasoning_lines: 0,
         thinking: false,
         hooks: 0,
     }
@@ -310,6 +311,18 @@ fn group_labels_count_each_kind_then_add_reasoning_and_capitalize() {
     assert_eq!(thinking.label(), "Ran 2 subagents, thought");
     let thinking = running_group_of(vec![("subagent", 2)], true);
     assert_eq!(thinking.label(), "Running 2 subagents, thinking");
+}
+
+#[test]
+fn group_labels_size_the_reasoning_they_pack() {
+    let sized = |lines: usize| Group {
+        reasoning_lines: lines,
+        ..group_of(Vec::new(), true)
+    };
+    assert_eq!(sized(1).label(), "Thought (1 line)");
+    assert_eq!(sized(12).label(), "Thought (12 lines)");
+    // A trace with no text says nothing about its size.
+    assert_eq!(sized(0).label(), "Thought");
 }
 
 #[test]
