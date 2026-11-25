@@ -15,8 +15,8 @@
 <line x1="890.0" y1="73.0" x2="890.0" y2="467.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
 <text x="890.0" y="482.0" font-size="10" fill="#6b7785" text-anchor="middle">2,500,000</text>
 <text x="178.0" y="143.5" font-size="11.5" fill="#243040" text-anchor="end">cobol-modernization</text>
-<rect x="190.0" y="98.0" width="150.0" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>cobol-modernization maki: 535,552.0 tokens</title></rect>
-<text x="346.0" y="106.0" font-size="9.5" fill="#6b7785" text-anchor="start">535,552</text>
+<rect x="190.0" y="98.0" width="184.3" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>cobol-modernization maki: 658,048.0 tokens</title></rect>
+<text x="380.3" y="106.0" font-size="9.5" fill="#6b7785" text-anchor="start">658,048</text>
 <rect x="190.0" y="109.0" width="56.4" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>cobol-modernization vibe: 201,600.0 tokens</title></rect>
 <text x="252.4" y="117.0" font-size="9.5" fill="#6b7785" text-anchor="start">201,600</text>
 <rect x="190.0" y="120.0" width="166.8" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>cobol-modernization vibe@low: 595,584.0 tokens</title></rect>
@@ -30,10 +30,10 @@
 <text x="326.8" y="172.0" font-size="9.5" fill="#6b7785" text-anchor="start">467,072</text>
 <rect x="20.0" y="182.0" width="936.0" height="93.0" rx="3" fill="#f7f8fa" opacity="1.0"></rect>
 <text x="178.0" y="236.5" font-size="11.5" fill="#243040" text-anchor="end">overfull-hbox</text>
-<rect x="190.0" y="191.0" width="44.9" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>overfull-hbox maki: 160,192.0 tokens</title></rect>
-<text x="240.9" y="199.0" font-size="9.5" fill="#6b7785" text-anchor="start">160,192</text>
-<rect x="190.0" y="202.0" width="23.3" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>overfull-hbox vibe: 83,264.0 tokens</title></rect>
-<text x="219.3" y="210.0" font-size="9.5" fill="#6b7785" text-anchor="start">83,264</text>
+<rect x="190.0" y="191.0" width="40.4" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>overfull-hbox maki: 144,192.0 tokens</title></rect>
+<text x="236.4" y="199.0" font-size="9.5" fill="#6b7785" text-anchor="start">144,192</text>
+<rect x="190.0" y="202.0" width="22.8" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>overfull-hbox vibe: 81,472.0 tokens</title></rect>
+<text x="218.8" y="210.0" font-size="9.5" fill="#6b7785" text-anchor="start">81,472</text>
 <rect x="190.0" y="213.0" width="54.9" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>overfull-hbox vibe@low: 196,224.0 tokens</title></rect>
 <text x="250.9" y="221.0" font-size="9.5" fill="#6b7785" text-anchor="start">196,224</text>
 <rect x="190.0" y="224.0" width="33.2" height="9.0" rx="2" fill="#59a14f" opacity="1.0"><title>overfull-hbox vibe@no-check: 118,400.0 tokens</title></rect>
@@ -44,10 +44,10 @@
 <rect x="190.0" y="257.0" width="26.2" height="9.0" rx="2" fill="#edc948" opacity="1.0"><title>overfull-hbox vibe@prog: 93,504.0 tokens</title></rect>
 <text x="222.2" y="265.0" font-size="9.5" fill="#6b7785" text-anchor="start">93,504</text>
 <text x="178.0" y="329.5" font-size="11.5" fill="#243040" text-anchor="end">prove-plus-comm</text>
-<rect x="190.0" y="284.0" width="11.9" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>prove-plus-comm maki: 42,496.0 tokens</title></rect>
-<text x="207.9" y="292.0" font-size="9.5" fill="#6b7785" text-anchor="start">42,496</text>
-<rect x="190.0" y="295.0" width="10.5" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>prove-plus-comm vibe: 37,376.0 tokens</title></rect>
-<text x="206.5" y="303.0" font-size="9.5" fill="#6b7785" text-anchor="start">37,376</text>
+<rect x="190.0" y="284.0" width="14.2" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>prove-plus-comm maki: 50,816.0 tokens</title></rect>
+<text x="210.2" y="292.0" font-size="9.5" fill="#6b7785" text-anchor="start">50,816</text>
+<rect x="190.0" y="295.0" width="8.1" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>prove-plus-comm vibe: 28,928.0 tokens</title></rect>
+<text x="204.1" y="303.0" font-size="9.5" fill="#6b7785" text-anchor="start">28,928</text>
 <rect x="190.0" y="306.0" width="6.7" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>prove-plus-comm vibe@low: 23,872.0 tokens</title></rect>
 <text x="202.7" y="314.0" font-size="9.5" fill="#6b7785" text-anchor="start">23,872</text>
 <rect x="190.0" y="317.0" width="8.3" height="9.0" rx="2" fill="#59a14f" opacity="1.0"><title>prove-plus-comm vibe@no-check: 29,696.0 tokens</title></rect>
@@ -59,10 +59,10 @@
 <text x="219.7" y="358.0" font-size="9.5" fill="#6b7785" text-anchor="start">84,480</text>
 <rect x="20.0" y="368.0" width="936.0" height="93.0" rx="3" fill="#f7f8fa" opacity="1.0"></rect>
 <text x="178.0" y="422.5" font-size="11.5" fill="#243040" text-anchor="end">fix-git</text>
-<rect x="190.0" y="377.0" width="23.1" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>fix-git maki: 82,368.0 tokens</title></rect>
-<text x="219.1" y="385.0" font-size="9.5" fill="#6b7785" text-anchor="start">82,368</text>
-<rect x="190.0" y="388.0" width="14.4" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>fix-git vibe: 51,520.0 tokens</title></rect>
-<text x="210.4" y="396.0" font-size="9.5" fill="#6b7785" text-anchor="start">51,520</text>
+<rect x="190.0" y="377.0" width="22.1" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>fix-git maki: 78,784.0 tokens</title></rect>
+<text x="218.1" y="385.0" font-size="9.5" fill="#6b7785" text-anchor="start">78,784</text>
+<rect x="190.0" y="388.0" width="14.3" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>fix-git vibe: 50,944.0 tokens</title></rect>
+<text x="210.3" y="396.0" font-size="9.5" fill="#6b7785" text-anchor="start">50,944</text>
 <rect x="190.0" y="399.0" width="14.2" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>fix-git vibe@low: 50,624.0 tokens</title></rect>
 <text x="210.2" y="407.0" font-size="9.5" fill="#6b7785" text-anchor="start">50,624</text>
 <rect x="190.0" y="410.0" width="18.5" height="9.0" rx="2" fill="#59a14f" opacity="1.0"><title>fix-git vibe@no-check: 66,176.0 tokens</title></rect>
