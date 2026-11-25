@@ -17,3 +17,4 @@ Medians over the attempts. Lower is better.
 | tb-v3 | `012ea89` | fix-git | 2/2 vs 2/2 | 16.0 | 27.1 | 11462 | 11069 | maki (+69%) |
 | tb-v3 | `012ea89` | overfull-hbox | 2/2 vs 1/2 | 31.7 | 87.7 | 11760 | 11904 | maki (+177%) |
 | tb-v3 | `012ea89` | prove-plus-comm | 2/2 vs 2/2 | 14.5 | 11.1 | 7187 | 3138 | vibe (-23%) |
+| tb-v4 | `48c18a4` | cobol-modernization | 3/3 vs 3/3 | 54.2 | 749.2 | 16932 | 31709 | maki (+1282%) |

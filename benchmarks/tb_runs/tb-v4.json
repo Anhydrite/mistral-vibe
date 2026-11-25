@@ -1,0 +1,28 @@
+{
+  "run": "tb-v4",
+  "date": "2026-11-25T09:25:22.569019+00:00",
+  "commit": "48c18a4",
+  "note": "startup excluded (work_sec); GnuCOBOL reachable for both harnesses",
+  "model": "mistral/deepseek-v4-1-flash-1017",
+  "results_dir": "/home/anhydrite/Documents/beta_labo/vibe_bench/tb_bench/results/20261125T083927Z",
+  "per_task": {
+    "cobol-modernization": {
+      "maki": {
+        "n": 3,
+        "passed": 3,
+        "median_sec": 54.2,
+        "median_effective": 16932,
+        "median_prompt": 279972,
+        "median_turns": 18
+      },
+      "vibe": {
+        "n": 3,
+        "passed": 3,
+        "median_sec": 749.2,
+        "median_effective": 31709,
+        "median_prompt": 137693,
+        "median_turns": 5
+      }
+    }
+  }
+}
