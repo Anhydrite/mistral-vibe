@@ -67,6 +67,7 @@ def agg(records: list[dict]) -> dict:
     measured = [r for r in records if not r.get("timed_out")]
     seconds = [r.get("work_sec", r["elapsed_sec"]) for r in measured]
     calls = [r.get("tool_calls") or 0 for r in measured]
+    busies = [r["tool_sec"] for r in measured if r.get("tool_sec") is not None]
     passed = sum(1 for r in measured if r["passed"])
     resolved = passed or 1
     return {
@@ -86,6 +87,8 @@ def agg(records: list[dict]) -> dict:
         "calls_per_resolved": round(sum(calls) / resolved, 1),
         "minutes_per_resolved": round(sum(seconds) / 60 / resolved, 2),
         "median_sec": round(statistics.median(seconds), 1),
+        "median_tool_sec": round(statistics.median(busies), 1) if busies else None,
+        "tool_share": round(sum(busies) / sum(seconds), 3) if busies else None,
         "p95_sec": _p95(seconds),
         "median_effective": round(statistics.median(u["fresh"] for u in usage)),
         "median_cached": round(statistics.median(u["cached"] for u in usage)),
@@ -110,6 +113,7 @@ def _overall(records: list[dict]) -> dict:
     usage = [_usage(r) for r in measured]
     seconds = [r.get("work_sec", r["elapsed_sec"]) for r in measured]
     calls = sum(r.get("tool_calls") or 0 for r in measured)
+    busies = [r["tool_sec"] for r in measured if r.get("tool_sec") is not None]
     return {
         "resolve_rate": round(sum(1 for r in records if r["passed"]) / len(records), 3),
         "measured": len(measured),
@@ -118,6 +122,10 @@ def _overall(records: list[dict]) -> dict:
         "fresh_per_resolved": round(sum(u["fresh"] for u in usage) / passed),
         "calls_per_resolved": round(calls / passed, 1),
         "minutes_per_resolved": round(sum(seconds) / 60 / passed, 2),
+        "tool_minutes_per_resolved": (
+            round(sum(busies) / 60 / passed, 2) if busies else None
+        ),
+        "tool_share": round(sum(busies) / sum(seconds), 3) if busies else None,
         "p95_sec": _p95(seconds),
     }
 
@@ -132,8 +140,8 @@ def render(records: list[dict]) -> str:
         "together: resolve, prompt tokens, tool calls, wall-clock work time",
         "(harness startup excluded).",
         "",
-        "| run | commit | task | harness | resolve | median tok | median cache-read | median fresh | median calls | median s | verdict |",
-        "|---|---|---|---|---|---|---|---|---|---|---|",
+        "| run | commit | task | harness | resolve | median tok | median cache-read | median fresh | median calls | median tool s | median s | verdict |",
+        "|---|---|---|---|---|---|---|---|---|---|---|---|",
     ]
 
     def rate(d: dict) -> float:
@@ -156,8 +164,9 @@ def render(records: list[dict]) -> str:
                     f"{data['passed']}/{data['n']} | {data.get('median_prompt', 'n/a')} | "
                     f"{data.get('median_cached', 'n/a')} | "
                     f"{data.get('median_effective', 'n/a')} | "
-                    f"{data.get('median_tool_calls', 0)} | {data.get('median_sec', 0)} | "
-                    f"{verdict} |"
+                    f"{data.get('median_tool_calls', 0)} | "
+                    f"{data.get('median_tool_sec') if data.get('median_tool_sec') is not None else 'n/a'} | "
+                    f"{data.get('median_sec', 0)} | {verdict} |"
                 )
     lines += [
         "",
@@ -166,8 +175,8 @@ def render(records: list[dict]) -> str:
         "What a solved task really costs: all three budgets divided by the tasks",
         "that actually resolved, so a run that fails cheaply does not look good.",
         "",
-        "| run | harness | resolve | tokens / resolved | cache-read / resolved | fresh / resolved | calls / resolved | minutes / resolved | p95 s |",
-        "|---|---|---|---|---|---|---|---|---|",
+        "| run | harness | resolve | tokens / resolved | cache-read / resolved | fresh / resolved | calls / resolved | tool min / resolved | minutes / resolved | tool share | p95 s |",
+        "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     for run in records:
         for harness, data in (run.get("summary") or {}).items():
@@ -175,7 +184,9 @@ def render(records: list[dict]) -> str:
                 f"| {run['run']} | {harness} | {data['resolve_rate']:.0%} | "
                 f"{data['tokens_per_resolved']} | {data.get('cached_per_resolved', 'n/a')} | "
                 f"{data.get('fresh_per_resolved', 'n/a')} | {data['calls_per_resolved']} | "
-                f"{data['minutes_per_resolved']} | {data['p95_sec']} |"
+                f"{data.get('tool_minutes_per_resolved', 'n/a')} | "
+                f"{data['minutes_per_resolved']} | {data.get('tool_share', 'n/a')} | "
+                f"{data['p95_sec']} |"
             )
     lines.append("")
     return "\n".join(lines)

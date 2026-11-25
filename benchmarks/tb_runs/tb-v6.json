@@ -23,6 +23,8 @@
         "calls_per_resolved": 37.7,
         "minutes_per_resolved": 2.71,
         "median_sec": 91.0,
+        "median_tool_sec": null,
+        "tool_share": null,
         "p95_sec": 367.5,
         "median_effective": 17544,
         "median_cached": 535552,
@@ -46,6 +48,8 @@
         "calls_per_resolved": 11.0,
         "minutes_per_resolved": 3.79,
         "median_sec": 192.6,
+        "median_tool_sec": null,
+        "tool_share": null,
         "p95_sec": 356.6,
         "median_effective": 26614,
         "median_cached": 125952,
@@ -64,6 +68,8 @@
       "fresh_per_resolved": 20963,
       "calls_per_resolved": 37.7,
       "minutes_per_resolved": 2.71,
+      "tool_minutes_per_resolved": null,
+      "tool_share": null,
       "p95_sec": 367.5
     },
     "vibe": {
@@ -74,6 +80,8 @@
       "fresh_per_resolved": 31468,
       "calls_per_resolved": 11.0,
       "minutes_per_resolved": 3.79,
+      "tool_minutes_per_resolved": null,
+      "tool_share": null,
       "p95_sec": 356.6
     }
   }

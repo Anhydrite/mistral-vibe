@@ -18,7 +18,6 @@ import asyncio
 from collections.abc import Callable
 from dataclasses import dataclass, field
 import json
-import os
 from typing import Any
 
 import httpx2
@@ -251,8 +250,6 @@ def compile_session_model_facts(
     reopen neither asks again nor warns. Raises ``ModelFactsError`` for settings
     no profile can hold, such as a context window too small to compact in.
     """
-    agent = _thinking_override(agent)
-    compaction = _thinking_override(compaction)
     reused = _saved_lookup(provider, agent, saved)
     # Each route's model once, less the agent's when its saved answer stands in.
     models = tuple(
@@ -293,19 +290,6 @@ def compile_session_model_facts(
             agent_catalogue.endpoint, agent_catalogue.model, agent_catalogue.entry
         ),
     )
-
-
-def _thinking_override(model: ModelConfig) -> ModelConfig:
-    """Ablation knob: ``VIBE_THINKING`` pins both routes' reasoning level.
-
-    Unset leaves the configured level alone. It exists to measure what the
-    model's default thinking costs in latency and tokens without editing the
-    config per run.
-    """
-    level = os.environ.get("VIBE_THINKING", "").strip()
-    if not level:
-        return model
-    return model.model_copy(update={"thinking": level})
 
 
 def _saved_lookup(
