@@ -1463,7 +1463,8 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
         description="Retired: accepted for older configs, with no effect.",
     )
     title_prompt_id: Annotated[str, WithReplaceMerge()] = UtilityPrompt.SESSION_TITLE
-    include_commit_signature: Annotated[bool, WithReplaceMerge()] = True
+    # The fork never signs a commit with a tool trailer.
+    include_commit_signature: Annotated[bool, WithReplaceMerge()] = False
     include_model_info: Annotated[bool, WithReplaceMerge()] = Field(
         default=True,
         deprecated="No longer used; remove this setting from your config.",
