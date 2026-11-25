@@ -111,6 +111,18 @@ together: resolve, prompt tokens, tool calls, wall-clock work time
 | tb-v14 | `642e057` | prove-plus-comm | vibe | 2/2 | 22246 | 17920 | 4326 | 4.0 | 0.8 | 5.8 | 1.97 | 16.7 | vibe |
 | tb-v15 | `f387947` | mvcc-lsm-compaction | maki | 0/3 | 170879 | 152704 | 18175 | 12 | 20.7 | 20.3 | 4.02 | 67.9 | - |
 | tb-v15 | `f387947` | mvcc-lsm-compaction | vibe | 1/3 | 101600 | 88960 | 12640 | 8 | 20.4 | 25.4 | 1.83 | 41.8 | vibe (resolve) |
+| tb-v16 | `1bd954f` | cobol-modernization | maki | 2/2 | 657422 | 637888 | 19534 | 28.0 | 43.5 | 43.2 | 3.18 | 131.2 | - |
+| tb-v16 | `1bd954f` | cobol-modernization | vibe-classic | 2/2 | 1759607 | 1715520 | 44087 | 37.5 | 16.8 | 20.8 | 3.45 | 152.1 | maki |
+| tb-v16 | `1bd954f` | cobol-modernization | vibe-custom | 2/2 | 226917 | 209792 | 17125 | 13.5 | 2.2 | 5.8 | 4.42 | 64.6 | vibe |
+| tb-v16 | `1bd954f` | fix-git | maki | 2/2 | 113503 | 103680 | 9823 | 12.0 | 0.2 | -0.1 | 0.89 | 11.7 | - |
+| tb-v16 | `1bd954f` | fix-git | vibe-classic | 2/2 | 173749 | 158464 | 15285 | 12.5 | 0.8 | 4.4 | 1.61 | 24.8 | maki |
+| tb-v16 | `1bd954f` | fix-git | vibe-custom | 2/2 | 39708 | 32832 | 6876 | 6.5 | 0.5 | 3.8 | 2.61 | 23.9 | maki |
+| tb-v16 | `1bd954f` | overfull-hbox | maki | 2/2 | 163802 | 151296 | 12506 | 13.5 | 7.1 | 6.9 | 2.96 | 43.6 | - |
+| tb-v16 | `1bd954f` | overfull-hbox | vibe-classic | 2/2 | 366394 | 345152 | 21242 | 18.5 | 15.1 | 19.0 | 1.89 | 54.6 | maki |
+| tb-v16 | `1bd954f` | overfull-hbox | vibe-custom | 1/2 | 187118 | 174400 | 12718 | 14.0 | 21.0 | 24.7 | 2.55 | 64.1 | maki (resolve) |
+| tb-v16 | `1bd954f` | prove-plus-comm | maki | 2/2 | 56678 | 49344 | 7334 | 7.0 | 0.5 | 0.2 | 1.89 | 14.7 | - |
+| tb-v16 | `1bd954f` | prove-plus-comm | vibe-classic | 2/2 | 153649 | 140160 | 13489 | 12.0 | 1.6 | 5.2 | 1.53 | 23.5 | maki |
+| tb-v16 | `1bd954f` | prove-plus-comm | vibe-custom | 2/2 | 28696 | 24128 | 4568 | 5.0 | 0.9 | 4.5 | 1.53 | 14.7 | maki |
 
 ## Cost per resolved task
 
@@ -156,6 +168,9 @@ that actually resolved, so a run that fails cheaply does not look good.
 | tb-v14 | vibe | 100% | 85466 | 75680 | 9786 | 8.4 | 0.37 | 0.46 | 0.4 | 0.86 | 113.4 |
 | tb-v15 | maki | 0% | 611223 | 558464 | 52759 | 41.0 | 1.03 | 1.01 | 2.52 | 3.53 | 83.4 |
 | tb-v15 | vibe | 33% | 292049 | 254080 | 37969 | 26.0 | 0.97 | 1.24 | 1.16 | 2.4 | 66.6 |
+| tb-v16 | maki | 100% | 247851 | 235552 | 12299 | 15.1 | 0.21 | 0.21 | 0.63 | 0.84 | 137.4 |
+| tb-v16 | vibe-classic | 100% | 613350 | 589824 | 23526 | 20.1 | 0.14 | 0.21 | 0.85 | 1.06 | 155.4 |
+| tb-v16 | vibe-custom | 88% | 137840 | 126043 | 11797 | 11.1 | 0.12 | 0.18 | 0.62 | 0.8 | 72.0 |
 
 ## Graphs
 

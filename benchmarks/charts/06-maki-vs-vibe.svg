@@ -31,14 +31,14 @@
 <line x1="95.0" y1="105.0" x2="730.0" y2="105.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
 <text x="85.0" y="109.0" font-size="10" fill="#6b7785" text-anchor="end">1,000</text>
 <line x1="95.0" y1="430.0" x2="730.0" y2="105.0" stroke="#b9c1cb" stroke-width="1" opacity="1.0" stroke-dasharray="5 4"/>
-<g><circle cx="170.1" cy="362.6" r="6" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>fix-git: maki 17s vs vibe 26s</title></g>
-<text x="180.1" y="366.6" font-size="10.5" fill="#243040" text-anchor="start">fix-git</text>
+<g><circle cx="168.4" cy="362.6" r="6" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>fix-git: maki 17s vs vibe 26s</title></g>
+<text x="178.4" y="366.6" font-size="10.5" fill="#243040" text-anchor="start">fix-git</text>
 <g><circle cx="182.2" cy="368.0" r="6" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>prove-plus-comm: maki 19s vs vibe 24s</title></g>
 <text x="192.2" y="372.0" font-size="10.5" fill="#243040" text-anchor="start">prove-plus-comm</text>
-<g><circle cx="431.7" cy="231.5" r="6" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>cobol-modernization: maki 115s vs vibe 167s</title></g>
-<text x="441.7" y="235.5" font-size="10.5" fill="#243040" text-anchor="start">cobol-modernization</text>
-<g><circle cx="442.8" cy="266.3" r="6" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>overfull-hbox: maki 125s vs vibe 102s</title></g>
-<text x="452.8" y="270.3" font-size="10.5" fill="#243040" text-anchor="start">overfull-hbox</text>
+<g><circle cx="441.1" cy="231.5" r="6" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>cobol-modernization: maki 123s vs vibe 167s</title></g>
+<text x="451.1" y="235.5" font-size="10.5" fill="#243040" text-anchor="start">cobol-modernization</text>
+<g><circle cx="441.0" cy="266.3" r="6" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>overfull-hbox: maki 123s vs vibe 102s</title></g>
+<text x="451.0" y="270.3" font-size="10.5" fill="#243040" text-anchor="start">overfull-hbox</text>
 <g><circle cx="359.1" cy="329.0" r="6" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>mvcc-lsm-compaction: maki 68s vs vibe 42s</title></g>
 <text x="369.1" y="333.0" font-size="10.5" fill="#243040" text-anchor="start">mvcc-lsm-compaction</text>
 <text x="412.5" y="474.0" font-size="11" fill="#6b7785" text-anchor="middle">maki (s, échelle log)</text>
