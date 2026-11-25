@@ -9,38 +9,120 @@
     "fix-git": {
       "maki": {
         "n": 3,
+        "measured": 3,
         "passed": 3,
+        "resolve_rate": 1.0,
+        "sum_prompt": 1041595,
+        "sum_cached": 983296,
+        "sum_effective": 58299,
+        "sum_tool_calls": 0,
+        "sum_work_sec": 251.7,
+        "tokens_per_resolved": 347198,
+        "cached_per_resolved": 327765,
+        "fresh_per_resolved": 19433,
+        "calls_per_resolved": 0.0,
+        "minutes_per_resolved": 1.4,
         "median_sec": 31.7,
+        "p95_sec": 193.5,
         "median_effective": 14914,
+        "median_cached": 166400,
         "median_prompt": 181314,
-        "median_turns": 16
+        "median_turns": 16,
+        "median_tool_calls": 0
       },
       "vibe": {
         "n": 3,
+        "measured": 3,
         "passed": 3,
+        "resolve_rate": 1.0,
+        "sum_prompt": 398235,
+        "sum_cached": 360832,
+        "sum_effective": 37403,
+        "sum_tool_calls": 0,
+        "sum_work_sec": 115.8,
+        "tokens_per_resolved": 132745,
+        "cached_per_resolved": 120277,
+        "fresh_per_resolved": 12468,
+        "calls_per_resolved": 0.0,
+        "minutes_per_resolved": 0.64,
         "median_sec": 39.7,
+        "p95_sec": 44.9,
         "median_effective": 13729,
+        "median_cached": 109696,
         "median_prompt": 123580,
-        "median_turns": 16
+        "median_turns": 16,
+        "median_tool_calls": 0
       }
     },
     "prove-plus-comm": {
       "maki": {
         "n": 3,
+        "measured": 3,
         "passed": 3,
+        "resolve_rate": 1.0,
+        "sum_prompt": 246412,
+        "sum_cached": 224000,
+        "sum_effective": 22412,
+        "sum_tool_calls": 0,
+        "sum_work_sec": 52.7,
+        "tokens_per_resolved": 82137,
+        "cached_per_resolved": 74667,
+        "fresh_per_resolved": 7471,
+        "calls_per_resolved": 0.0,
+        "minutes_per_resolved": 0.29,
         "median_sec": 20.9,
+        "p95_sec": 24.2,
         "median_effective": 7926,
+        "median_cached": 90496,
         "median_prompt": 98422,
-        "median_turns": 12
+        "median_turns": 12,
+        "median_tool_calls": 0
       },
       "vibe": {
         "n": 3,
+        "measured": 3,
         "passed": 3,
+        "resolve_rate": 1.0,
+        "sum_prompt": 150166,
+        "sum_cached": 134272,
+        "sum_effective": 15894,
+        "sum_tool_calls": 0,
+        "sum_work_sec": 70.4,
+        "tokens_per_resolved": 50055,
+        "cached_per_resolved": 44757,
+        "fresh_per_resolved": 5298,
+        "calls_per_resolved": 0.0,
+        "minutes_per_resolved": 0.39,
         "median_sec": 25.1,
+        "p95_sec": 30.9,
         "median_effective": 5021,
+        "median_cached": 52992,
         "median_prompt": 58013,
-        "median_turns": 12
+        "median_turns": 12,
+        "median_tool_calls": 0
       }
+    }
+  },
+  "summary": {
+    "maki": {
+      "resolve_rate": 1.0,
+      "measured": 6,
+      "tokens_per_resolved": 214668,
+      "cached_per_resolved": 201216,
+      "fresh_per_resolved": 13452,
+      "calls_per_resolved": 0.0,
+      "minutes_per_resolved": 0.85,
+      "p95_sec": 193.5
+    },
+    "vibe": {
+      "resolve_rate": 1.0,
+      "measured": 6,
+      "tokens_per_resolved": 91400,
+      "cached_per_resolved": 82517,
+      "fresh_per_resolved": 8883,
+      "calls_per_resolved": 0.0,
+      "minutes_per_resolved": 0.52,
+      "p95_sec": 44.9
     }
   }
 }

@@ -9,20 +9,72 @@
     "cobol-modernization": {
       "maki": {
         "n": 3,
+        "measured": 3,
         "passed": 3,
+        "resolve_rate": 1.0,
+        "sum_prompt": 2360980,
+        "sum_cached": 2304640,
+        "sum_effective": 56340,
+        "sum_tool_calls": 0,
+        "sum_work_sec": 467.8,
+        "tokens_per_resolved": 786993,
+        "cached_per_resolved": 768213,
+        "fresh_per_resolved": 18780,
+        "calls_per_resolved": 0.0,
+        "minutes_per_resolved": 2.6,
         "median_sec": 115.0,
+        "p95_sec": 240.7,
         "median_effective": 18123,
+        "median_cached": 420736,
         "median_prompt": 434485,
-        "median_turns": 23
+        "median_turns": 23,
+        "median_tool_calls": 0
       },
       "vibe": {
         "n": 3,
+        "measured": 3,
         "passed": 2,
+        "resolve_rate": 0.667,
+        "sum_prompt": 506734,
+        "sum_cached": 443392,
+        "sum_effective": 63342,
+        "sum_tool_calls": 0,
+        "sum_work_sec": 1259.2,
+        "tokens_per_resolved": 253367,
+        "cached_per_resolved": 221696,
+        "fresh_per_resolved": 31671,
+        "calls_per_resolved": 0.0,
+        "minutes_per_resolved": 10.49,
         "median_sec": 187.0,
+        "p95_sec": 901.7,
         "median_effective": 30618,
+        "median_cached": 207360,
         "median_prompt": 237978,
-        "median_turns": 5
+        "median_turns": 5,
+        "median_tool_calls": 0
       }
+    }
+  },
+  "summary": {
+    "maki": {
+      "resolve_rate": 1.0,
+      "measured": 3,
+      "tokens_per_resolved": 786993,
+      "cached_per_resolved": 768213,
+      "fresh_per_resolved": 18780,
+      "calls_per_resolved": 0.0,
+      "minutes_per_resolved": 2.6,
+      "p95_sec": 240.7
+    },
+    "vibe": {
+      "resolve_rate": 0.667,
+      "measured": 3,
+      "tokens_per_resolved": 253367,
+      "cached_per_resolved": 221696,
+      "fresh_per_resolved": 31671,
+      "calls_per_resolved": 0.0,
+      "minutes_per_resolved": 10.49,
+      "p95_sec": 901.7
     }
   }
 }

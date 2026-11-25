@@ -6,6 +6,7 @@ from pathlib import Path
 import tomllib
 from typing import Any
 
+from vibe.ablations import ablated
 from vibe.agents import AgentSafety, AgentType
 from vibe.core.agents._migration import (
     LEGACY_BASE_DISABLED_KEY,
@@ -178,7 +179,11 @@ DEFAULT = AgentProfile(
         "system_prompt_id": "maki",
         "enabled_tools": [
             "bash", "read_file", "write_file", "edit",
-            "read_files", "index", "glob", "multiedit",
+            *(
+                []
+                if ablated("no-batch-tools")
+                else ["read_files", "index", "glob", "multiedit"]
+            ),
         ],
         "enable_subagents": False,
         "enable_background_processes": False,

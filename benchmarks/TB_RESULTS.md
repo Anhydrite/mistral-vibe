@@ -6,31 +6,55 @@ image, then the task's own tests run in that image. Same model
 together: resolve, prompt tokens, tool calls, wall-clock work time
 (harness startup excluded).
 
-| run | commit | task | maki resolve | maki tok | maki calls | maki s | fork resolve | fork tok | fork calls | fork s | verdict |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| tb-v1 | `0714c59` | fix-git | 3/3 | 181314 | 0 | 31.7 | 3/3 | 123580 | 0 | 39.7 | maki |
-| tb-v1 | `0714c59` | prove-plus-comm | 3/3 | 98422 | 0 | 20.9 | 3/3 | 58013 | 0 | 25.1 | maki |
-| tb-v2 | `012ea89` | cobol-modernization | 2/2 | 1759124 | 0 | 200.0 | 2/2 | 1479082 | 0 | 158.8 | vibe |
-| tb-v2 | `012ea89` | fix-git | 2/2 | 433814 | 0 | 49.8 | 2/2 | 167618 | 0 | 51.5 | maki |
-| tb-v2 | `012ea89` | overfull-hbox | 2/2 | 279027 | 0 | 104.8 | 2/2 | 137108 | 0 | 108.3 | maki |
-| tb-v2 | `012ea89` | prove-plus-comm | 2/2 | 80166 | 0 | 18.4 | 2/2 | 57940 | 0 | 30.2 | maki |
-| tb-v3 | `012ea89` | cobol-modernization | 2/2 | 1303028 | 0 | 119.5 | 2/2 | 975494 | 0 | 162.9 | maki |
-| tb-v3 | `012ea89` | fix-git | 2/2 | 93574 | 0 | 16.0 | 2/2 | 89277 | 0 | 27.1 | maki |
-| tb-v3 | `012ea89` | overfull-hbox | 1/2 | 110448 | 0 | 31.7 | 2/2 | 110784 | 0 | 87.7 | vibe (resolve) |
-| tb-v3 | `012ea89` | prove-plus-comm | 2/2 | 81875 | 0 | 14.5 | 2/2 | 12994 | 0 | 11.1 | vibe |
-| tb-v4 | `48c18a4` | cobol-modernization | 3/3 | 279972 | 0 | 54.2 | 3/3 | 137693 | 0 | 749.2 | maki |
-| tb-v5 | `69f9ae0` | cobol-modernization | 3/3 | 434485 | 0 | 115.0 | 2/3 | 237978 | 0 | 187.0 | maki (resolve) |
-| tb-v6 | `eb7e3dd` | cobol-modernization | 3/3 | 553096 | 29 | 91.0 | 3/3 | 152566 | 11 | 192.6 | maki |
-| tb-transfer-glm | `153f621` | cobol-modernization | 0/1 | 1860956 | 47 | 672.6 | 0/1 | 0 | 0 | 338.8 | vibe |
+| run | commit | task | harness | resolve | median tok | median cache-read | median fresh | median calls | median s | verdict |
+|---|---|---|---|---|---|---|---|---|---|---|
+| tb-v1 | `0714c59` | fix-git | maki | 3/3 | 181314 | 166400 | 14914 | 0 | 31.7 | - |
+| tb-v1 | `0714c59` | fix-git | vibe | 3/3 | 123580 | 109696 | 13729 | 0 | 39.7 | maki |
+| tb-v1 | `0714c59` | prove-plus-comm | maki | 3/3 | 98422 | 90496 | 7926 | 0 | 20.9 | - |
+| tb-v1 | `0714c59` | prove-plus-comm | vibe | 3/3 | 58013 | 52992 | 5021 | 0 | 25.1 | maki |
+| tb-v2 | `012ea89` | cobol-modernization | maki | 2/2 | 1759124 | 1725440 | 33684 | 0.0 | 200.0 | - |
+| tb-v2 | `012ea89` | cobol-modernization | vibe | 2/2 | 1479082 | 1441536 | 37546 | 0.0 | 158.8 | vibe |
+| tb-v2 | `012ea89` | fix-git | maki | 2/2 | 433814 | 390144 | 43670 | 0.0 | 49.8 | - |
+| tb-v2 | `012ea89` | fix-git | vibe | 2/2 | 167618 | 154176 | 13442 | 0.0 | 51.5 | maki |
+| tb-v2 | `012ea89` | overfull-hbox | maki | 2/2 | 279027 | 260672 | 18355 | 0.0 | 104.8 | - |
+| tb-v2 | `012ea89` | overfull-hbox | vibe | 2/2 | 137108 | 125824 | 11284 | 0.0 | 108.3 | maki |
+| tb-v2 | `012ea89` | prove-plus-comm | maki | 2/2 | 80166 | 72128 | 8038 | 0.0 | 18.4 | - |
+| tb-v2 | `012ea89` | prove-plus-comm | vibe | 2/2 | 57940 | 52160 | 5780 | 0.0 | 30.2 | maki |
+| tb-v3 | `012ea89` | cobol-modernization | maki | 2/2 | 1303028 | 1274176 | 28852 | 0.0 | 119.5 | - |
+| tb-v3 | `012ea89` | cobol-modernization | vibe | 2/2 | 975494 | 950848 | 24646 | 0.0 | 162.9 | maki |
+| tb-v3 | `012ea89` | fix-git | maki | 2/2 | 93574 | 82112 | 11462 | 0.0 | 16.0 | - |
+| tb-v3 | `012ea89` | fix-git | vibe | 2/2 | 89277 | 78208 | 11069 | 0.0 | 27.1 | maki |
+| tb-v3 | `012ea89` | overfull-hbox | maki | 1/2 | 110448 | 98688 | 11760 | 0.0 | 31.7 | - |
+| tb-v3 | `012ea89` | overfull-hbox | vibe | 2/2 | 110784 | 98880 | 11904 | 0.0 | 87.7 | vibe (resolve) |
+| tb-v3 | `012ea89` | prove-plus-comm | maki | 2/2 | 81875 | 74688 | 7187 | 0.0 | 14.5 | - |
+| tb-v3 | `012ea89` | prove-plus-comm | vibe | 2/2 | 12994 | 9856 | 3138 | 0.0 | 11.1 | vibe |
+| tb-v4 | `48c18a4` | cobol-modernization | maki | 3/3 | 279972 | 263040 | 16932 | 0 | 54.2 | - |
+| tb-v4 | `48c18a4` | cobol-modernization | vibe | 3/3 | 137693 | 105984 | 31709 | 0 | 749.2 | maki |
+| tb-v5 | `69f9ae0` | cobol-modernization | maki | 3/3 | 434485 | 420736 | 18123 | 0 | 115.0 | - |
+| tb-v5 | `69f9ae0` | cobol-modernization | vibe | 2/3 | 237978 | 207360 | 30618 | 0 | 187.0 | maki (resolve) |
+| tb-v6 | `eb7e3dd` | cobol-modernization | maki | 3/3 | 553096 | 535552 | 17544 | 29 | 91.0 | - |
+| tb-v6 | `eb7e3dd` | cobol-modernization | vibe | 3/3 | 152566 | 125952 | 26614 | 11 | 192.6 | maki |
+| tb-transfer-glm | `153f621` | cobol-modernization | maki | 0/1 | 1860956 | 1527552 | 333404 | 47 | 672.6 | - |
+| tb-transfer-glm | `153f621` | cobol-modernization | vibe | 0/1 | 0 | 0 | 0 | 0 | 338.8 | vibe |
 
 ## Cost per resolved task
 
 What a solved task really costs: all three budgets divided by the tasks
 that actually resolved, so a run that fails cheaply does not look good.
 
-| run | harness | resolve | tokens / resolved | calls / resolved | minutes / resolved | p95 s |
-|---|---|---|---|---|---|---|
-| tb-v6 | maki | 100% | 1455374 | 37.7 | 2.71 | 367.5 |
-| tb-v6 | vibe | 100% | 188140 | 11.0 | 3.79 | 356.6 |
-| tb-transfer-glm | maki | 0% | 1860956 | 47.0 | 11.21 | 672.6 |
-| tb-transfer-glm | vibe | 0% | 0 | 0.0 | 5.65 | 338.8 |
+| run | harness | resolve | tokens / resolved | cache-read / resolved | fresh / resolved | calls / resolved | minutes / resolved | p95 s |
+|---|---|---|---|---|---|---|---|---|
+| tb-v1 | maki | 100% | 214668 | 201216 | 13452 | 0.0 | 0.85 | 193.5 |
+| tb-v1 | vibe | 100% | 91400 | 82517 | 8883 | 0.0 | 0.52 | 44.9 |
+| tb-v2 | maki | 100% | 638033 | 612096 | 25937 | 0.0 | 1.55 | 229.9 |
+| tb-v2 | vibe | 100% | 460437 | 443424 | 17013 | 0.0 | 1.45 | 255.9 |
+| tb-v3 | maki | 88% | 453978 | 437047 | 16932 | 0.0 | 0.87 | 180.9 |
+| tb-v3 | vibe | 100% | 297137 | 284448 | 12689 | 0.0 | 1.2 | 282.2 |
+| tb-v4 | maki | 100% | 272466 | 256981 | 15484 | 0.0 | 1.19 | 110.7 |
+| tb-v4 | vibe | 100% | 292868 | 261973 | 30894 | 0.0 | 11.07 | 901.6 |
+| tb-v5 | maki | 100% | 786993 | 768213 | 18780 | 0.0 | 2.6 | 240.7 |
+| tb-v5 | vibe | 67% | 253367 | 221696 | 31671 | 0.0 | 10.49 | 901.7 |
+| tb-v6 | maki | 100% | 1455374 | 1434411 | 20963 | 37.7 | 2.71 | 367.5 |
+| tb-v6 | vibe | 100% | 188140 | 156672 | 31468 | 11.0 | 3.79 | 356.6 |
+| tb-transfer-glm | maki | 0% | 1860956 | 1527552 | 333404 | 47.0 | 11.21 | 672.6 |
+| tb-transfer-glm | vibe | 0% | 0 | 0 | 0 | 0.0 | 5.65 | 338.8 |

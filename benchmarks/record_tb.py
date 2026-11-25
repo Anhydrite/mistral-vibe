@@ -32,13 +32,21 @@ def load(run_dir: Path) -> dict[str, dict[str, list[dict]]]:
     return table
 
 
-def _usage(record: dict) -> tuple[int, int]:
-    """(prompt tokens, uncached tokens) for one attempt."""
+def _usage(record: dict) -> dict[str, int]:
+    """The token budgets of one attempt, cache reads kept apart.
+
+    A cache read is billed and served far cheaper than a fresh prompt token,
+    so a total that mixes them hides which harness really costs more. Every
+    attempt reports ``prompt`` (all input tokens), ``cached`` (the cache reads
+    inside it) and ``fresh`` (what was not cached).
+    """
     given = record.get("input_tokens") or 0
     cached = record.get("cached_tokens") or 0
-    if record["harness"] == "maki":
-        return given + cached, given
-    return given, max(given - cached, 0)
+    if record["harness"].split("@")[0] == "maki":
+        # Anthropic-style usage: input_tokens excludes the cache reads.
+        return {"prompt": given + cached, "cached": cached, "fresh": given}
+    # Mistral-style usage: input_tokens counts the cache reads it served.
+    return {"prompt": given, "cached": cached, "fresh": max(given - cached, 0)}
 
 
 def _p95(values: list[float]) -> float:
@@ -55,9 +63,7 @@ def agg(records: list[dict]) -> dict:
     A run that hit the time limit is censored: its cost is unknown, so it is
     left out of every average and only shows in the resolve rate.
     """
-    if any(r.get("timed_out") for r in records):
-        pass
-    pairs = [_usage(r) for r in records if not r.get("timed_out")]
+    usage = [_usage(r) for r in records if not r.get("timed_out")]
     measured = [r for r in records if not r.get("timed_out")]
     seconds = [r.get("work_sec", r["elapsed_sec"]) for r in measured]
     calls = [r.get("tool_calls") or 0 for r in measured]
@@ -68,18 +74,22 @@ def agg(records: list[dict]) -> dict:
         "measured": len(measured),
         "passed": passed,
         "resolve_rate": round(passed / len(records), 3),
-        "sum_prompt": sum(p for p, _ in pairs),
-        "sum_effective": sum(e for _, e in pairs),
+        "sum_prompt": sum(u["prompt"] for u in usage),
+        "sum_cached": sum(u["cached"] for u in usage),
+        "sum_effective": sum(u["fresh"] for u in usage),
         "sum_tool_calls": sum(calls),
         "sum_work_sec": round(sum(seconds), 1),
-        # Cost per resolved task: all three, divided by what actually resolved.
-        "tokens_per_resolved": round(sum(p for p, _ in pairs) / resolved),
+        # Cost per resolved task: every budget divided by what actually resolved.
+        "tokens_per_resolved": round(sum(u["prompt"] for u in usage) / resolved),
+        "cached_per_resolved": round(sum(u["cached"] for u in usage) / resolved),
+        "fresh_per_resolved": round(sum(u["fresh"] for u in usage) / resolved),
         "calls_per_resolved": round(sum(calls) / resolved, 1),
         "minutes_per_resolved": round(sum(seconds) / 60 / resolved, 2),
         "median_sec": round(statistics.median(seconds), 1),
         "p95_sec": _p95(seconds),
-        "median_effective": round(statistics.median(e for _, e in pairs)),
-        "median_prompt": round(statistics.median(p for p, _ in pairs)),
+        "median_effective": round(statistics.median(u["fresh"] for u in usage)),
+        "median_cached": round(statistics.median(u["cached"] for u in usage)),
+        "median_prompt": round(statistics.median(u["prompt"] for u in usage)),
         "median_turns": round(
             statistics.median(r.get("turns") or 0 for r in records), 1
         ),
@@ -97,13 +107,15 @@ def _overall(records: list[dict]) -> dict:
     """The four metrics over every task of a run, cost per resolved task."""
     measured = [r for r in records if not r.get("timed_out")]
     passed = sum(1 for r in measured if r["passed"]) or 1
-    pairs = [_usage(r) for r in measured]
+    usage = [_usage(r) for r in measured]
     seconds = [r.get("work_sec", r["elapsed_sec"]) for r in measured]
     calls = sum(r.get("tool_calls") or 0 for r in measured)
     return {
         "resolve_rate": round(sum(1 for r in records if r["passed"]) / len(records), 3),
         "measured": len(measured),
-        "tokens_per_resolved": round(sum(p for p, _ in pairs) / passed),
+        "tokens_per_resolved": round(sum(u["prompt"] for u in usage) / passed),
+        "cached_per_resolved": round(sum(u["cached"] for u in usage) / passed),
+        "fresh_per_resolved": round(sum(u["fresh"] for u in usage) / passed),
         "calls_per_resolved": round(calls / passed, 1),
         "minutes_per_resolved": round(sum(seconds) / 60 / passed, 2),
         "p95_sec": _p95(seconds),
@@ -120,33 +132,33 @@ def render(records: list[dict]) -> str:
         "together: resolve, prompt tokens, tool calls, wall-clock work time",
         "(harness startup excluded).",
         "",
-        "| run | commit | task | maki resolve | maki tok | maki calls | maki s | fork resolve | fork tok | fork calls | fork s | verdict |",
-        "|---|---|---|---|---|---|---|---|---|---|---|---|",
+        "| run | commit | task | harness | resolve | median tok | median cache-read | median fresh | median calls | median s | verdict |",
+        "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
+
+    def rate(d: dict) -> float:
+        return d.get("resolve_rate", round(d.get("passed", 0) / max(d.get("n", 1), 1), 3))
+
     for run in records:
         for task, by in sorted(run["per_task"].items()):
-            m, v = by.get("maki"), by.get("vibe")
-            if not m or not v:
-                continue
-            def rate(d: dict) -> float:
-                return d.get("resolve_rate", round(d.get("passed", 0) / max(d.get("n", 1), 1), 3))
-
-            m_rate, v_rate = rate(m), rate(v)
-            if v_rate > m_rate:
-                verdict = "vibe (resolve)"
-            elif v_rate < m_rate:
-                verdict = "maki (resolve)"
-            elif v.get("median_sec", 0) < m.get("median_sec", 0):
-                verdict = "vibe"
-            else:
-                verdict = "maki"
-            lines.append(
-                f"| {run['run']} | `{run['commit']}` | {task} | "
-                f"{m['passed']}/{m['n']} | {m.get('median_prompt', 0)} | "
-                f"{m.get('median_tool_calls', 0)} | {m.get('median_sec', 0)} | "
-                f"{v['passed']}/{v['n']} | {v.get('median_prompt', 0)} | "
-                f"{v.get('median_tool_calls', 0)} | {v.get('median_sec', 0)} | {verdict} |"
-            )
+            base = by.get("maki")
+            for harness, data in by.items():
+                if base is None or harness == "maki":
+                    verdict = "-"
+                elif rate(data) != rate(base):
+                    verdict = "vibe (resolve)" if rate(data) > rate(base) else "maki (resolve)"
+                elif data.get("median_sec", 0) < base.get("median_sec", 0):
+                    verdict = "vibe"
+                else:
+                    verdict = "maki"
+                lines.append(
+                    f"| {run['run']} | `{run['commit']}` | {task} | {harness} | "
+                    f"{data['passed']}/{data['n']} | {data.get('median_prompt', 'n/a')} | "
+                    f"{data.get('median_cached', 'n/a')} | "
+                    f"{data.get('median_effective', 'n/a')} | "
+                    f"{data.get('median_tool_calls', 0)} | {data.get('median_sec', 0)} | "
+                    f"{verdict} |"
+                )
     lines += [
         "",
         "## Cost per resolved task",
@@ -154,36 +166,34 @@ def render(records: list[dict]) -> str:
         "What a solved task really costs: all three budgets divided by the tasks",
         "that actually resolved, so a run that fails cheaply does not look good.",
         "",
-        "| run | harness | resolve | tokens / resolved | calls / resolved | minutes / resolved | p95 s |",
-        "|---|---|---|---|---|---|---|",
+        "| run | harness | resolve | tokens / resolved | cache-read / resolved | fresh / resolved | calls / resolved | minutes / resolved | p95 s |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
     for run in records:
         for harness, data in (run.get("summary") or {}).items():
             lines.append(
                 f"| {run['run']} | {harness} | {data['resolve_rate']:.0%} | "
-                f"{data['tokens_per_resolved']} | {data['calls_per_resolved']} | "
+                f"{data['tokens_per_resolved']} | {data.get('cached_per_resolved', 'n/a')} | "
+                f"{data.get('fresh_per_resolved', 'n/a')} | {data['calls_per_resolved']} | "
                 f"{data['minutes_per_resolved']} | {data['p95_sec']} |"
             )
     lines.append("")
     return "\n".join(lines)
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("run_dir", type=Path)
-    ap.add_argument("--run", required=True)
-    ap.add_argument("--note", default="")
-    ap.add_argument("--commit", default=None)
-    args = ap.parse_args()
-
-    table = load(args.run_dir)
-    record = {
-        "run": args.run,
-        "date": datetime.now(timezone.utc).isoformat(),
-        "commit": args.commit or commit(),
-        "note": args.note,
-        "model": "mistral/deepseek-v4-1-flash-1017",
-        "results_dir": str(args.run_dir),
+def build_record(
+    run: str, run_dir: Path, note: str, commit: str | None, model: str,
+    date: str | None = None,
+) -> dict:
+    """One history entry, every metric recomputed from the raw attempts."""
+    table = load(run_dir)
+    return {
+        "run": run,
+        "date": date or datetime.now(timezone.utc).isoformat(),
+        "commit": commit or "unknown",
+        "note": note,
+        "model": model,
+        "results_dir": str(run_dir),
         "per_task": {
             task: {h: agg(runs) for h, runs in by.items()}
             for task, by in table.items()
@@ -194,10 +204,55 @@ def main() -> int:
                 for by in table.values()
                 for record in by.get(harness, [])
             ])
-            for harness in ("maki", "vibe")
-            if any(harness in by for by in table.values())
+            for harness in sorted({h for by in table.values() for h in by})
         },
     }
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("run_dir", type=Path, nargs="?")
+    ap.add_argument("--run", default=None)
+    ap.add_argument("--note", default="")
+    ap.add_argument("--commit", default=None)
+    ap.add_argument(
+        "--refresh", action="store_true",
+        help="recompute every history entry from its results dir",
+    )
+    args = ap.parse_args()
+
+    if args.refresh:
+        entries = [
+            json.loads(line)
+            for line in HISTORY.read_text().splitlines() if line.strip()
+        ]
+        rebuilt = []
+        for entry in entries:
+            run_dir = Path(entry.get("results_dir", ""))
+            if not run_dir.is_dir():
+                rebuilt.append(entry)
+                continue
+            rebuilt.append(build_record(
+                entry["run"], run_dir, entry.get("note", ""),
+                entry.get("commit"), entry.get("model"), entry.get("date"),
+            ))
+        HISTORY.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rebuilt))
+        runs_dir = ROOT / "benchmarks" / "tb_runs"
+        runs_dir.mkdir(parents=True, exist_ok=True)
+        for entry in rebuilt:
+            (runs_dir / f"{entry['run']}.json").write_text(
+                json.dumps(entry, indent=2)
+            )
+        RESULTS.write_text(render(rebuilt))
+        print(f"refreshed {len(rebuilt)} runs")
+        return 0
+
+    if not args.run_dir or not args.run:
+        raise SystemExit("run_dir and --run are required (or use --refresh)")
+    record = build_record(
+        args.run, args.run_dir, args.note, args.commit or commit(),
+        "mistral/deepseek-v4-1-flash-1017",
+    )
     with HISTORY.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(record, ensure_ascii=False) + "\n")
     runs_dir = ROOT / "benchmarks" / "tb_runs"

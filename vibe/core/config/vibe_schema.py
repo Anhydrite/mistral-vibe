@@ -23,6 +23,7 @@ from pydantic import (
     model_validator,
 )
 
+from vibe.ablations import ablated
 from vibe.core.agents.models import (
     BUILTIN_APPROVAL_POLICIES,
     REMOVED_BUILTIN_AGENTS,
@@ -1193,7 +1194,7 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
         ),
     )
     disabled_skills: Annotated[list[str], WithConcatMerge()] = Field(
-        default_factory=lambda: ["*"],
+        default_factory=lambda: [] if ablated("skills-on") else ["*"],
         description=(
             "A list of skill names/patterns to disable. Ignored if 'enabled_skills'"
             " is set. Supports glob patterns and regex with 're:' prefix."
@@ -1207,7 +1208,7 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
         ),
     )
     disabled_plugins: Annotated[list[str], WithConcatMerge()] = Field(
-        default_factory=lambda: ["*"],
+        default_factory=lambda: [] if ablated("skills-on") else ["*"],
         description=(
             "Names of installed plugins to disable. A disabled plugin stays"
             " installed but contributes nothing to sessions."
