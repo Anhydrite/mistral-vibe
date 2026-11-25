@@ -123,6 +123,22 @@ together: resolve, prompt tokens, tool calls, wall-clock work time
 | tb-v16 | `1bd954f` | prove-plus-comm | maki | 2/2 | 56678 | 49344 | 7334 | 7.0 | 0.5 | 0.2 | 1.89 | 14.7 | - |
 | tb-v16 | `1bd954f` | prove-plus-comm | vibe-classic | 2/2 | 153649 | 140160 | 13489 | 12.0 | 1.6 | 5.2 | 1.53 | 23.5 | maki |
 | tb-v16 | `1bd954f` | prove-plus-comm | vibe-custom | 2/2 | 28696 | 24128 | 4568 | 5.0 | 0.9 | 4.5 | 1.53 | 14.7 | maki |
+| tb-v17 | `098b3a3` | cancel-async-tasks | maki | 0/1 | 126077 | 116992 | 9085 | 8 | 2.2 | 1.9 | 4.37 | 41.3 | - |
+| tb-v17 | `098b3a3` | cancel-async-tasks | vibe-custom | 1/1 | 80464 | 73344 | 7120 | 8 | 2.8 | 6.7 | 3.52 | 38.4 | vibe (resolve) |
+| tb-v17 | `098b3a3` | circuit-fibsqrt | maki | 1/1 | 458853 | 446464 | 12389 | 12 | 96.1 | 95.8 | 11.25 | 230.8 | - |
+| tb-v17 | `098b3a3` | circuit-fibsqrt | vibe-custom | 1/1 | 224700 | 210944 | 13756 | 7 | 9.0 | 13.5 | 13.4 | 120.7 | vibe |
+| tb-v17 | `098b3a3` | dna-assembly | maki | 0/1 | 491655 | 471808 | 19847 | 22 | 10.7 | 10.4 | 6.1 | 144.5 | - |
+| tb-v17 | `098b3a3` | dna-assembly | vibe-custom | 1/1 | 487567 | 467968 | 19599 | 15 | 2.3 | 8.3 | 10.37 | 174.3 | vibe (resolve) |
+| tb-v17 | `098b3a3` | fix-code-vulnerability | maki | 0/1 | 135542 | 121472 | 14070 | 15 | 6.0 | 5.8 | 1.14 | 18.3 | - |
+| tb-v17 | `098b3a3` | fix-code-vulnerability | vibe-custom | 0/1 | 41514 | 34688 | 6826 | 7 | 1.0 | 4.6 | 1.26 | 13.5 | vibe |
+| tb-v17 | `098b3a3` | password-recovery | maki | 1/1 | 193992 | 175232 | 18760 | 12 | 0.3 | 0.0 | 2.39 | 31.1 | - |
+| tb-v17 | `098b3a3` | password-recovery | vibe-custom | 1/1 | 92179 | 80640 | 11539 | 14 | 0.7 | 4.4 | 1.95 | 25.9 | vibe |
+| tb-v17 | `098b3a3` | polyglot-rust-c | maki | 1/1 | 142659 | 133888 | 8771 | 9 | 1.4 | 1.1 | 5.33 | 54.5 | - |
+| tb-v17 | `098b3a3` | polyglot-rust-c | vibe-custom | 1/1 | 180654 | 174080 | 6574 | 11 | 1.2 | 4.9 | 4.76 | 62.0 | maki |
+| tb-v17 | `098b3a3` | protein-assembly | maki | 1/1 | 804448 | 756224 | 48224 | 21 | 13.1 | 12.8 | 7.62 | 150.0 | - |
+| tb-v17 | `098b3a3` | protein-assembly | vibe-custom | 0/1 | 432165 | 403456 | 28709 | 19 | 134.5 | 225.2 | 4.1 | 303.0 | maki (resolve) |
+| tb-v17 | `098b3a3` | schemelike-metacircular-eval | maki | 1/1 | 4307635 | 4263296 | 44339 | 60 | 710.6 | 710.4 | 5.48 | 1028.2 | - |
+| tb-v17 | `098b3a3` | schemelike-metacircular-eval | vibe-custom | 0/1 | 1294987 | 1258112 | 36875 | 27 | 284.0 | 288.1 | 7.29 | 470.5 | maki (resolve) |
 
 ## Cost per resolved task
 
@@ -171,6 +187,8 @@ that actually resolved, so a run that fails cheaply does not look good.
 | tb-v16 | maki | 100% | 247851 | 235552 | 12299 | 15.1 | 0.21 | 0.21 | 0.63 | 0.84 | 137.4 |
 | tb-v16 | vibe-classic | 100% | 613350 | 589824 | 23526 | 20.1 | 0.14 | 0.21 | 0.85 | 1.06 | 155.4 |
 | tb-v16 | vibe-custom | 88% | 137840 | 126043 | 11797 | 11.1 | 0.12 | 0.18 | 0.62 | 0.8 | 72.0 |
+| tb-v17 | maki | 62% | 1332172 | 1297075 | 35097 | 31.8 | 2.8 | 2.79 | 2.87 | 5.66 | 1028.2 |
+| tb-v17 | vibe-custom | 62% | 566846 | 540646 | 26200 | 21.6 | 1.45 | 1.85 | 2.18 | 4.03 | 470.5 |
 
 ## Graphs
 

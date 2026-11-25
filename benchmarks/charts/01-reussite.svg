@@ -18,85 +18,89 @@
 <line x1="110.0" y1="105.0" x2="940.0" y2="105.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
 <text x="100.0" y="109.0" font-size="10" fill="#6b7785" text-anchor="end">100%</text>
 <text x="122.0" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 122.0 434.0)">tb-v1</text>
-<text x="225.8" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 225.8 434.0)">tb-v3</text>
-<text x="329.5" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 329.5 434.0)">tb-v5</text>
-<text x="433.2" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 433.2 434.0)">tb-transfer-glm</text>
-<text x="537.0" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 537.0 434.0)">tb-v8</text>
-<text x="640.8" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 640.8 434.0)">tb-v10</text>
-<text x="744.5" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 744.5 434.0)">tb-v12</text>
-<text x="848.2" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 848.2 434.0)">tb-v14</text>
-<text x="952.0" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 952.0 434.0)">tb-v15</text>
-<line x1="110.0" y1="105.0" x2="161.9" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="161.9" y1="105.0" x2="213.8" y2="141.9" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="213.8" y1="141.9" x2="265.6" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="265.6" y1="105.0" x2="317.5" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="317.5" y1="105.0" x2="369.4" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="369.4" y1="105.0" x2="421.2" y2="400.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="421.2" y1="400.0" x2="473.1" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="473.1" y1="105.0" x2="525.0" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="525.0" y1="105.0" x2="576.9" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="576.9" y1="105.0" x2="628.8" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="628.8" y1="105.0" x2="680.6" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="680.6" y1="105.0" x2="732.5" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="732.5" y1="105.0" x2="784.4" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="784.4" y1="105.0" x2="836.2" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="836.2" y1="105.0" x2="888.1" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
-<line x1="888.1" y1="105.0" x2="940.0" y2="400.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<text x="219.6" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 219.6 434.0)">tb-v3</text>
+<text x="317.3" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 317.3 434.0)">tb-v5</text>
+<text x="414.9" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 414.9 434.0)">tb-transfer-glm</text>
+<text x="512.6" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 512.6 434.0)">tb-v8</text>
+<text x="610.2" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 610.2 434.0)">tb-v10</text>
+<text x="707.9" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 707.9 434.0)">tb-v12</text>
+<text x="805.5" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 805.5 434.0)">tb-v14</text>
+<text x="903.2" y="434.0" font-size="9.5" fill="#6b7785" text-anchor="end" transform="rotate(-35 903.2 434.0)">tb-v17</text>
+<line x1="110.0" y1="105.0" x2="158.8" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="158.8" y1="105.0" x2="207.6" y2="141.9" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="207.6" y1="141.9" x2="256.5" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="256.5" y1="105.0" x2="305.3" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="305.3" y1="105.0" x2="354.1" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="354.1" y1="105.0" x2="402.9" y2="400.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="402.9" y1="400.0" x2="451.8" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="451.8" y1="105.0" x2="500.6" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="500.6" y1="105.0" x2="549.4" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="549.4" y1="105.0" x2="598.2" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="598.2" y1="105.0" x2="647.1" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="647.1" y1="105.0" x2="695.9" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="695.9" y1="105.0" x2="744.7" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="744.7" y1="105.0" x2="793.5" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="793.5" y1="105.0" x2="842.4" y2="105.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="842.4" y1="105.0" x2="891.2" y2="215.6" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
+<line x1="891.2" y1="215.6" x2="940.0" y2="400.0" stroke="#d1495b" stroke-width="1.6" opacity="0.45"/>
 <g><circle cx="110.0" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v1: 100% (6 cellules)</title></g>
-<g><circle cx="161.9" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v2: 100% (8 cellules)</title></g>
-<g><circle cx="213.8" cy="141.9" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v3: 88% (8 cellules)</title></g>
-<g><circle cx="265.6" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v4: 100% (3 cellules)</title></g>
-<g><circle cx="317.5" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v5: 100% (3 cellules)</title></g>
-<g><circle cx="369.4" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v6: 100% (3 cellules)</title></g>
-<g><circle cx="421.2" cy="400.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-transfer-glm: 0% (1 cellules)</title></g>
-<g><circle cx="473.1" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v7: 100% (8 cellules)</title></g>
-<g><circle cx="525.0" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v8: 100% (9 cellules)</title></g>
-<g><circle cx="576.9" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v9: 100% (8 cellules)</title></g>
-<g><circle cx="628.8" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v10: 100% (12 cellules)</title></g>
-<g><circle cx="680.6" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-instr: 100% (3 cellules)</title></g>
-<g><circle cx="732.5" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v12: 100% (8 cellules)</title></g>
-<g><circle cx="784.4" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v13: 100% (8 cellules)</title></g>
-<g><circle cx="836.2" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v14: 100% (8 cellules)</title></g>
-<g><circle cx="888.1" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v16: 100% (8 cellules)</title></g>
+<g><circle cx="158.8" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v2: 100% (8 cellules)</title></g>
+<g><circle cx="207.6" cy="141.9" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v3: 88% (8 cellules)</title></g>
+<g><circle cx="256.5" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v4: 100% (3 cellules)</title></g>
+<g><circle cx="305.3" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v5: 100% (3 cellules)</title></g>
+<g><circle cx="354.1" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v6: 100% (3 cellules)</title></g>
+<g><circle cx="402.9" cy="400.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-transfer-glm: 0% (1 cellules)</title></g>
+<g><circle cx="451.8" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v7: 100% (8 cellules)</title></g>
+<g><circle cx="500.6" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v8: 100% (9 cellules)</title></g>
+<g><circle cx="549.4" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v9: 100% (8 cellules)</title></g>
+<g><circle cx="598.2" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v10: 100% (12 cellules)</title></g>
+<g><circle cx="647.1" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-instr: 100% (3 cellules)</title></g>
+<g><circle cx="695.9" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v12: 100% (8 cellules)</title></g>
+<g><circle cx="744.7" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v13: 100% (8 cellules)</title></g>
+<g><circle cx="793.5" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v14: 100% (8 cellules)</title></g>
+<g><circle cx="842.4" cy="105.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v16: 100% (8 cellules)</title></g>
+<g><circle cx="891.2" cy="215.6" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v17: 62% (8 cellules)</title></g>
 <g><circle cx="940.0" cy="400.0" r="4.5" fill="#d1495b" stroke="#ffffff" stroke-width="1"/><title>maki tb-v15: 0% (3 cellules)</title></g>
-<line x1="110.0" y1="105.0" x2="161.9" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="161.9" y1="105.0" x2="213.8" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="213.8" y1="105.0" x2="265.6" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="265.6" y1="105.0" x2="317.5" y2="203.3" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="317.5" y1="203.3" x2="369.4" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="369.4" y1="105.0" x2="421.2" y2="400.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="421.2" y1="400.0" x2="473.1" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="473.1" y1="105.0" x2="525.0" y2="137.8" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="525.0" y1="137.8" x2="576.9" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="576.9" y1="105.0" x2="628.8" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="628.8" y1="105.0" x2="680.6" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="680.6" y1="105.0" x2="732.5" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="732.5" y1="105.0" x2="784.4" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="784.4" y1="105.0" x2="836.2" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
-<line x1="836.2" y1="105.0" x2="940.0" y2="301.7" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="110.0" y1="105.0" x2="158.8" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="158.8" y1="105.0" x2="207.6" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="207.6" y1="105.0" x2="256.5" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="256.5" y1="105.0" x2="305.3" y2="203.3" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="305.3" y1="203.3" x2="354.1" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="354.1" y1="105.0" x2="402.9" y2="400.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="402.9" y1="400.0" x2="451.8" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="451.8" y1="105.0" x2="500.6" y2="137.8" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="500.6" y1="137.8" x2="549.4" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="549.4" y1="105.0" x2="598.2" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="598.2" y1="105.0" x2="647.1" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="647.1" y1="105.0" x2="695.9" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="695.9" y1="105.0" x2="744.7" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="744.7" y1="105.0" x2="793.5" y2="105.0" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
+<line x1="793.5" y1="105.0" x2="940.0" y2="301.7" stroke="#2f6db5" stroke-width="1.6" opacity="0.45"/>
 <g><circle cx="110.0" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v1: 100% (6 cellules)</title></g>
-<g><circle cx="161.9" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v2: 100% (8 cellules)</title></g>
-<g><circle cx="213.8" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v3: 100% (8 cellules)</title></g>
-<g><circle cx="265.6" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v4: 100% (3 cellules)</title></g>
-<g><circle cx="317.5" cy="203.3" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v5: 67% (3 cellules)</title></g>
-<g><circle cx="369.4" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v6: 100% (3 cellules)</title></g>
-<g><circle cx="421.2" cy="400.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-transfer-glm: 0% (1 cellules)</title></g>
-<g><circle cx="473.1" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v7: 100% (8 cellules)</title></g>
-<g><circle cx="525.0" cy="137.8" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v8: 89% (9 cellules)</title></g>
-<g><circle cx="576.9" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v9: 100% (8 cellules)</title></g>
-<g><circle cx="628.8" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v10: 100% (12 cellules)</title></g>
-<g><circle cx="680.6" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-instr: 100% (3 cellules)</title></g>
-<g><circle cx="732.5" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v12: 100% (8 cellules)</title></g>
-<g><circle cx="784.4" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v13: 100% (8 cellules)</title></g>
-<g><circle cx="836.2" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v14: 100% (8 cellules)</title></g>
+<g><circle cx="158.8" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v2: 100% (8 cellules)</title></g>
+<g><circle cx="207.6" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v3: 100% (8 cellules)</title></g>
+<g><circle cx="256.5" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v4: 100% (3 cellules)</title></g>
+<g><circle cx="305.3" cy="203.3" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v5: 67% (3 cellules)</title></g>
+<g><circle cx="354.1" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v6: 100% (3 cellules)</title></g>
+<g><circle cx="402.9" cy="400.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-transfer-glm: 0% (1 cellules)</title></g>
+<g><circle cx="451.8" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v7: 100% (8 cellules)</title></g>
+<g><circle cx="500.6" cy="137.8" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v8: 89% (9 cellules)</title></g>
+<g><circle cx="549.4" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v9: 100% (8 cellules)</title></g>
+<g><circle cx="598.2" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v10: 100% (12 cellules)</title></g>
+<g><circle cx="647.1" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-instr: 100% (3 cellules)</title></g>
+<g><circle cx="695.9" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v12: 100% (8 cellules)</title></g>
+<g><circle cx="744.7" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v13: 100% (8 cellules)</title></g>
+<g><circle cx="793.5" cy="105.0" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v14: 100% (8 cellules)</title></g>
 <g><circle cx="940.0" cy="301.7" r="4.5" fill="#2f6db5" stroke="#ffffff" stroke-width="1"/><title>vibe tb-v15: 33% (3 cellules)</title></g>
-<g><circle cx="473.1" cy="105.0" r="4.5" fill="#7fa8d4" stroke="#ffffff" stroke-width="1"/><title>vibe@low tb-v7: 100% (8 cellules)</title></g>
-<g><circle cx="576.9" cy="105.0" r="4.5" fill="#59a14f" stroke="#ffffff" stroke-width="1"/><title>vibe@no-check tb-v9: 100% (8 cellules)</title></g>
-<g><circle cx="888.1" cy="105.0" r="4.5" fill="#bab0ac" stroke="#ffffff" stroke-width="1"/><title>vibe-classic tb-v16: 100% (8 cellules)</title></g>
-<g><circle cx="888.1" cy="141.9" r="4.5" fill="#b07aa1" stroke="#ffffff" stroke-width="1"/><title>vibe-custom tb-v16: 88% (8 cellules)</title></g>
-<g><circle cx="680.6" cy="105.0" r="4.5" fill="#edc948" stroke="#ffffff" stroke-width="1"/><title>vibe@high tb-instr: 100% (3 cellules)</title></g>
-<g><circle cx="784.4" cy="105.0" r="4.5" fill="#76b7b2" stroke="#ffffff" stroke-width="1"/><title>vibe@nohook tb-v13: 100% (8 cellules)</title></g>
-<g><circle cx="784.4" cy="105.0" r="4.5" fill="#ff9da7" stroke="#ffffff" stroke-width="1"/><title>vibe@prog tb-v13: 100% (8 cellules)</title></g>
+<g><circle cx="451.8" cy="105.0" r="4.5" fill="#7fa8d4" stroke="#ffffff" stroke-width="1"/><title>vibe@low tb-v7: 100% (8 cellules)</title></g>
+<g><circle cx="549.4" cy="105.0" r="4.5" fill="#59a14f" stroke="#ffffff" stroke-width="1"/><title>vibe@no-check tb-v9: 100% (8 cellules)</title></g>
+<g><circle cx="842.4" cy="105.0" r="4.5" fill="#bab0ac" stroke="#ffffff" stroke-width="1"/><title>vibe-classic tb-v16: 100% (8 cellules)</title></g>
+<line x1="842.4" y1="141.9" x2="891.2" y2="215.6" stroke="#b07aa1" stroke-width="1.6" opacity="0.45"/>
+<g><circle cx="842.4" cy="141.9" r="4.5" fill="#b07aa1" stroke="#ffffff" stroke-width="1"/><title>vibe-custom tb-v16: 88% (8 cellules)</title></g>
+<g><circle cx="891.2" cy="215.6" r="4.5" fill="#b07aa1" stroke="#ffffff" stroke-width="1"/><title>vibe-custom tb-v17: 62% (8 cellules)</title></g>
+<g><circle cx="647.1" cy="105.0" r="4.5" fill="#edc948" stroke="#ffffff" stroke-width="1"/><title>vibe@high tb-instr: 100% (3 cellules)</title></g>
+<g><circle cx="744.7" cy="105.0" r="4.5" fill="#76b7b2" stroke="#ffffff" stroke-width="1"/><title>vibe@nohook tb-v13: 100% (8 cellules)</title></g>
+<g><circle cx="744.7" cy="105.0" r="4.5" fill="#ff9da7" stroke="#ffffff" stroke-width="1"/><title>vibe@prog tb-v13: 100% (8 cellules)</title></g>
 <rect x="110.0" y="64.0" width="10.0" height="10.0" rx="2" fill="#d1495b" opacity="1.0"></rect>
 <text x="125.0" y="73.0" font-size="11" fill="#243040" text-anchor="start">maki</text>
 <rect x="158.8" y="64.0" width="10.0" height="10.0" rx="2" fill="#2f6db5" opacity="1.0"></rect>
