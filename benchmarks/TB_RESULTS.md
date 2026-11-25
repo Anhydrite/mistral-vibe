@@ -36,6 +36,18 @@ together: resolve, prompt tokens, tool calls, wall-clock work time
 | tb-v6 | `eb7e3dd` | cobol-modernization | vibe | 3/3 | 152566 | 125952 | 26614 | 11 | n/a | 192.6 | maki |
 | tb-transfer-glm | `153f621` | cobol-modernization | maki | 0/1 | 1860956 | 1527552 | 333404 | 47 | n/a | 672.6 | - |
 | tb-transfer-glm | `153f621` | cobol-modernization | vibe | 0/1 | 0 | 0 | 0 | 0 | n/a | 338.8 | vibe |
+| tb-v7 | `3399387` | cobol-modernization | maki | 2/2 | 1574366 | 1536960 | 37406 | 35.5 | n/a | 238.9 | - |
+| tb-v7 | `3399387` | cobol-modernization | vibe@low | 2/2 | 616172 | 595584 | 20588 | 25.0 | 9.3 | 124.4 | vibe |
+| tb-v7 | `3399387` | cobol-modernization | vibe | 2/2 | 238302 | 222720 | 15582 | 16.0 | 5.4 | 79.3 | vibe |
+| tb-v7 | `3399387` | fix-git | maki | 2/2 | 93784 | 81856 | 11928 | 12.0 | n/a | 16.9 | - |
+| tb-v7 | `3399387` | fix-git | vibe@low | 2/2 | 60003 | 50624 | 9379 | 10.5 | 1.1 | 24.9 | maki |
+| tb-v7 | `3399387` | fix-git | vibe | 2/2 | 65236 | 56064 | 9172 | 10.5 | 0.9 | 29.5 | maki |
+| tb-v7 | `3399387` | overfull-hbox | maki | 2/2 | 321052 | 299584 | 21468 | 17.0 | n/a | 207.9 | - |
+| tb-v7 | `3399387` | overfull-hbox | vibe@low | 2/2 | 218160 | 196224 | 21936 | 15.0 | 211.1 | 278.1 | maki |
+| tb-v7 | `3399387` | overfull-hbox | vibe | 2/2 | 114474 | 99072 | 15402 | 12.0 | 276.0 | 314.2 | maki |
+| tb-v7 | `3399387` | prove-plus-comm | maki | 2/2 | 33776 | 26880 | 6896 | 5.0 | n/a | 10.6 | - |
+| tb-v7 | `3399387` | prove-plus-comm | vibe@low | 2/2 | 28199 | 23872 | 4327 | 6.5 | 1.3 | 19.9 | maki |
+| tb-v7 | `3399387` | prove-plus-comm | vibe | 2/2 | 41108 | 36224 | 4884 | 8.0 | 1.6 | 24.4 | maki |
 
 ## Cost per resolved task
 
@@ -58,3 +70,6 @@ that actually resolved, so a run that fails cheaply does not look good.
 | tb-v6 | vibe | 100% | 188140 | 156672 | 31468 | 11.0 | None | 3.79 | None | 356.6 |
 | tb-transfer-glm | maki | 0% | 1860956 | 1527552 | 333404 | 47.0 | None | 11.21 | None | 672.6 |
 | tb-transfer-glm | vibe | 0% | 0 | 0 | 0 | 0.0 | None | 5.65 | None | 338.8 |
+| tb-v7 | maki | 100% | 505744 | 486320 | 19424 | 17.4 | None | 1.98 | None | 403.1 |
+| tb-v7 | vibe | 100% | 114780 | 103520 | 11260 | 11.6 | 1.18 | 1.86 | 0.634 | 400.5 |
+| tb-v7 | vibe@low | 100% | 230633 | 216576 | 14057 | 14.2 | 0.93 | 1.86 | 0.498 | 430.7 |
