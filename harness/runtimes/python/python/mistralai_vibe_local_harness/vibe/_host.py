@@ -3313,6 +3313,9 @@ class UnifiedHarnessSessionBackendHost:  # noqa: PLR0904 - implements the app-se
                 update={
                     "capabilities": _merge_integration_capabilities(
                         base_capabilities,
+                        offers_programmatic_tools=_offers_programmatic_tools(
+                            runtime_config
+                        ),
                         mcp_snapshot=mcp_snapshot,
                         connector_snapshot=connector_snapshot,
                     )
@@ -3375,6 +3378,9 @@ class UnifiedHarnessSessionBackendHost:  # noqa: PLR0904 - implements the app-se
                     await runtime.reconfigure_capability_dimension(
                         _integration_capability_update(
                             base_capabilities,
+                            offers_programmatic_tools=(
+                                lambda: runtime.offers_programmatic_tools
+                            ),
                             mcp_snapshot=lambda: snapshot,
                             connector_snapshot=lambda: (
                                 connector_runtime.snapshot
@@ -3393,6 +3399,9 @@ class UnifiedHarnessSessionBackendHost:  # noqa: PLR0904 - implements the app-se
                     await runtime.reconfigure_capability_dimension(
                         _integration_capability_update(
                             base_capabilities,
+                            offers_programmatic_tools=(
+                                lambda: runtime.offers_programmatic_tools
+                            ),
                             mcp_snapshot=lambda: (
                                 mcp_runtime.snapshot
                                 if mcp_runtime is not None
@@ -3800,6 +3809,9 @@ class UnifiedHarnessSessionBackendHost:  # noqa: PLR0904 - implements the app-se
                 await runtime.reconfigure_capability_dimension(
                     _integration_capability_update(
                         base_capabilities,
+                        offers_programmatic_tools=(
+                            lambda: runtime.offers_programmatic_tools
+                        ),
                         mcp_snapshot=lambda: snapshot,
                         connector_snapshot=lambda: (
                             connector_runtime.snapshot
@@ -3818,6 +3830,9 @@ class UnifiedHarnessSessionBackendHost:  # noqa: PLR0904 - implements the app-se
                 await runtime.reconfigure_capability_dimension(
                     _integration_capability_update(
                         base_capabilities,
+                        offers_programmatic_tools=(
+                            lambda: runtime.offers_programmatic_tools
+                        ),
                         mcp_snapshot=lambda: (
                             mcp_runtime.snapshot if mcp_runtime is not None else None
                         ),
@@ -4431,7 +4446,10 @@ class UnifiedHarnessSessionBackendHost:  # noqa: PLR0904 - implements the app-se
                 catalog, selection, claimed_groups=claimed_groups
             )
             capabilities = _merge_integration_capabilities(
-                capabilities, mcp_snapshot=None, connector_snapshot=connector_snapshot
+                capabilities,
+                offers_programmatic_tools=_offers_programmatic_tools(config),
+                mcp_snapshot=None,
+                connector_snapshot=connector_snapshot,
             )
         config = config.model_copy(update={"capabilities": capabilities}, deep=True)
         configured = self._session_subagents(plugins)
@@ -5768,12 +5786,26 @@ def _without_interop_metadata(value: JsonValue) -> JsonValue:
     return value
 
 
+def _offers_programmatic_tools(config: RustHarnessConfig) -> bool:
+    """Whether ``config`` exposes `run_typescript` and the catalog behind it."""
+    return config.settings.tools.programmatic.mode == "enabled"
+
+
 def _integration_tool_groups(
     base: RustHarnessCapabilitySet,
     *,
+    offers_programmatic_tools: bool,
     mcp_snapshot: MCPRouteSnapshot | None,
     connector_snapshot: ConnectorRouteSnapshot | None,
 ) -> list[RustToolGroupDefinition]:
+    # MCP and connector tools are reachable only through `run_typescript`, and
+    # Core refuses a Session whose capabilities name one while programmatic tool
+    # calling is off. The snapshots are Host-level, so they outlive the Session
+    # that resolved them: an agent profile that turns `run_typescript` off would
+    # otherwise fail to open a Session beside a default one that resolved
+    # connectors. The Session's own settings decide, so they drop out here.
+    if not offers_programmatic_tools:
+        return list(base.tool_groups)
     mcp_groups = (
         [
             RustToolGroupDefinition(
@@ -5822,13 +5854,17 @@ def _integration_tool_groups(
 def _merge_integration_capabilities(
     base: RustHarnessCapabilitySet,
     *,
+    offers_programmatic_tools: bool,
     mcp_snapshot: MCPRouteSnapshot | None,
     connector_snapshot: ConnectorRouteSnapshot | None,
 ) -> RustHarnessCapabilitySet:
     return base.model_copy(
         update={
             "tool_groups": _integration_tool_groups(
-                base, mcp_snapshot=mcp_snapshot, connector_snapshot=connector_snapshot
+                base,
+                offers_programmatic_tools=offers_programmatic_tools,
+                mcp_snapshot=mcp_snapshot,
+                connector_snapshot=connector_snapshot,
             )
         },
         deep=True,
@@ -5838,6 +5874,7 @@ def _merge_integration_capabilities(
 def _integration_capability_update(
     base: RustHarnessCapabilitySet,
     *,
+    offers_programmatic_tools: Callable[[], bool],
     mcp_snapshot: Callable[[], MCPRouteSnapshot | None],
     connector_snapshot: Callable[[], ConnectorRouteSnapshot | None],
 ) -> Callable[[RustHarnessCapabilitySet], RustHarnessCapabilitySet]:
@@ -5851,7 +5888,10 @@ def _integration_capability_update(
 
     def update(live: RustHarnessCapabilitySet) -> RustHarnessCapabilitySet:
         groups = _integration_tool_groups(
-            base, mcp_snapshot=mcp_snapshot(), connector_snapshot=connector_snapshot()
+            base,
+            offers_programmatic_tools=offers_programmatic_tools(),
+            mcp_snapshot=mcp_snapshot(),
+            connector_snapshot=connector_snapshot(),
         )
         # Compared before copying: a turn boundary re-lands the same groups,
         # and deep-copying hundreds of tools to find that out held the loop.

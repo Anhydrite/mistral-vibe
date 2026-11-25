@@ -23,6 +23,13 @@ from mistralai_vibe_local_harness.protocol import (
 from tests.conftest import build_test_vibe_config
 from tests.stubs.fake_config_orchestrator import FakeConfigOrchestrator
 from vibe.app_server._cron import CRON_TOOL_NAME, CronArgs
+from vibe.app_server._maki_tools import (
+    GLOB_TOOL_NAME,
+    INDEX_TOOL_NAME,
+    MULTIEDIT_TOOL_NAME,
+    READ_FILES_TOOL_NAME,
+)
+from vibe.app_server._web_tools import WEBFETCH_TOOL_NAME, WEBSEARCH_TOOL_NAME
 from vibe.app_server._provided_tools import (
     TODO_TOOL_NAME,
     VIBE_PROVIDED_TOOL_MODES,
@@ -149,6 +156,12 @@ def test_the_vibe_group_declares_todo_when_the_legacy_tool_is_available() -> Non
     assert [tool.name for tool in groups[0].tools] == [
         "todo",
         SCRATCHPAD_TOOL_NAME,
+        READ_FILES_TOOL_NAME,
+        INDEX_TOOL_NAME,
+        GLOB_TOOL_NAME,
+        MULTIEDIT_TOOL_NAME,
+        WEBFETCH_TOOL_NAME,
+        WEBSEARCH_TOOL_NAME,
         CRON_TOOL_NAME,
     ]
     todo = groups[0].tools[0]
@@ -164,6 +177,12 @@ def test_the_scratchpad_survives_todo_being_switched_off() -> None:
 
     assert [tool.name for tool in groups[0].tools] == [
         SCRATCHPAD_TOOL_NAME,
+        READ_FILES_TOOL_NAME,
+        INDEX_TOOL_NAME,
+        GLOB_TOOL_NAME,
+        MULTIEDIT_TOOL_NAME,
+        WEBFETCH_TOOL_NAME,
+        WEBSEARCH_TOOL_NAME,
         CRON_TOOL_NAME,
     ]
     scratchpad = groups[0].tools[0]
@@ -362,7 +381,16 @@ def test_the_scratchpad_obeys_the_tool_filters() -> None:
     unlisted = vibe_tool_groups({"todo"}, enabled_tools=["bash"])
     listed = vibe_tool_groups({"todo"}, enabled_tools=["unified_harness_*"])
 
-    assert [tool.name for tool in disabled[0].tools] == [TODO_TOOL_NAME, CRON_TOOL_NAME]
+    assert [tool.name for tool in disabled[0].tools] == [
+        TODO_TOOL_NAME,
+        READ_FILES_TOOL_NAME,
+        INDEX_TOOL_NAME,
+        GLOB_TOOL_NAME,
+        MULTIEDIT_TOOL_NAME,
+        WEBFETCH_TOOL_NAME,
+        WEBSEARCH_TOOL_NAME,
+        CRON_TOOL_NAME,
+    ]
     assert [tool.name for tool in unlisted[0].tools] == [TODO_TOOL_NAME]
     assert [tool.name for tool in listed[0].tools] == [
         TODO_TOOL_NAME,
@@ -372,7 +400,19 @@ def test_the_scratchpad_obeys_the_tool_filters() -> None:
 
 def test_the_group_disappears_when_all_tools_are_filtered_out() -> None:
     assert (
-        vibe_tool_groups(set(), disabled_tools=[SCRATCHPAD_TOOL_NAME, CRON_TOOL_NAME])
+        vibe_tool_groups(
+            set(),
+            disabled_tools=[
+                SCRATCHPAD_TOOL_NAME,
+                CRON_TOOL_NAME,
+                READ_FILES_TOOL_NAME,
+                INDEX_TOOL_NAME,
+                GLOB_TOOL_NAME,
+                MULTIEDIT_TOOL_NAME,
+                WEBFETCH_TOOL_NAME,
+                WEBSEARCH_TOOL_NAME,
+            ],
+        )
         == []
     )
 
@@ -400,6 +440,8 @@ def test_todo_is_routed_to_the_name_its_permission_is_configured_under() -> None
         f"{VIBE_TOOL_GROUP}.index": "index",
         f"{VIBE_TOOL_GROUP}.glob": "glob",
         f"{VIBE_TOOL_GROUP}.multiedit": "multiedit",
+        f"{VIBE_TOOL_GROUP}.webfetch": "webfetch",
+        f"{VIBE_TOOL_GROUP}.websearch": "websearch",
     }
     assert VIBE_PROVIDED_TOOL_MODES == {
         TODO_TOOL_NAME: "ask",
@@ -423,6 +465,8 @@ def test_todo_is_routed_to_the_name_its_permission_is_configured_under() -> None
         "index": "allow",
         "glob": "allow",
         "multiedit": "ask",
+        "webfetch": "allow",
+        "websearch": "allow",
     }
 
 

@@ -190,6 +190,7 @@ MAKI = AgentProfile(
         "system_prompt_id": "maki",
         "enabled_tools": [
             "bash", "read_file", "write_file", "edit",
+            "webfetch", "websearch",
             *(
                 []
                 if ablated("no-batch-tools")

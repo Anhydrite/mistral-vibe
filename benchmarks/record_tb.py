@@ -66,6 +66,19 @@ def agg(records: list[dict]) -> dict:
     seconds = [r.get("work_sec", r["elapsed_sec"]) for r in measured]
     calls = [r.get("tool_calls") or 0 for r in measured]
     busies = [r["tool_sec"] for r in measured if r.get("tool_sec") is not None]
+    # Harness time: what the run spent outside the model. Provider latency
+    # (TTFT, tokens per second) is not the harness's doing, so the speed
+    # comparison reads this, not the raw wall clock.
+    agent = [
+        r["work_sec"] - r["model_sec"]
+        for r in measured
+        if r.get("model_sec") is not None
+    ]
+    per_turn = [
+        r["model_sec"] / (r["turns"] or 1)
+        for r in measured
+        if r.get("model_sec") is not None
+    ]
     passed = sum(1 for r in measured if r["passed"])
     resolved = passed or 1
     return {
@@ -84,6 +97,13 @@ def agg(records: list[dict]) -> dict:
         "fresh_per_resolved": round(sum(u["fresh"] for u in usage) / resolved),
         "calls_per_resolved": round(sum(calls) / resolved, 1),
         "minutes_per_resolved": round(sum(seconds) / 60 / resolved, 2),
+        "agent_minutes_per_resolved": (
+            round(sum(agent) / 60 / resolved, 2) if agent else None
+        ),
+        "median_agent_sec": round(statistics.median(agent), 1) if agent else None,
+        "model_sec_per_turn": (
+            round(statistics.median(per_turn), 2) if per_turn else None
+        ),
         "median_sec": round(statistics.median(seconds), 1),
         "median_tool_sec": round(statistics.median(busies), 1) if busies else None,
         "tool_share": round(sum(busies) / sum(seconds), 3) if busies else None,
@@ -112,6 +132,11 @@ def _overall(records: list[dict]) -> dict:
     seconds = [r.get("work_sec", r["elapsed_sec"]) for r in measured]
     calls = sum(r.get("tool_calls") or 0 for r in measured)
     busies = [r["tool_sec"] for r in measured if r.get("tool_sec") is not None]
+    agent = [
+        r["work_sec"] - r["model_sec"]
+        for r in measured
+        if r.get("model_sec") is not None
+    ]
     return {
         "resolve_rate": round(sum(1 for r in records if r["passed"]) / len(records), 3),
         "measured": len(measured),
@@ -120,6 +145,9 @@ def _overall(records: list[dict]) -> dict:
         "fresh_per_resolved": round(sum(u["fresh"] for u in usage) / passed),
         "calls_per_resolved": round(calls / passed, 1),
         "minutes_per_resolved": round(sum(seconds) / 60 / passed, 2),
+        "agent_minutes_per_resolved": (
+            round(sum(agent) / 60 / passed, 2) if agent else None
+        ),
         "tool_minutes_per_resolved": (
             round(sum(busies) / 60 / passed, 2) if busies else None
         ),
@@ -154,8 +182,8 @@ def render(records: list[dict]) -> str:
         "together: resolve, prompt tokens, tool calls, wall-clock work time",
         "(harness startup excluded).",
         "",
-        "| run | commit | task | harness | resolve | median tok | median cache-read | median fresh | median calls | median tool s | median s | verdict |",
-        "|---|---|---|---|---|---|---|---|---|---|---|---|",
+        "| run | commit | task | harness | resolve | median tok | median cache-read | median fresh | median calls | median tool s | median harness s | median model s/turn | median s | verdict |",
+        "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|",
     ]
 
     def rate(d: dict) -> float:
@@ -180,6 +208,8 @@ def render(records: list[dict]) -> str:
                     f"{data.get('median_effective', 'n/a')} | "
                     f"{data.get('median_tool_calls', 0)} | "
                     f"{data.get('median_tool_sec') if data.get('median_tool_sec') is not None else 'n/a'} | "
+                    f"{data.get('median_agent_sec') if data.get('median_agent_sec') is not None else 'n/a'} | "
+                    f"{data.get('model_sec_per_turn') if data.get('model_sec_per_turn') is not None else 'n/a'} | "
                     f"{data.get('median_sec', 0)} | {verdict} |"
                 )
     lines += [
@@ -189,8 +219,8 @@ def render(records: list[dict]) -> str:
         "What a solved task really costs: all three budgets divided by the tasks",
         "that actually resolved, so a run that fails cheaply does not look good.",
         "",
-        "| run | harness | resolve | tokens / resolved | cache-read / resolved | fresh / resolved | calls / resolved | tool min / resolved | minutes / resolved | tool share | p95 s |",
-        "|---|---|---|---|---|---|---|---|---|---|---|",
+        "| run | harness | resolve | tokens / resolved | cache-read / resolved | fresh / resolved | calls / resolved | tool min / resolved | harness min / resolved | model min / resolved | minutes / resolved | p95 s |",
+        "|---|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     for run in records:
         for harness, data in (run.get("summary") or {}).items():
@@ -199,8 +229,9 @@ def render(records: list[dict]) -> str:
                 f"{data['tokens_per_resolved']} | {data.get('cached_per_resolved', 'n/a')} | "
                 f"{data.get('fresh_per_resolved', 'n/a')} | {data['calls_per_resolved']} | "
                 f"{data.get('tool_minutes_per_resolved', 'n/a')} | "
-                f"{data['minutes_per_resolved']} | {data.get('tool_share', 'n/a')} | "
-                f"{data['p95_sec']} |"
+                f"{data.get('agent_minutes_per_resolved', 'n/a')} | "
+                f"{round(data['minutes_per_resolved'] - (data.get('agent_minutes_per_resolved') or 0), 2)} | "
+                f"{data['minutes_per_resolved']} | {data['p95_sec']} |"
             )
     charts = [(name, title) for name, title in
               ((f"{stem}.png", title) for stem, title in plot_tb.chart_names())

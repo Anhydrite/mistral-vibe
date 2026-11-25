@@ -46,6 +46,15 @@ from mistralai_vibe_local_harness.vibe import (
     DeferredTurnStartParams as HarnessDeferredTurnStartParams,
     DeferredTurnStartResult as HarnessDeferredTurnStartResult,
 )
+BATCH_TOOLS = [
+    "read_files",
+    "index",
+    "glob",
+    "multiedit",
+    "webfetch",
+    "websearch",
+]
+
 from tests.conftest import build_test_vibe_config
 from tests.constants import (
     CHAT_COMPLETIONS_PATH,
@@ -1810,6 +1819,7 @@ async def test_unified_runtime_declares_the_vibe_tool_group(
     assert groups["vibe"] == [
         "todo",
         SCRATCHPAD_TOOL_NAME,
+        *BATCH_TOOLS,
         "cron",
         "get_goal",
         "create_goal",
@@ -2062,8 +2072,15 @@ async def test_unified_runtime_offers_start_session_only_with_a_spawner(
     ]
     goal_tools = ["get_goal", "create_goal", "update_goal"]
     assert vibe_tools == [
-        ["todo", SCRATCHPAD_TOOL_NAME, "cron", *goal_tools],
-        ["todo", SCRATCHPAD_TOOL_NAME, "cron", "start_session", *goal_tools],
+        ["todo", SCRATCHPAD_TOOL_NAME, *BATCH_TOOLS, "cron", *goal_tools],
+        [
+            "todo",
+            SCRATCHPAD_TOOL_NAME,
+            *BATCH_TOOLS,
+            "cron",
+            "start_session",
+            *goal_tools,
+        ],
     ]
     assert plain.session_spawner is None
     assert spawning.session_spawner is spawner

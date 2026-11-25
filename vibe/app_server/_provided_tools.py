@@ -167,6 +167,18 @@ from vibe.core.tools.builtins.todo import (
 )
 from vibe.core.utils.matching import name_matches
 
+from vibe.app_server._web_tools import (
+    WEBFETCH_DESCRIPTION,
+    WEBFETCH_TOOL_NAME,
+    WEBSEARCH_DESCRIPTION,
+    WEBSEARCH_TOOL_NAME,
+    WebfetchArgs,
+    WebfetchResult,
+    WebsearchArgs,
+    WebsearchResult,
+    run_webfetch,
+    run_websearch,
+)
 from vibe.app_server._maki_tools import (
     GLOB_DESCRIPTION,
     GLOB_TOOL_NAME,
@@ -215,6 +227,8 @@ VIBE_PROVIDED_TOOL_NAMES = {
     f"{VIBE_TOOL_GROUP}.{INDEX_TOOL_NAME}": INDEX_TOOL_NAME,
     f"{VIBE_TOOL_GROUP}.{GLOB_TOOL_NAME}": GLOB_TOOL_NAME,
     f"{VIBE_TOOL_GROUP}.{MULTIEDIT_TOOL_NAME}": MULTIEDIT_TOOL_NAME,
+    f"{VIBE_TOOL_GROUP}.{WEBFETCH_TOOL_NAME}": WEBFETCH_TOOL_NAME,
+    f"{VIBE_TOOL_GROUP}.{WEBSEARCH_TOOL_NAME}": WEBSEARCH_TOOL_NAME,
 }
 
 # "ask" routes through Vibe's permission resolver. Cron defaults to allowed there,
@@ -244,6 +258,8 @@ VIBE_PROVIDED_TOOL_MODES: dict[str, ToolApprovalMode] = {
     LIST_PROJECTS_TOOL_NAME: "ask",
     MOVE_TO_PROJECT_TOOL_NAME: "ask",
     READ_FILES_TOOL_NAME: "allow",
+    WEBFETCH_TOOL_NAME: "allow",
+    WEBSEARCH_TOOL_NAME: "allow",
     INDEX_TOOL_NAME: "allow",
     GLOB_TOOL_NAME: "allow",
     MULTIEDIT_TOOL_NAME: "ask",
@@ -297,6 +313,8 @@ def vibe_tool_groups(  # noqa: PLR0913 - independent optional client capabilitie
         (INDEX_TOOL_NAME, INDEX_DESCRIPTION, IndexArgs, IndexResult),
         (GLOB_TOOL_NAME, GLOB_DESCRIPTION, GlobArgs, GlobResult),
         (MULTIEDIT_TOOL_NAME, MULTIEDIT_DESCRIPTION, MultiEditArgs, MultiEditResult),
+        (WEBFETCH_TOOL_NAME, WEBFETCH_DESCRIPTION, WebfetchArgs, WebfetchResult),
+        (WEBSEARCH_TOOL_NAME, WEBSEARCH_DESCRIPTION, WebsearchArgs, WebsearchResult),
     ):
         if _passes_tool_filters(name, enabled=enabled_tools, disabled=disabled_tools):
             tools.append(
@@ -495,10 +513,6 @@ MAKI_BATCH_TOOL_NAMES = frozenset({
 def _passes_tool_filters(
     name: str, *, enabled: Sequence[str], disabled: Sequence[str]
 ) -> bool:
-    if name in MAKI_BATCH_TOOL_NAMES and not (
-        enabled and name_matches(name, list(enabled))
-    ):
-        return False
     if enabled and not name_matches(name, list(enabled)):
         return False
     return not (disabled and name_matches(name, list(disabled)))
@@ -674,10 +688,15 @@ async def _run(
         return await asyncio.to_thread(
             run_glob, GlobArgs.model_validate(call.arguments), cwd=cwd
         )
-    if call.tool_name == MULTIEDIT_TOOL_NAME:
-        return await asyncio.to_thread(
-            run_multiedit, MultiEditArgs.model_validate(call.arguments), cwd=cwd
-        )
+    if call.tool_name in (MULTIEDIT_TOOL_NAME, WEBFETCH_TOOL_NAME, WEBSEARCH_TOOL_NAME):
+        if call.tool_name == MULTIEDIT_TOOL_NAME:
+            args = MultiEditArgs.model_validate(call.arguments)
+            return await asyncio.to_thread(run_multiedit, args, cwd=cwd)
+        if call.tool_name == WEBFETCH_TOOL_NAME:
+            fetch = WebfetchArgs.model_validate(call.arguments)
+            return await asyncio.to_thread(run_webfetch, fetch)
+        search = WebsearchArgs.model_validate(call.arguments)
+        return await asyncio.to_thread(run_websearch, search)
     raise ValueError(f"Unsupported {VIBE_TOOL_GROUP} tool: {call.tool_name}")
 
 

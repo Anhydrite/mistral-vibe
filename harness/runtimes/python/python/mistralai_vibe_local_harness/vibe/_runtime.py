@@ -761,6 +761,15 @@ class DurableSessionRuntime:  # noqa: PLR0904 - implements the Runtime port surf
     def config(self) -> RustHarnessConfig:
         return self._config.model_copy(deep=True)
 
+    @property
+    def offers_programmatic_tools(self) -> bool:
+        """Whether the settings in force expose `run_typescript` and its catalog.
+
+        Read without copying the config: a capability reconfigure asks this for
+        every snapshot that lands, and the copy costs the whole tool catalog.
+        """
+        return self._config.settings.tools.programmatic.mode == "enabled"
+
     def configure_action_executor(self, execute_action: ActionExecutor) -> None:
         self._use_action_executor(execute_action)
 
