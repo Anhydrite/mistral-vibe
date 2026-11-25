@@ -1,0 +1,313 @@
+{
+  "method": {
+    "stock": "PyPI mistral-vibe installed fresh inside each official Terminal-Bench 2.0 container by Harbor, per-task official timeouts",
+    "slim": "fork profile --agent slim, host-run, same model and thinking low, 1800 s cap",
+    "maki": "maki binary, host-run, same model and thinking low, 1800 s cap",
+    "model": "mistral/deepseek-v4-1-flash-1017",
+    "thinking": "low"
+  },
+  "easy_4": {
+    "fix-git": {
+      "stock": {
+        "passed": true,
+        "exception": null,
+        "elapsed_sec": 15.0
+      },
+      "vibe-custom": {
+        "passed": true,
+        "elapsed_sec": 34.01,
+        "tokens_in": 47403,
+        "cached": 39808,
+        "output": 2157,
+        "turns": 8,
+        "timed_out": false
+      },
+      "maki": {
+        "passed": true,
+        "elapsed_sec": 9.25,
+        "tokens_in": 8925,
+        "cached": 77184,
+        "output": 1894,
+        "turns": 11,
+        "timed_out": false
+      }
+    },
+    "prove-plus-comm": {
+      "stock": {
+        "passed": true,
+        "exception": null,
+        "elapsed_sec": 22.2
+      },
+      "vibe-custom": {
+        "passed": true,
+        "elapsed_sec": 7.28,
+        "tokens_in": 9920,
+        "cached": 6400,
+        "output": 291,
+        "turns": 3,
+        "timed_out": false
+      },
+      "maki": {
+        "passed": true,
+        "elapsed_sec": 19.27,
+        "tokens_in": 7966,
+        "cached": 64256,
+        "output": 3596,
+        "turns": 9,
+        "timed_out": false
+      }
+    },
+    "overfull-hbox": {
+      "stock": {
+        "passed": false,
+        "exception": "AgentTimeoutError",
+        "elapsed_sec": 750.1
+      },
+      "vibe-custom": {
+        "passed": true,
+        "elapsed_sec": 59.0,
+        "tokens_in": 247701,
+        "cached": 232064,
+        "output": 9128,
+        "turns": 18,
+        "timed_out": false
+      },
+      "maki": {
+        "passed": true,
+        "elapsed_sec": 33.68,
+        "tokens_in": 11125,
+        "cached": 158848,
+        "output": 7645,
+        "turns": 13,
+        "timed_out": false
+      }
+    },
+    "cobol-modernization": {
+      "stock": {
+        "passed": true,
+        "exception": null,
+        "elapsed_sec": 257.7
+      },
+      "vibe-custom": {
+        "passed": true,
+        "elapsed_sec": 72.01,
+        "tokens_in": 327443,
+        "cached": 303872,
+        "output": 15249,
+        "turns": 16,
+        "timed_out": false
+      },
+      "maki": {
+        "passed": true,
+        "elapsed_sec": 137.72,
+        "tokens_in": 22577,
+        "cached": 796672,
+        "output": 22557,
+        "turns": 31,
+        "timed_out": false
+      }
+    }
+  },
+  "hard_8": {
+    "cancel-async-tasks": {
+      "stock": {
+        "passed": true,
+        "exception": null,
+        "elapsed_sec": 134.9
+      },
+      "vibe-custom": {
+        "passed": true,
+        "elapsed_sec": 38.42,
+        "tokens_in": 80464,
+        "cached": 73344,
+        "output": 7446,
+        "turns": 9,
+        "timed_out": false
+      },
+      "maki": {
+        "passed": false,
+        "elapsed_sec": 41.55,
+        "tokens_in": 9085,
+        "cached": 116992,
+        "output": 10836,
+        "turns": 9,
+        "timed_out": false
+      }
+    },
+    "circuit-fibsqrt": {
+      "stock": {
+        "passed": false,
+        "exception": "AgentTimeoutError",
+        "elapsed_sec": 3600.1
+      },
+      "vibe-custom": {
+        "passed": true,
+        "elapsed_sec": 120.8,
+        "tokens_in": 224700,
+        "cached": 210944,
+        "output": 29288,
+        "turns": 8,
+        "timed_out": false
+      },
+      "maki": {
+        "passed": true,
+        "elapsed_sec": 231.11,
+        "tokens_in": 12389,
+        "cached": 446464,
+        "output": 38619,
+        "turns": 12,
+        "timed_out": false
+      }
+    },
+    "fix-code-vulnerability": {
+      "stock": {
+        "passed": true,
+        "exception": null,
+        "elapsed_sec": 19.1
+      },
+      "vibe-custom": {
+        "passed": false,
+        "elapsed_sec": 13.51,
+        "tokens_in": 41514,
+        "cached": 34688,
+        "output": 1253,
+        "turns": 7,
+        "timed_out": false
+      },
+      "maki": {
+        "passed": false,
+        "elapsed_sec": 18.6,
+        "tokens_in": 14070,
+        "cached": 121472,
+        "output": 2901,
+        "turns": 11,
+        "timed_out": false
+      }
+    },
+    "password-recovery": {
+      "stock": {
+        "passed": true,
+        "exception": null,
+        "elapsed_sec": 71.1
+      },
+      "vibe-custom": {
+        "passed": true,
+        "elapsed_sec": 25.89,
+        "tokens_in": 92179,
+        "cached": 80640,
+        "output": 4328,
+        "turns": 11,
+        "timed_out": false
+      },
+      "maki": {
+        "passed": true,
+        "elapsed_sec": 31.41,
+        "tokens_in": 18760,
+        "cached": 175232,
+        "output": 8832,
+        "turns": 13,
+        "timed_out": false
+      }
+    },
+    "polyglot-rust-c": {
+      "stock": {
+        "passed": false,
+        "exception": "AgentTimeoutError",
+        "elapsed_sec": 900.1
+      },
+      "vibe-custom": {
+        "passed": true,
+        "elapsed_sec": 62.06,
+        "tokens_in": 180654,
+        "cached": 174080,
+        "output": 15492,
+        "turns": 12,
+        "timed_out": false
+      },
+      "maki": {
+        "passed": true,
+        "elapsed_sec": 54.77,
+        "tokens_in": 8771,
+        "cached": 133888,
+        "output": 14910,
+        "turns": 10,
+        "timed_out": false
+      }
+    },
+    "schemelike-metacircular-eval": {
+      "stock": {
+        "passed": true,
+        "exception": null,
+        "elapsed_sec": 1105.3
+      },
+      "vibe-custom": {
+        "passed": false,
+        "elapsed_sec": 470.49,
+        "tokens_in": 1294987,
+        "cached": 1258112,
+        "output": 56162,
+        "turns": 25,
+        "timed_out": false
+      },
+      "maki": {
+        "passed": true,
+        "elapsed_sec": 1028.5,
+        "tokens_in": 44339,
+        "cached": 4263296,
+        "output": 78951,
+        "turns": 58,
+        "timed_out": false
+      }
+    },
+    "dna-assembly": {
+      "stock": {
+        "passed": false,
+        "exception": null,
+        "elapsed_sec": 253.0
+      },
+      "vibe-custom": {
+        "passed": true,
+        "elapsed_sec": 174.36,
+        "tokens_in": 487567,
+        "cached": 467968,
+        "output": 50253,
+        "turns": 16,
+        "timed_out": false
+      },
+      "maki": {
+        "passed": false,
+        "elapsed_sec": 144.82,
+        "tokens_in": 19847,
+        "cached": 471808,
+        "output": 36966,
+        "turns": 22,
+        "timed_out": false
+      }
+    },
+    "protein-assembly": {
+      "stock": {
+        "passed": true,
+        "exception": null,
+        "elapsed_sec": 970.0
+      },
+      "vibe-custom": {
+        "passed": false,
+        "elapsed_sec": 303.12,
+        "tokens_in": 432165,
+        "cached": 403456,
+        "output": 21932,
+        "turns": 19,
+        "timed_out": false
+      },
+      "maki": {
+        "passed": true,
+        "elapsed_sec": 150.28,
+        "tokens_in": 48224,
+        "cached": 756224,
+        "output": 34860,
+        "turns": 18,
+        "timed_out": false
+      }
+    }
+  }
+}
