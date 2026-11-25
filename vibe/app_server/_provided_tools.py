@@ -481,9 +481,24 @@ def enter_worktree_offered(
     )
 
 
+# The Maki agent's batch tools. They are opt-in: a config that lists no
+# enabled tools keeps the stock group, so plain vibe offers no redundant
+# `read_files` beside `read_file`.
+MAKI_BATCH_TOOL_NAMES = frozenset({
+    READ_FILES_TOOL_NAME,
+    INDEX_TOOL_NAME,
+    GLOB_TOOL_NAME,
+    MULTIEDIT_TOOL_NAME,
+})
+
+
 def _passes_tool_filters(
     name: str, *, enabled: Sequence[str], disabled: Sequence[str]
 ) -> bool:
+    if name in MAKI_BATCH_TOOL_NAMES and not (
+        enabled and name_matches(name, list(enabled))
+    ):
+        return False
     if enabled and not name_matches(name, list(enabled)):
         return False
     return not (disabled and name_matches(name, list(disabled)))

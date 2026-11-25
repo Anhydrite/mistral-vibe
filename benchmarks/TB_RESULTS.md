@@ -48,6 +48,12 @@ together: resolve, prompt tokens, tool calls, wall-clock work time
 | tb-v7 | `3399387` | prove-plus-comm | maki | 2/2 | 33776 | 26880 | 6896 | 5.0 | n/a | 10.6 | - |
 | tb-v7 | `3399387` | prove-plus-comm | vibe@low | 2/2 | 28199 | 23872 | 4327 | 6.5 | 1.3 | 19.9 | maki |
 | tb-v7 | `3399387` | prove-plus-comm | vibe | 2/2 | 41108 | 36224 | 4884 | 8.0 | 1.6 | 24.4 | maki |
+| tb-v8 | `a6e9337` | fix-git | maki | 3/3 | 80924 | 71168 | 10209 | 11 | n/a | 15.7 | - |
+| tb-v8 | `a6e9337` | fix-git | vibe | 3/3 | 76761 | 67200 | 9561 | 13 | 1.4 | 30.1 | maki |
+| tb-v8 | `a6e9337` | overfull-hbox | maki | 3/3 | 188410 | 173824 | 13661 | 13 | n/a | 127.2 | - |
+| tb-v8 | `a6e9337` | overfull-hbox | vibe | 2/3 | 90556 | 71040 | 12351 | 9 | 53.3 | 119.5 | maki (resolve) |
+| tb-v8 | `a6e9337` | prove-plus-comm | maki | 3/3 | 49751 | 42496 | 7255 | 6 | n/a | 23.7 | - |
+| tb-v8 | `a6e9337` | prove-plus-comm | vibe | 3/3 | 18507 | 14848 | 3659 | 4 | 0.6 | 18.9 | vibe |
 
 ## Cost per resolved task
 
@@ -73,3 +79,5 @@ that actually resolved, so a run that fails cheaply does not look good.
 | tb-v7 | maki | 100% | 505744 | 486320 | 19424 | 17.4 | None | 1.98 | None | 403.1 |
 | tb-v7 | vibe | 100% | 114780 | 103520 | 11260 | 11.6 | 1.18 | 1.86 | 0.634 | 400.5 |
 | tb-v7 | vibe@low | 100% | 230633 | 216576 | 14057 | 14.2 | 0.93 | 1.86 | 0.498 | 430.7 |
+| tb-v8 | maki | 100% | 108793 | 98446 | 10347 | 10.8 | None | 1.13 | None | 250.6 |
+| tb-v8 | vibe | 89% | 80146 | 69936 | 10210 | 10.4 | 0.88 | 1.46 | 0.599 | 372.8 |

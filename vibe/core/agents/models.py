@@ -173,6 +173,17 @@ def _enum_field[E: StrEnum](
 DEFAULT = AgentProfile(
     BuiltinAgentName.DEFAULT,
     "Default",
+    "Vibe's own instructions, model and tools",
+    AgentSafety.NEUTRAL,
+)
+
+# The lean agent the benchmark runs: the Maki prompt, eight tools, no skills,
+# plugins, MCP, connectors, subagents or background processes. It is a profile
+# of its own so that plain ``vibe`` keeps every stock feature, and selecting it
+# (``--agent maki``) is what trades them for a smaller prompt.
+MAKI = AgentProfile(
+    "maki",
+    "Maki",
     "Maki instructions and the core tool surface",
     AgentSafety.NEUTRAL,
     overrides={
@@ -185,6 +196,8 @@ DEFAULT = AgentProfile(
                 else ["read_files", "index", "glob", "multiedit"]
             ),
         ],
+        "disabled_skills": [] if ablated("skills-on") else ["*"],
+        "disabled_plugins": [] if ablated("skills-on") else ["*"],
         "enable_subagents": False,
         "enable_background_processes": False,
         "enable_connectors": False,
@@ -286,6 +299,7 @@ LEAN = AgentProfile(
 
 BUILTIN_AGENTS: dict[str, AgentProfile] = {
     BuiltinAgentName.DEFAULT: DEFAULT,
+    "maki": MAKI,
     BuiltinAgentName.EXPLORE: EXPLORE,
     BuiltinAgentName.LEAN: LEAN,
 }

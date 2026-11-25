@@ -2230,7 +2230,13 @@ class HarnessProcess:
                         )
                     ),
                     settings=RustHarnessSettings(
-                        prompts=RustPromptSettings(guidance="none"),
+                        prompts=RustPromptSettings(
+                            guidance=(
+                                "none"
+                                if active_profile.name == "maki"
+                                else "stock"
+                            )
+                        ),
                         turn=RustTurnSettings(
                             max_iterations=max_iterations,
                             # A cut-off answer is discarded and asked for again
@@ -2259,8 +2265,11 @@ class HarnessProcess:
                             # when subagents or background processes are enabled.
                             model_wait=RustEnabledModelWait(),
                             programmatic=RustProgrammaticToolSettings(
-                                mode="disabled",
-                                sleep="disabled",
+                                **(
+                                    {"mode": "disabled", "sleep": "disabled"}
+                                    if active_profile.name == "maki"
+                                    else {}
+                                ),
                                 max_effects=128,
                                 max_operations=1024,
                                 max_elapsed_ms=60_000,

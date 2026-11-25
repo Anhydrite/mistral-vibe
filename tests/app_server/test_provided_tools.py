@@ -395,6 +395,11 @@ def test_todo_is_routed_to_the_name_its_permission_is_configured_under() -> None
         f"{VIBE_TOOL_GROUP}.enter_worktree": "enter_worktree",
         f"{VIBE_TOOL_GROUP}.list_projects": "list_projects",
         f"{VIBE_TOOL_GROUP}.move_to_project": "move_to_project",
+        # Opt-in batch tools: routable when a profile enables them.
+        f"{VIBE_TOOL_GROUP}.read_files": "read_files",
+        f"{VIBE_TOOL_GROUP}.index": "index",
+        f"{VIBE_TOOL_GROUP}.glob": "glob",
+        f"{VIBE_TOOL_GROUP}.multiedit": "multiedit",
     }
     assert VIBE_PROVIDED_TOOL_MODES == {
         TODO_TOOL_NAME: "ask",
@@ -414,6 +419,10 @@ def test_todo_is_routed_to_the_name_its_permission_is_configured_under() -> None
         "enter_worktree": "allow",
         "list_projects": "ask",
         "move_to_project": "ask",
+        "read_files": "allow",
+        "index": "allow",
+        "glob": "allow",
+        "multiedit": "ask",
     }
 
 

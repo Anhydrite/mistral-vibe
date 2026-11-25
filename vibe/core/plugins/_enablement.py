@@ -34,14 +34,15 @@ def is_plugin_enabled(plugin: PluginDescriptor, config: VibeConfigSchema) -> boo
     # so ``disabled_plugins`` naming it cannot turn it off.
     if plugin.scope is SkillScope.REMOTE:
         return True
-    # A required plugin stays on unless the config names it or a wildcard
-    # pattern that matches it: the fork turns the built-in plugin off this way.
-    if config.disabled_plugins and name_matches(
-        plugin.name, list(config.disabled_plugins)
-    ):
-        return False
+    patterns = list(config.disabled_plugins)
+    disabled = bool(patterns) and name_matches(plugin.name, patterns)
     if is_required_plugin(plugin):
-        return True
+        # Naming a required plugin does not turn it off, but a wildcard does:
+        # that is how the lean Maki agent silences plugins, skills included.
+        wildcard = any(pattern in {"*", "re:.*"} for pattern in patterns)
+        return not (disabled and wildcard)
+    if disabled:
+        return False
     return plugin.default_enabled or plugin.name in config.enabled_plugins
 
 
