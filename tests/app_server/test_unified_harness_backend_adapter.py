@@ -44654,26 +44654,54 @@ def test_a_held_notice_keeps_its_level(
 
 
 class TestStreamRate:
-    """The live tokens-per-second the composer shows while an answer streams."""
+    """The live tokens-per-second the composer shows while a call streams."""
 
-    def test_the_rate_averages_the_whole_answer(
+    @staticmethod
+    def _clock(monkeypatch: pytest.MonkeyPatch, now: list[float]) -> None:
+        monkeypatch.setattr(
+            "vibe.app_server._unified_harness_backend_adapter.time.monotonic",
+            lambda: now[0],
+        )
+
+    @staticmethod
+    def _tokens(count: int) -> str:
+        return "x" * (count * 4)
+
+    def test_the_rate_divides_by_the_time_the_tokens_took(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
         from vibe.app_server._unified_harness_backend_adapter import _StreamRate
 
         now = [100.0]
-        monkeypatch.setattr(
-            "vibe.app_server._unified_harness_backend_adapter.time.monotonic",
-            lambda: now[0],
-        )
+        self._clock(monkeypatch, now)
+        rate = _StreamRate()
+        assert rate.observe("") is None, "nothing streamed, nothing to measure"
+
+        # A hundred tokens in half a second read as two hundred a second.
+        now[0] = 100.5
+        assert rate.observe(self._tokens(100)) == pytest.approx(200.0)
+        # The same hundred tokens over a full second read as a hundred a second.
+        now[0] = 101.0
+        assert rate.observe(self._tokens(100)) == pytest.approx(100.0)
+
+    def test_the_rate_averages_the_whole_call(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from vibe.app_server._unified_harness_backend_adapter import _StreamRate
+
+        now = [0.0]
+        self._clock(monkeypatch, now)
         rate = _StreamRate()
 
-        assert rate.observe("abcd") is None, "the first fragment starts the clock"
-        now[0] = 101.0
-        assert rate.observe("abcdabcd") == pytest.approx(2.0), "8 characters over 4"
-        assert rate.observe("abcdabcd") is None, "no growth, no new reading"
-        now[0] = 102.0
-        assert rate.observe("abcdabcdabcdabcd") == pytest.approx(2.0)
+        now[0] = 0.2
+        assert rate.observe(self._tokens(10)) == pytest.approx(50.0), (
+            "10 tokens over 0.2s"
+        )
+        assert rate.observe(self._tokens(10)) is None, "no growth, no new reading"
+        now[0] = 1.0
+        assert rate.observe(self._tokens(20)) == pytest.approx(20.0), (
+            "20 tokens over 1s"
+        )
 
     def test_a_restarted_answer_starts_its_clock_again(
         self, monkeypatch: pytest.MonkeyPatch
@@ -44681,30 +44709,24 @@ class TestStreamRate:
         from vibe.app_server._unified_harness_backend_adapter import _StreamRate
 
         now = [0.0]
-        monkeypatch.setattr(
-            "vibe.app_server._unified_harness_backend_adapter.time.monotonic",
-            lambda: now[0],
-        )
+        self._clock(monkeypatch, now)
         rate = _StreamRate()
-        rate.observe("abcd")
+        rate.observe(self._tokens(10))
         now[0] = 4.0
-        assert rate.observe("abcdabcd") == pytest.approx(0.5)
+        assert rate.observe(self._tokens(20)) == pytest.approx(5.0)
 
         # A retry replaces the draft: the new answer's clock starts here.
         now[0] = 10.0
-        assert rate.observe("other") is None
-        now[0] = 11.0
-        assert rate.observe("othertext") == pytest.approx(2.25), "9 characters over 4"
+        rate.observe("other")
+        now[0] = 10.5
+        assert rate.observe(self._tokens(10)) == pytest.approx(20.0)
 
     def test_an_empty_stream_measures_nothing(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
         from vibe.app_server._unified_harness_backend_adapter import _StreamRate
 
-        monkeypatch.setattr(
-            "vibe.app_server._unified_harness_backend_adapter.time.monotonic",
-            lambda: 5.0,
-        )
+        self._clock(monkeypatch, [5.0])
 
         assert _StreamRate().observe("") is None
 

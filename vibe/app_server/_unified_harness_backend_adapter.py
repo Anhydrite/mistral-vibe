@@ -20200,7 +20200,8 @@ class _StreamRate:
 
     The clock starts with a new answer, so the rate averages the whole call
     rather than a window that a pause would skew, and it is recomputed every
-    time the answer grows.
+    time the answer grows: a hundred tokens in half a second read as two
+    hundred a second.
     """
 
     def __init__(self) -> None:
