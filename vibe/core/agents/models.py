@@ -177,17 +177,17 @@ DEFAULT = AgentProfile(
     AgentSafety.NEUTRAL,
 )
 
-# The lean agent the benchmark runs: the slim prompt, eight tools, no skills,
-# plugins, MCP, connectors, subagents or background processes. It is a profile
-# of its own so that plain ``vibe`` keeps every stock feature, and selecting it
-# (``--agent slim``) is what trades them for a smaller prompt.
-SLIM = AgentProfile(
-    "slim",
-    "Slim",
+# The lean agent the benchmark runs: the PicoVibe prompt, eight tools, no
+# skills, plugins, MCP, connectors, subagents or background processes. It is a
+# profile of its own so that plain ``vibe`` keeps every stock feature, and
+# selecting it (``--agent picovibe``) is what trades them for a smaller prompt.
+PICOVIBE = AgentProfile(
+    "picovibe",
+    "PicoVibe",
     "Compact instructions and the core tool surface",
     AgentSafety.NEUTRAL,
     overrides={
-        "system_prompt_id": "slim",
+        "system_prompt_id": "picovibe",
         "enabled_tools": [
             "bash", "read_file", "write_file", "edit",
             "webfetch", "websearch",
@@ -298,12 +298,12 @@ LEAN = AgentProfile(
     },
 )
 
-BUILTIN_AGENTS: dict[str, AgentProfile] = {
-    BuiltinAgentName.DEFAULT: DEFAULT,
-    "slim": SLIM,
-    BuiltinAgentName.EXPLORE: EXPLORE,
-    BuiltinAgentName.LEAN: LEAN,
-}
+# This fork ships one agent: `picovibe`, which is also what plain ``vibe``
+# starts on. `DEFAULT`, `EXPLORE` and `LEAN` above stay defined so their
+# profiles, prompts and install machinery keep building, but nothing discovers
+# them: `DEFAULT` is the runtime's name for "no agent pinned", never a profile
+# to run. Restoring one is putting it back in this dict.
+BUILTIN_AGENTS: dict[str, AgentProfile] = {PICOVIBE.name: PICOVIBE}
 
 # A file in an agents directory named after one of these overrides the policy,
 # not an agent.

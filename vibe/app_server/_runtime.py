@@ -2235,7 +2235,7 @@ class HarnessProcess:
                         prompts=RustPromptSettings(
                             guidance=(
                                 "none"
-                                if active_profile.name == "slim"
+                                if active_profile.name == "picovibe"
                                 else "stock"
                             )
                         ),
@@ -2269,7 +2269,7 @@ class HarnessProcess:
                             programmatic=RustProgrammaticToolSettings(
                                 **(
                                     {"mode": "disabled", "sleep": "disabled"}
-                                    if active_profile.name == "slim"
+                                    if active_profile.name == "picovibe"
                                     and not ablated("programmatic")
                                     else {}
                                 ),

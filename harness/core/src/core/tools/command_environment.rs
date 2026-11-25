@@ -20,7 +20,9 @@ macro_rules! timeout_text {
 
 macro_rules! unix_description {
     (foreground) => {
-        "Run a shell command and capture stdout, stderr, and its return code."
+        // The working-directory line stops the model from anchoring every call
+        // with a `cd` of the workspace root, which it already starts in.
+        "Run a shell command and capture stdout, stderr, and its return code.\n\n- Each call runs in a fresh, stateless shell whose working directory is the workspace: `pwd`, `ls` and relative paths need no `cd`, and a `cd` in one call does not reach the next.\n- Quote separators and arguments: the shell is the user's, and `echo ===` is an error in zsh, which reads `=word` as a command path."
     };
     (background) => {
         concat!(

@@ -82,7 +82,7 @@ async fn rows_show_the_number_title_and_state_only() {
     assert_eq!(row_of(&lines, "● #1  Title 1  open"), title + 2);
     assert_eq!(
         row_of(&lines, "Esc close"),
-        title + 4,
+        title + 3,
         "the composer's height"
     );
     let shown = |text: &str| lines.iter().any(|line| line.contains(text));

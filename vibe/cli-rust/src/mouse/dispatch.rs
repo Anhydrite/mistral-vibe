@@ -328,6 +328,17 @@ fn bottom_bar_event(app: &mut App, client: &Arc<Client>, event: MouseEvent) {
                     None => {}
                 }
             }
+            // A plain click on the model's name opens `/model`, which needs an idle
+            // session like the typed command.
+            let model_click = !dragged
+                && pressed.is_some_and(|press| crate::ui::bottom_bar::model_at(app, press))
+                && crate::ui::bottom_bar::model_at(app, at);
+            if matches!(release, Release::Nothing) && model_click {
+                app.selection.chain = Default::default();
+                model_picker::open(app, client);
+                crate::telemetry::slash_command_clicked(app, "/model", "footer");
+                return;
+            }
             // A plain click on the context gauge toggles `/context`, a side-channel
             // read that also works while a turn generates.
             let tokens_click = !dragged
@@ -376,8 +387,8 @@ fn selection_event(app: &mut App, client: &Arc<Client>, target: MouseTarget, eve
             let pressed = app.selection.press;
             let dragged = app.selection.dragged;
             let released = selection::release(app);
-            // A plain click on the model name opens `/model` and keeps the composer's draft.
-            let on_model = |at| crate::ui::composer_title::model_at(app, at);
+            // A plain click on the model's name in the bottom bar opens `/model`.
+            let on_model = |at| crate::ui::bottom_bar::model_at(app, at);
             if target == MouseTarget::Composer
                 && !dragged
                 && !matches!(released, Release::Selected)

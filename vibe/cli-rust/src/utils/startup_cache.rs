@@ -20,15 +20,15 @@ pub const MAX_AGE_SECONDS: i64 = 7 * 24 * 3600;
 /// Caches larger than this are ignored before parsing.
 const MAX_FILE_BYTES: usize = 1024 * 1024;
 /// Agent a fresh install starts on (the config's `default_agent` default).
-const DEFAULT_AGENT: &str = "default";
+const DEFAULT_AGENT: &str = "picovibe";
 /// Policy a fresh install starts on (the config's `default_approval_policy` default).
-const DEFAULT_APPROVAL_POLICY: &str = "accept-edits";
+const DEFAULT_APPROVAL_POLICY: &str = "auto-approve";
 
 /// The default agent, used until the server's snapshot lands.
 fn builtin_agents() -> Vec<AgentSummary> {
     vec![AgentSummary {
         name: DEFAULT_AGENT.into(),
-        display_name: "Default".into(),
+        display_name: "PicoVibe".into(),
         ..Default::default()
     }]
 }
@@ -37,13 +37,9 @@ fn builtin_agents() -> Vec<AgentSummary> {
 fn builtin_approval_policies() -> Vec<ApprovalPolicySummary> {
     [
         ("ask", "Ask", AgentSafety::Neutral),
-        (
-            DEFAULT_APPROVAL_POLICY,
-            "Accept Edits",
-            AgentSafety::Destructive,
-        ),
+        ("accept-edits", "Accept Edits", AgentSafety::Destructive),
         ("smart-approve", "Smart Approve", AgentSafety::Smart),
-        ("auto-approve", "Auto Approve", AgentSafety::Yolo),
+        (DEFAULT_APPROVAL_POLICY, "Auto Approve", AgentSafety::Yolo),
     ]
     .into_iter()
     .map(|(name, display_name, safety)| ApprovalPolicySummary {

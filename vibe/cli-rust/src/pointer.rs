@@ -60,13 +60,14 @@ pub fn shape(app: &App) -> Shape {
         return Shape::Default;
     };
     if target == crate::mouse::MouseTarget::Composer {
-        return if crate::ui::composer_title::model_at(app, at) {
-            Shape::Pointer
-        } else if selection::in_input(app, at) {
-            Shape::Text
-        } else {
-            Shape::Default
+        return match selection::in_input(app, at) {
+            true => Shape::Text,
+            false => Shape::Default,
         };
+    }
+    // The model's name leads the bottom bar, where a click opens `/model`.
+    if target == crate::mouse::MouseTarget::BottomBar && crate::ui::bottom_bar::model_at(app, at) {
+        return Shape::Pointer;
     }
     if target == crate::mouse::MouseTarget::SessionsPage
         && crate::sessions_page::preview_view::link_at(app, at).is_some()

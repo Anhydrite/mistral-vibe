@@ -1,6 +1,5 @@
-//! The composer's top-border title: the active model, its thinking level muted, then the agent and approval policy.
+//! The composer's top-border title: the last answer's rate, then the agent and approval policy.
 
-use ratatui::layout::Rect;
 use ratatui::style::Color;
 use ratatui::text::{Line, Span};
 use unicode_width::UnicodeWidthStr;
@@ -9,12 +8,9 @@ use super::theme;
 use crate::agents;
 use crate::app::App;
 use crate::server::AgentSafety;
-use crate::utils::text::ellipsize;
 
-/// Between the model, the agent and the policy.
+/// Between the rate, the agent and the policy.
 const SEP: &str = " · ";
-/// The model's name shrinks to this many cells before it hides.
-const MODEL_FLOOR: usize = 12;
 
 /// The policy label's color per safety; the borders stay neutral.
 fn safety_color(safety: AgentSafety) -> Color {
@@ -26,15 +22,17 @@ fn safety_color(safety: AgentSafety) -> Color {
     }
 }
 
-/// The title at `width` cells, right-aligned on the top border, and the model's cells within it.
-pub struct Title {
-    pub line: Line<'static>,
-    /// The model name's offset and width from the title's left edge; zero wide when hidden.
-    pub model: (u16, u16),
+/// The last turn's output tokens per second, e.g. `42 tok/s`; empty until a turn measured one.
+pub fn rate(tokens_per_second: f64) -> String {
+    match tokens_per_second {
+        tps if tps <= 0.0 => String::new(),
+        tps if tps < 10.0 => format!("{tps:.1} tok/s"),
+        tps => format!("{tps:.0} tok/s"),
+    }
 }
 
-/// ` mistral-medium-3.5[high] · lean · accept edits ─`, narrowing the model first: no thinking level, an elided name, then none.
-pub fn title(app: &App, width: u16) -> Title {
+/// ` 42 tok/s · lean · auto approve ─`, dropping the rate first when the line is too narrow.
+pub fn title(app: &App, width: u16) -> Line<'static> {
     let policy = agents::displayed(app);
     let bypass = agents::bypass_tool_permissions(app);
     let policy_name = agents::indicator_policy_name(policy, bypass);
@@ -43,43 +41,23 @@ pub fn title(app: &App, width: u16) -> Title {
         None => policy_name,
     };
     let mode_style = theme::text(safety_color(agents::indicator_safety(policy, bypass)));
-    let border = theme::border_style();
-    let model = app.session.startup_config.active_model.as_str();
-    let (name, thinking) = model.find('[').map_or((model, ""), |at| model.split_at(at));
+    let rate = rate(app.session.stats.tokens_per_second);
     // The border keeps a corner of its own on each side of the title.
     let room = (width as usize).saturating_sub(2);
-    let sep = if mode.is_empty() { "" } else { SEP };
-    let fixed = 1 + mode.width() + 1;
-    let forms = [
-        (name.to_owned(), thinking),
-        (name.to_owned(), ""),
-        (ellipsize(name, MODEL_FLOOR), ""),
-    ];
-    let chosen = forms
-        .into_iter()
-        .filter(|(name, _)| !name.is_empty())
-        .find(|(name, thinking)| fixed + name.width() + thinking.width() + sep.width() <= room);
+    let rate = match rate.width() + SEP.width() + mode.width() <= room {
+        true => rate,
+        false => String::new(),
+    };
     let mut spans = vec![Span::raw(" ")];
-    let mut model_cells = (1, 0);
-    if let Some((name, thinking)) = chosen {
-        model_cells.1 = (name.width() + thinking.width()) as u16;
-        spans.push(Span::styled(name, theme::text(theme::foreground())));
-        if !thinking.is_empty() {
-            spans.push(Span::styled(thinking.to_owned(), theme::muted_style()));
-        }
-        if mode.is_empty() {
-            spans.push(Span::raw(" "));
-        }
-        spans.push(Span::styled(sep, theme::muted_style()));
+    if !rate.is_empty() {
+        spans.push(Span::styled(rate, theme::muted_style()));
+        spans.push(Span::styled(SEP, theme::muted_style()));
     }
     if !mode.is_empty() {
         spans.push(Span::styled(format!("{mode} "), mode_style));
     }
-    spans.push(Span::styled("─", border));
-    Title {
-        line: Line::from(spans),
-        model: model_cells,
-    }
+    spans.push(Span::styled("─", theme::border_style()));
+    Line::from(spans)
 }
 
 /// The bottom-border hint shown while Ctrl+S holds a stashed draft and can restore it.
@@ -96,22 +74,4 @@ pub fn stash_hint(app: &App) -> Line<'static> {
     spans.push(Span::raw(" "));
     spans.push(Span::styled("─", theme::border_style()));
     Line::from(spans).right_aligned()
-}
-
-/// Publish where the title painted the model in the composer at `area`, for `/model` clicks.
-pub fn place_model(app: &mut App, area: Rect, title: &Title) {
-    let x = area.right().saturating_sub(title.line.width() as u16) + title.model.0;
-    app.view.model_area = Rect {
-        x,
-        y: area.y,
-        width: title.model.1,
-        height: 1,
-    };
-}
-
-/// Whether `at` is on the composer's model name while a click there may open `/model`, which needs an idle session like the typed command.
-pub fn model_at(app: &App, at: (u16, u16)) -> bool {
-    app.focus() == crate::focus::Focus::Composer
-        && app.view.model_area.contains(at.into())
-        && crate::commands::submission::accepts_idle_command(app)
 }

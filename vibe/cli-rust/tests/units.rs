@@ -33,6 +33,8 @@ mod border_corners;
 mod bottom_bar_copy_path;
 #[path = "units/bottom_bar_layout.rs"]
 mod bottom_bar_layout;
+#[path = "units/bottom_bar_model_click.rs"]
+mod bottom_bar_model_click;
 #[path = "units/bottom_bar_overflow.rs"]
 mod bottom_bar_overflow;
 #[path = "units/bottom_bar_selection.rs"]
@@ -95,14 +97,14 @@ mod composer_history_edits;
 mod composer_history_ownership;
 #[path = "units/composer_mentions.rs"]
 mod composer_mentions;
-#[path = "units/composer_model_click.rs"]
-mod composer_model_click;
 #[path = "units/composer_pastes.rs"]
 mod composer_pastes;
 #[path = "units/composer_stash_hint.rs"]
 mod composer_stash_hint;
 #[path = "units/composer_stash_recall.rs"]
 mod composer_stash_recall;
+#[path = "units/composer_title.rs"]
+mod composer_title;
 #[path = "units/composer_yank.rs"]
 mod composer_yank;
 #[path = "units/config_filter.rs"]

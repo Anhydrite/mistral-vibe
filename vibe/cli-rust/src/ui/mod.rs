@@ -173,13 +173,13 @@ fn draw_session_screen(app: &mut App, f: &mut Frame, area: ratatui::layout::Rect
     }
 }
 
-/// Input-box height: rendered chat rows, capped near 50vh.
+/// Input-box height: rendered chat rows, one row while empty, capped near 50vh.
 pub fn input_box_height(app: &App, area_width: u16, area_height: u16) -> u16 {
-    let max_content = (area_height / 2).max(3);
+    let max_content = (area_height / 2).max(1);
     let input = &app.chat_input;
     let lines =
         composer_layout::capped_height(&input.input, input.mode.marker(), area_width, max_content);
-    lines.clamp(3, max_content) + 2
+    lines.clamp(1, max_content) + 2
 }
 
 /// Render the main chat UI (chat, loading, popup, todo, input, footer).

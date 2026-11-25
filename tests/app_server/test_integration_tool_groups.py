@@ -3,7 +3,7 @@
 The route snapshots they come from are Host-level, so one Session's resolve can
 outlive it into another Session's capabilities. Core refuses a capability set
 that names a programmatic-only tool while programmatic tool calling is off, so a
-Session without `run_typescript` -- the slim agent profile, for one -- must not
+Session without `run_typescript` -- the PicoVibe agent profile, for one -- must not
 receive them.
 """
 

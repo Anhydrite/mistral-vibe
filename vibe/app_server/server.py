@@ -1611,6 +1611,48 @@ class AppServer:
             return self._root
         return None
 
+    async def _recover_missing_workspace(self, root: SessionBackend) -> None:
+        """Move a session out of a folder a rename or a delete took away.
+
+        Every command the session runs chdirs to its own cwd, so a folder
+        renamed under a running session fails the tools of the next turn, and
+        an error on every one of them: the move is the live `/cd`, to the
+        directory this process runs in, which is the one the user relaunched
+        from to get here. Best effort — a move that fails leaves the turn to
+        fail as it did, rather than replacing its answer.
+        """
+        host = self._session_backend_host
+        if not isinstance(host, SessionBackendHostRelocate):
+            return
+        session_id = root.session_id
+        try:
+            read = await root.read(
+                SessionReadParams(session_id=session_id, history=None, turns=None)
+            )
+            cwd = read.state.session.cwd
+            if cwd is None or await asyncio.to_thread(Path(cwd).expanduser().is_dir):
+                return
+            target = Path.cwd()
+            if Path(cwd).expanduser().resolve() == target:
+                return
+            logger.warning(
+                "Session %s runs in %s, which no longer exists; moving it to %s",
+                session_id,
+                cwd,
+                target,
+            )
+            await host.relocate(
+                SessionRelocateParams(session_id=session_id, cwd=str(target)), root
+            )
+        except Exception:
+            logger.warning(
+                "Could not move session %s out of a folder that no longer exists",
+                session_id,
+                exc_info=True,
+            )
+            return
+        await self._flush_backend_events(root)
+
     async def _read_stored_session_config(
         self, raw_params: dict[str, Any]
     ) -> DispatchResult | None:
@@ -1878,6 +1920,8 @@ class AppServer:
     ) -> DispatchResult | None:
         if method.startswith("session/turn/"):
             return await self._dispatch_backend_turn(root, method, raw_params)
+        if method in {"turn/start", "turn/retry"}:
+            await self._recover_missing_workspace(root)
         match method.partition("/")[0]:
             case "agents":
                 return await self._dispatch_backend_agents(root, method, raw_params)

@@ -26,7 +26,7 @@ class SystemPrompt(Prompt):
     TESTS = auto()
     LEAN = auto()
     MINIMAL = auto()
-    SLIM = auto()
+    PICOVIBE = auto()
 
 
 class UtilityPrompt(Prompt):
@@ -112,14 +112,14 @@ _ONE_CHECK = (
 
 
 def _ablate_prompt(prompt_id: str, text: str) -> str:
-    """Ablation switches, applied only to the slim prompt.
+    """Ablation switches, applied only to the PicoVibe prompt.
 
     Unset leaves the prompt byte-for-byte as written. Each switch removes one
     block so a benchmark can weigh that block alone.
     """
     from vibe.ablations import ablated
 
-    if prompt_id.lower() != "slim":
+    if prompt_id.lower() != "picovibe":
         return text
     if ablated("no-one-check"):
         text = text.replace(_ONE_CHECK, "")

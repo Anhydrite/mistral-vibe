@@ -166,10 +166,13 @@ mod tests {
                 .ends_with("`timed_out` set. For longer work, use `tools.process.start` instead.")
         );
         assert!(bash.description.contains("tools.process.start"));
-        assert_eq!(
-            foreground.description,
-            "Run a shell command and capture stdout, stderr, and its return code."
+        assert!(
+            foreground.description.starts_with(
+                "Run a shell command and capture stdout, stderr, and its return code."
+            )
         );
+        assert!(foreground.description.contains("stateless shell"));
+        assert!(!foreground.description.contains("tools.process"));
         assert!(
             foreground.input_schema["properties"]["timeout_seconds"]["description"]
                 .as_str()

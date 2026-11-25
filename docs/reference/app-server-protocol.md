@@ -646,6 +646,15 @@ message, that the working directory changed and that earlier paths name the
 previous one. A session no process holds keeps the note in `meta.json` until
 its next turn.
 
+A session whose folder was renamed or deleted needs no relaunch: its commands
+chdir to that folder, so every one of them fails. `session/resume` and
+`session/continue` move such a session to the `cwd` the request names before
+they open it, and a `turn/start` or `turn/retry` on an attached session whose
+cwd is gone moves it to the directory the app server runs in. Both are the move
+above, at the server's initiative, so the record, the checkpoint and the note
+stay in step; a move that fails leaves the session where it was, to be
+`session/relocate`d by its client.
+
 `session/start` takes an optional `startedBySessionId`: the session that started
 this one to hand it `firstTurn`, and `hops`, the `session/spawn` request's, which
 `firstTurn` carries with or without a starter. The session keeps the starter, `/clear` included, and
