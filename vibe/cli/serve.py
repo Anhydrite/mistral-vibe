@@ -1,12 +1,12 @@
-"""Long-lived app-server daemon.
+"""Long-lived app-server prewarm daemon.
 
-`vibe -p` pays the Python app-server bootstrap on every invocation. This
-process pays it once and then answers one request per connection over a unix
-socket: the client sends a JSON line, the daemon runs the turn and replies
-with the same JSON shape `vibe-headless` writes.
+`vibe-headless` pays the Python app-server bootstrap and its lazy imports on
+every invocation: about two seconds before any work starts. This process pays
+them once, then serves requests by **forking a child per request**, so every
+run still gets a fresh process — no session state leaks between runs — while
+inheriting the loaded modules from the parent.
 
-Every request carries its own working directory and model; requests are
-served one at a time, so the process-wide working directory is safe.
+Protocol: one JSON line per connection, the same shape `vibe-headless` writes.
 """
 
 from __future__ import annotations
@@ -16,12 +16,43 @@ import asyncio
 import json
 import os
 from pathlib import Path
+import socket
 import sys
-import time
 from typing import Any
 
 from vibe import __version__
 from vibe.cli.headless import _bootstrap
+
+
+def _warm(model: str | None) -> None:
+    """Import what a session start would import lazily, then open and close a
+    throwaway session so every lazy path and in-memory cache is hot.
+
+    Children forked afterwards still get a fresh session: only module state and
+    read-only caches are shared, no session is.
+    """
+    import tempfile
+
+    import vibe.app_server._runtime  # noqa: F401
+    import vibe.app_server._unified_harness_backend_adapter  # noqa: F401
+    import vibe.app_server.local  # noqa: F401
+    from mistralai_vibe_local_harness.vibe import _completion  # noqa: F401
+
+    _ = __version__
+    with tempfile.TemporaryDirectory() as tmp:
+        try:
+            asyncio.run(
+                _run_request(
+                    {
+                        "cwd": tmp,
+                        "prompt": "Reply with a single word.",
+                        "model": model,
+                        "max_turns": 0,
+                    }
+                )
+            )
+        except Exception:  # noqa: BLE001 - warming is best effort
+            pass
 
 
 async def _run_request(request: dict[str, Any]) -> dict[str, Any]:
@@ -59,9 +90,10 @@ async def _run_request(request: dict[str, Any]) -> dict[str, Any]:
         ),
         session=NewSessionIntent(),
     )
-    started = time.monotonic()
+    started = time_monotonic()
     harness = LocalHarness(options)
     session = await harness.start()
+    ready = time_monotonic()
     stats: Any = None
     final_text = ""
     error = None
@@ -82,9 +114,9 @@ async def _run_request(request: dict[str, Any]) -> dict[str, Any]:
         try:
             await session.close()
             await harness.close()
-        except Exception:  # noqa: BLE001 - a close failure must not kill the daemon
+        except Exception:  # noqa: BLE001
             pass
-    elapsed = round(time.monotonic() - started, 3)
+    closed = time_monotonic()
     usage = {
         "input_tokens": getattr(stats, "session_prompt_tokens", 0) if stats else 0,
         "output_tokens": (
@@ -102,42 +134,63 @@ async def _run_request(request: dict[str, Any]) -> dict[str, Any]:
         "usage": usage,
         "cost_usd": getattr(stats, "session_cost", 0.0) if stats else 0.0,
         "steps": getattr(stats, "steps", 0) if stats else 0,
-        "duration_sec": elapsed,
+        "duration_sec": round(closed - started, 3),
+        "timings": {
+            "start_sec": round(ready - started, 3),
+            "work_sec": round(closed - ready, 3),
+        },
         "config": {"active_model": model, "cwd": cwd},
     }
 
 
-async def _handle(
-    reader: asyncio.StreamReader, writer: asyncio.StreamWriter
-) -> None:
-    try:
-        line = await reader.readline()
-        if not line.strip():
-            return
-        request = json.loads(line)
-        response = await _run_request(request)
-        writer.write(json.dumps(response, ensure_ascii=False).encode() + b"\n")
-        await writer.drain()
-    except Exception as exc:  # noqa: BLE001 - one bad request must not stop serving
-        payload = {"outcome": "error", "error": f"{type(exc).__name__}: {exc}"}
+def time_monotonic() -> float:
+    import time
+
+    return time.monotonic()
+
+
+def _serve_one(conn: socket.socket) -> None:
+    chunks = []
+    with conn:
+        while True:
+            chunk = conn.recv(65536)
+            if not chunk:
+                break
+            chunks.append(chunk)
+            if chunk.endswith(b"\n"):
+                break
         try:
-            writer.write(json.dumps(payload).encode() + b"\n")
-            await writer.drain()
-        except Exception:  # noqa: BLE001
-            pass
-    finally:
-        writer.close()
+            request = json.loads(b"".join(chunks).decode())
+            response = asyncio.run(_run_request(request))
+        except Exception as exc:  # noqa: BLE001
+            response = {"outcome": "error", "error": f"{type(exc).__name__}: {exc}"}
+        conn.sendall(json.dumps(response, ensure_ascii=False).encode() + b"\n")
 
 
-async def _serve(path: Path) -> None:
+def _serve(path: Path, model: str | None = None) -> None:
     _bootstrap()
+    _warm(model)
     if path.exists():
         path.unlink()
-    server = await asyncio.start_unix_server(_handle, path=str(path))
+    listener = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    listener.bind(str(path))
     os.chmod(path, 0o600)
+    listener.listen(8)
     print(json.dumps({"ready": True, "socket": str(path)}), flush=True)
-    async with server:
-        await server.serve_forever()
+    while True:
+        try:
+            conn, _ = listener.accept()
+        except KeyboardInterrupt:
+            return
+        pid = os.fork()
+        if pid == 0:
+            try:
+                listener.close()
+                _serve_one(conn)
+            finally:
+                os._exit(0)
+        conn.close()
+        os.waitpid(pid, 0)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -147,14 +200,12 @@ def main(argv: list[str] | None = None) -> int:
         default=os.environ.get("VIBE_SOCKET"),
         help="unix socket path (default: $VIBE_SOCKET)",
     )
+    parser.add_argument("--warm-model", default="deepseek-v4-1-flash-1017")
     args = parser.parse_args(argv)
     if not args.socket:
         print("vibe-serve: --socket or VIBE_SOCKET is required", file=sys.stderr)
         return 2
-    try:
-        asyncio.run(_serve(Path(args.socket)))
-    except KeyboardInterrupt:
-        return 0
+    _serve(Path(args.socket), args.warm_model)
     return 0
 
 

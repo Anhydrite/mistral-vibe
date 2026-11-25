@@ -46,7 +46,7 @@ def agg(records: list[dict]) -> dict:
     return {
         "n": len(records),
         "passed": sum(1 for r in records if r["passed"]),
-        "median_sec": round(statistics.median(r["elapsed_sec"] for r in records), 1),
+        "median_sec": round(statistics.median(r.get("work_sec", r["elapsed_sec"]) for r in records), 1),
         "median_effective": round(statistics.median(e for _, e in pairs)),
         "median_prompt": round(statistics.median(p for p, _ in pairs)),
         "median_turns": round(

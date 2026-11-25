@@ -177,6 +177,7 @@ async def _run(args: argparse.Namespace) -> int:
     harness = LocalHarness(options)
     started = time.monotonic()
     session = await harness.start()
+    ready = time.monotonic()
     stats: Any = None
     final_text = ""
     try:
@@ -217,7 +218,11 @@ async def _run(args: argparse.Namespace) -> int:
         "steps": getattr(stats, "steps", 0) if stats else 0,
         "duration_sec": elapsed,
         "timings": {
+            # Harness startup, then the work: benchmarks compare ``work_sec``
+            # so a slow bootstrap never passes for a slow agent.
+            "start_sec": round(ready - started, 3),
             "turn_sec": round(turn_done - started, 3),
+            "work_sec": round(turn_done - ready, 3),
             "close_sec": round(closed - turn_done, 3),
         },
         "config": {"active_model": args.model, "cwd": cwd},
