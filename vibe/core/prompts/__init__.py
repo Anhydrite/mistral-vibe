@@ -26,6 +26,7 @@ class SystemPrompt(Prompt):
     TESTS = auto()
     LEAN = auto()
     MINIMAL = auto()
+    PICOVIBE = auto()
 
 
 class UtilityPrompt(Prompt):
@@ -99,7 +100,35 @@ def load_system_prompt(prompt_id: str) -> str:
     fallback = (PROMPTS_DIR / prompt_id).with_suffix(".md")
     if fallback.is_file():
         builtins.setdefault(prompt_id.lower(), fallback)
-    return load_prompt(prompt_id, setting_name="system_prompt_id", builtins=builtins)
+    text = load_prompt(prompt_id, setting_name="system_prompt_id", builtins=builtins)
+    return _ablate_prompt(prompt_id, text)
+
+
+_ONE_CHECK = (
+    " One check is enough. Do not build differential harnesses, fuzzers, scenario"
+    " matrices or extra test files unless the user asks for them: the task's own"
+    " tests, run once, are the bar."
+)
+
+
+def _ablate_prompt(prompt_id: str, text: str) -> str:
+    """Ablation switches, applied only to the PicoVibe prompt.
+
+    Unset leaves the prompt byte-for-byte as written. Each switch removes one
+    block so a benchmark can weigh that block alone.
+    """
+    from vibe.ablations import ablated
+
+    if prompt_id.lower() != "picovibe":
+        return text
+    if ablated("no-one-check"):
+        text = text.replace(_ONE_CHECK, "")
+    if ablated("no-efficiency"):
+        head, sep, tail = text.partition("\n# Efficiency\n")
+        if sep:
+            _, next_sep, rest = tail.partition("\n# ")
+            text = head + (next_sep + rest if next_sep else "")
+    return text
 
 
 __all__ = [

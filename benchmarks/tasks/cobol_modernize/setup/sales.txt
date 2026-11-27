@@ -1,0 +1,5 @@
+north widget 3 4.50
+north gadget 12 2.25
+north bolt 7 0.99
+south widget 1 4.50
+south bolt 10 0.99

@@ -65,7 +65,7 @@ def test_the_builtin_policies_are_the_four_permission_modes() -> None:
         "smart-approve",
         "auto-approve",
     }
-    assert set(BUILTIN_AGENTS) == {"default", "explore", "lean"}
+    assert set(BUILTIN_AGENTS) == {"default", "explore", "lean", "picovibe"}
 
 
 class TestStart:
@@ -422,7 +422,11 @@ class TestSwitching:
         agents = AgentManager(load_orchestrator(config))
 
         assert agents.get_policy_order() == ["ask", "accept-edits", "auto-approve"]
-        assert [a.name for a in agents.primary_agents()] == ["default", "task-lead"]
+        assert [a.name for a in agents.primary_agents()] == [
+            "default",
+            "picovibe",
+            "task-lead",
+        ]
 
     def test_a_policy_file_overrides_the_builtin_policy(
         self,

@@ -1,0 +1,68 @@
+{
+  "run": "ttl-fix",
+  "date": "2026-11-24T18:38:50.090765+00:00",
+  "commit": "f2d354d",
+  "note": "TTL verifier relaxed; both pass",
+  "model": "mistral/deepseek-v4-1-flash-1017",
+  "tasks": [
+    "ttl_cache"
+  ],
+  "repeat": 2,
+  "results_dir": "/home/anhydrite/Documents/beta_labo/vibe_bench/harness_bench/results/20261124T174520Z",
+  "harnesses": {
+    "maki": {
+      "n": 2,
+      "passed": 2,
+      "mean_sec": 10.9,
+      "mean_prompt_tokens": 30838,
+      "mean_effective_tokens": 6518,
+      "mean_turns": 4,
+      "median_sec": 10.9,
+      "median_prompt_tokens": 30838,
+      "median_effective_tokens": 6518,
+      "median_turns": 4.0
+    },
+    "vibe": {
+      "n": 2,
+      "passed": 2,
+      "mean_sec": 20.0,
+      "mean_prompt_tokens": 19949,
+      "mean_effective_tokens": 4397,
+      "mean_turns": 4,
+      "median_sec": 20.0,
+      "median_prompt_tokens": 19949,
+      "median_effective_tokens": 4397,
+      "median_turns": 4.0
+    }
+  },
+  "per_task": {
+    "ttl_cache__maki__1": {
+      "passed": true,
+      "sec": 7.24,
+      "turns": 4,
+      "prompt": 27683,
+      "effective": 6563
+    },
+    "ttl_cache__maki__2": {
+      "passed": true,
+      "sec": 14.65,
+      "turns": 4,
+      "prompt": 33994,
+      "effective": 6474
+    },
+    "ttl_cache__vibe__1": {
+      "passed": true,
+      "sec": 26.58,
+      "turns": 5,
+      "prompt": 26691,
+      "effective": 4931
+    },
+    "ttl_cache__vibe__2": {
+      "passed": true,
+      "sec": 13.47,
+      "turns": 3,
+      "prompt": 13207,
+      "effective": 3863
+    }
+  }
+}

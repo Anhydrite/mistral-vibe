@@ -1,11 +1,12 @@
 """Let respx answer Vibe's HTTPX2 clients.
 
 respx models its routes on HTTPX and patches HTTPX's connection pools. Vibe's
-clients run on HTTPX2, so its pools are patched the same way; the route's
-request and response cross over unchanged, as both libraries speak the same
-transport interface underneath. A transport error a route raises is HTTPX's,
-which an HTTPX2 client would never raise: it is re-raised as HTTPCore2's error
-of the same name, which HTTPX2 then maps to its own, as for a real failure.
+clients run on HTTPX2, so its pools are patched the same way — sync and async —
+and the route's request and response cross over unchanged, as both libraries
+speak the same transport interface underneath. A transport error a route raises
+is HTTPX's, which an HTTPX2 client would never raise: it is re-raised as
+HTTPCore2's error of the same name, which HTTPX2 then maps to its own, as for a
+real failure.
 """
 
 from __future__ import annotations
@@ -23,7 +24,17 @@ class HTTPCore2Mocker(HTTPCoreMocker):
         "httpcore2._async.connection.AsyncHTTPConnection",
         "httpcore2._async.connection_pool.AsyncConnectionPool",
         "httpcore2._async.http_proxy.AsyncHTTPProxy",
+        "httpcore2._sync.connection.HTTPConnection",
+        "httpcore2._sync.connection_pool.ConnectionPool",
+        "httpcore2._sync.http_proxy.HTTPProxy",
     ]
+
+    @classmethod
+    def handler(cls, httpx_request: httpx.Request) -> Any:
+        try:
+            return super().handler(httpx_request)
+        except httpx.TransportError as error:
+            raise _as_httpcore2(error) from error
 
     @classmethod
     async def async_handler(cls, httpx_request: httpx.Request) -> Any:

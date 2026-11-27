@@ -46,6 +46,9 @@ from mistralai_vibe_local_harness.vibe import (
     DeferredTurnStartParams as HarnessDeferredTurnStartParams,
     DeferredTurnStartResult as HarnessDeferredTurnStartResult,
 )
+
+BATCH_TOOLS = ["read_files", "index", "glob", "multiedit", "webfetch", "websearch"]
+
 from tests.conftest import build_test_vibe_config
 from tests.constants import (
     CHAT_COMPLETIONS_PATH,
@@ -1810,6 +1813,7 @@ async def test_unified_runtime_declares_the_vibe_tool_group(
     assert groups["vibe"] == [
         "todo",
         SCRATCHPAD_TOOL_NAME,
+        *BATCH_TOOLS,
         "cron",
         "get_goal",
         "create_goal",
@@ -2062,8 +2066,15 @@ async def test_unified_runtime_offers_start_session_only_with_a_spawner(
     ]
     goal_tools = ["get_goal", "create_goal", "update_goal"]
     assert vibe_tools == [
-        ["todo", SCRATCHPAD_TOOL_NAME, "cron", *goal_tools],
-        ["todo", SCRATCHPAD_TOOL_NAME, "cron", "start_session", *goal_tools],
+        ["todo", SCRATCHPAD_TOOL_NAME, *BATCH_TOOLS, "cron", *goal_tools],
+        [
+            "todo",
+            SCRATCHPAD_TOOL_NAME,
+            *BATCH_TOOLS,
+            "cron",
+            "start_session",
+            *goal_tools,
+        ],
     ]
     assert plain.session_spawner is None
     assert spawning.session_spawner is spawner
@@ -18602,6 +18613,61 @@ async def test_resume_compiles_hooks_against_the_session_cwd(tmp_path: Path) -> 
     # never the caller's `elsewhere`.
     assert seen_cwds[-1] == str(project.resolve())
     assert seen_cwds[-1] != str(elsewhere)
+
+
+@pytest.mark.asyncio
+async def test_resume_moves_a_session_whose_folder_is_gone(tmp_path: Path) -> None:
+    # A renamed or deleted folder leaves the stored cwd pointing nowhere, and every
+    # command the session runs chdirs there: the resume moves the session into the
+    # folder it was invoked from, instead of failing every tool until the CLI is
+    # relaunched from the new path.
+    vibe_runtime = pytest.importorskip("mistralai_vibe_local_harness.vibe")
+    from vibe.app_server._unified_harness_backend_adapter import adapt_harness_host
+
+    config = build_test_vibe_config(
+        session_logging=SessionLoggingConfig(enabled=True, save_dir=str(tmp_path))
+    )
+    inner = _test_session_runtime_builder(config)
+    seen_cwds: list[str | None] = []
+
+    async def recording(
+        options: SessionOptions,
+        *,
+        require_api_key: bool = True,
+        entrypoint: Any = "cli",
+        org_config: OrgConfigSource,
+    ) -> Any:
+        seen_cwds.append(options.cwd)
+        return await inner(
+            options,
+            require_api_key=require_api_key,
+            entrypoint=entrypoint,
+            org_config=org_config,
+        )
+
+    project = tmp_path / "project"
+    project.mkdir()
+    elsewhere = tmp_path / "elsewhere"
+    elsewhere.mkdir()
+
+    host = adapt_harness_host(vibe_runtime.create_harness_host(), recording)
+    started = await host.start(
+        SessionStartParams(agent_config=SessionOptions(cwd=str(project)))
+    )
+    session_id = started.backend.session_id
+    project.rename(tmp_path / "renamed")
+
+    resumed = await host.resume(
+        SessionResumeParams(
+            session_id=session_id, agent_config=SessionOptions(cwd=str(elsewhere))
+        )
+    )
+    await host.shutdown()
+
+    # The move landed the session where the invocation runs, and the pins were built
+    # against it rather than against the folder that no longer exists.
+    assert resumed.backend.cwd == str(elsewhere.resolve())
+    assert seen_cwds[-1] == str(elsewhere.resolve())
 
 
 @pytest.mark.asyncio
@@ -37156,6 +37222,7 @@ async def test_resume_and_continue_are_built_from_a_fetched_org_config(
     from vibe.app_server._unified_harness_backend_adapter import adapt_harness_host
 
     stored_cwd = str((tmp_path / "stored-project").resolve())
+    Path(stored_cwd).mkdir()
     config = build_test_vibe_config(
         session_logging=SessionLoggingConfig(
             enabled=True, save_dir=str(tmp_path), session_prefix="session"
@@ -44584,3 +44651,162 @@ def test_a_held_notice_keeps_its_level(
     adapter._publish_startup_notices()  # pyright: ignore[reportPrivateUsage]
 
     assert [level for _, level in notices] == ["info"]
+
+
+class TestStreamRate:
+    """The live tokens-per-second the composer shows while a call streams."""
+
+    @staticmethod
+    def _clock(monkeypatch: pytest.MonkeyPatch, now: list[float]) -> None:
+        monkeypatch.setattr(
+            "vibe.app_server._unified_harness_backend_adapter.time.monotonic",
+            lambda: now[0],
+        )
+
+    @staticmethod
+    def _tokens(count: int) -> str:
+        return "x" * (count * 4)
+
+    def test_the_rate_divides_by_the_time_the_tokens_took(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from vibe.app_server._unified_harness_backend_adapter import _StreamRate
+
+        now = [100.0]
+        self._clock(monkeypatch, now)
+        rate = _StreamRate()
+        assert rate.observe("") is None, "nothing streamed, nothing to measure"
+
+        # A hundred tokens in half a second read as two hundred a second.
+        now[0] = 100.5
+        assert rate.observe(self._tokens(100)) == pytest.approx(200.0)
+        # The same hundred tokens over a full second read as a hundred a second.
+        now[0] = 101.0
+        assert rate.observe(self._tokens(100)) == pytest.approx(100.0)
+
+    def test_the_rate_averages_the_whole_call(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from vibe.app_server._unified_harness_backend_adapter import _StreamRate
+
+        now = [0.0]
+        self._clock(monkeypatch, now)
+        rate = _StreamRate()
+
+        now[0] = 0.2
+        assert rate.observe(self._tokens(10)) == pytest.approx(50.0), (
+            "10 tokens over 0.2s"
+        )
+        assert rate.observe(self._tokens(10)) is None, "no growth, no new reading"
+        now[0] = 1.0
+        assert rate.observe(self._tokens(20)) == pytest.approx(20.0), (
+            "20 tokens over 1s"
+        )
+
+    def test_a_restarted_answer_starts_its_clock_again(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from vibe.app_server._unified_harness_backend_adapter import _StreamRate
+
+        now = [0.0]
+        self._clock(monkeypatch, now)
+        rate = _StreamRate()
+        rate.observe(self._tokens(10))
+        now[0] = 4.0
+        assert rate.observe(self._tokens(20)) == pytest.approx(5.0)
+
+        # A retry replaces the draft: the new answer's clock starts here.
+        now[0] = 10.0
+        rate.observe("other")
+        now[0] = 10.5
+        assert rate.observe(self._tokens(10)) == pytest.approx(20.0)
+
+    def test_an_empty_stream_measures_nothing(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from vibe.app_server._unified_harness_backend_adapter import _StreamRate
+
+        self._clock(monkeypatch, [5.0])
+
+        assert _StreamRate().observe("") is None
+
+
+class TestInflightOutput:
+    """What the live rate measures: the reasoning a call thinks through, then its answer."""
+
+    @staticmethod
+    def _state(*entries: object) -> object:
+        from vibe.app_server.models import (
+            IdleSessionStatus,
+            PublicSession,
+            PublicSessionState,
+        )
+
+        return PublicSessionState(
+            event_id=0,
+            session=PublicSession(
+                id="session-1", status=IdleSessionStatus(), created_at=1, updated_at=1
+            ),
+            history=list(entries),
+        )
+
+    @staticmethod
+    def _reasoning(text: str, status: str) -> object:
+        from vibe.app_server.models import (
+            PublicEntryGenerationStatus,
+            PublicReasoningEntry,
+        )
+
+        return PublicReasoningEntry(
+            id=f"reasoning-{text[:8]}",
+            session_id="session-1",
+            created_at=1,
+            updated_at=1,
+            generation_status=PublicEntryGenerationStatus(status),
+            text=text,
+        )
+
+    @staticmethod
+    def _answer(text: str, status: str) -> object:
+        from vibe.app_server.models import (
+            PublicEntryGenerationStatus,
+            PublicMessageEntry,
+            TextContentBlock,
+        )
+
+        return PublicMessageEntry(
+            id=f"assistant-{text[:8]}",
+            session_id="session-1",
+            created_at=1,
+            updated_at=1,
+            generation_status=PublicEntryGenerationStatus(status),
+            role="assistant",
+            content=[TextContentBlock(text=text)],
+        )
+
+    def test_the_thinking_phase_counts_before_the_answer_starts(self) -> None:
+        from vibe.app_server._unified_harness_backend_adapter import _inflight_output
+
+        state = self._state(self._reasoning("weighing the two options", "in_progress"))
+
+        assert _inflight_output(state) == "weighing the two options"
+
+    def test_the_text_only_grows_when_the_answer_follows_its_reasoning(self) -> None:
+        from vibe.app_server._unified_harness_backend_adapter import _inflight_output
+
+        thinking = self._reasoning("weighing the two options", "in_progress")
+        answer = self._answer("Use the cache.", "in_progress")
+
+        assert _inflight_output(self._state(thinking, answer)) == (
+            "weighing the two optionsUse the cache."
+        )
+
+    def test_a_settled_entry_streams_nothing(self) -> None:
+        from vibe.app_server._unified_harness_backend_adapter import _inflight_output
+
+        state = self._state(
+            self._reasoning("earlier thinking", "completed"),
+            self._answer("earlier answer", "completed"),
+        )
+
+        assert _inflight_output(state) == ""

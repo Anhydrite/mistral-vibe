@@ -44,36 +44,50 @@ fn a_wide_row_shows_every_segment_in_full() {
 }
 
 #[test]
-fn narrowing_turns_gauges_into_levels_before_the_cwd_shortens() {
+fn narrowing_elides_the_model_then_levels_the_gauge_then_shortens_the_cwd() {
     let mut app = app();
     app.session.cwd = Some("~/work/dashboard/vibe/cli-rust".into());
     let mut row = |width| bottom_bar_row(&mut app, width).trim_end().to_owned();
 
     assert_eq!(
-        row(50),
-        "~/work/dashboard/vibe/cli-rust ctx ▎      23k/600k"
+        row(77),
+        "~/work/dashboard/vibe/cli-rust mistral-medium-3.5[high] · ctx ▎      23k/600k"
+    );
+    assert_eq!(
+        row(76),
+        "~/work/dashboard/vibe/cli-rust                mistral… · ctx ▎      23k/600k",
+        "the model's name elides first"
+    );
+    assert_eq!(
+        row(60),
+        "~/work/dashboard/vibe/cli-rust           mistral… · ctx ▁ 4%",
+        "then the gauge turns into a level"
     );
     assert_eq!(
         row(49),
-        "~/work/dashboard/vibe/cli-rust           ctx ▁ 4%",
-        "the gauge turns into a level first"
+        "…/dashboard/vibe/cli-rust ⧉   mistral… · ctx ▁ 4%",
+        "only then the cwd shortens and gains its copy icon"
     );
     assert_eq!(
-        row(38),
-        "…/dashboard/vibe/cli-rust ⧉   ctx ▁ 4%",
-        "only then the cwd shortens and gains its copy icon"
+        row(30),
+        "…/vibe/cli-rust ⧉     ctx ▁ 4%",
+        "the model hides before the cwd reaches its floor"
     );
     assert_eq!(row(20), "…/cli-rust ⧉   ctx ▁");
 }
 
 #[test]
-fn the_footer_names_neither_the_branch_nor_the_model() {
+fn the_footer_names_the_model_but_not_the_branch() {
     let mut app = app();
 
     let row = bottom_bar_row(&mut app, 120);
 
     assert!(row.starts_with("/tmp/project "), "{row:?}");
-    assert!(!row.contains('⎇') && !row.contains("mistral"), "{row:?}");
+    assert!(!row.contains('⎇'), "{row:?}");
+    assert!(
+        row.ends_with(" mistral-medium-3.5[high] · ctx ▎      23k/600k"),
+        "{row:?}"
+    );
 }
 
 #[test]
@@ -136,13 +150,18 @@ fn a_pending_quit_hint_hides_the_copy_icon() {
 }
 
 #[test]
-fn without_a_context_window_the_left_side_stands_alone() {
+fn without_a_context_window_the_model_still_leads_the_right_side() {
     let mut app = app();
     app.session.tokens = (5, 0);
 
     let row = bottom_bar_row(&mut app, 120);
 
-    assert_eq!(row.trim_end(), "/tmp/project");
+    assert!(row.starts_with("/tmp/project "), "{row:?}");
+    assert!(
+        row.trim_end().ends_with(" mistral-medium-3.5[high]"),
+        "{row:?}"
+    );
+    assert!(!row.contains("ctx"), "{row:?}");
 }
 
 #[test]

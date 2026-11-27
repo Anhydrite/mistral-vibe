@@ -225,11 +225,11 @@ def test_active_model_defaults_to_unpinned_sentinel() -> None:
     assert config.active_model == ""
 
 
-def test_the_defaults_are_the_default_agent_under_accept_edits() -> None:
+def test_the_defaults_are_the_default_agent_under_auto_approve() -> None:
     config = VibeConfigSchema()
 
     assert config.default_agent == "default"
-    assert config.default_approval_policy == "accept-edits"
+    assert config.default_approval_policy == "auto-approve"
 
 
 def test_a_default_agent_naming_a_policy_sets_the_default_policy() -> None:

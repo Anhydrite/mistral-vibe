@@ -9,7 +9,7 @@ use crate::support::{message, session_state};
 
 const WIDTH: u16 = 60;
 const HEIGHT: u16 = 40;
-/// Scrolled so the link's first row sits under the pinned separator and its second just below.
+/// Scrolled so the link's rows sit just below the pinned separator.
 const SCROLL: u16 = 11;
 
 /// Whether each screen row shows the link hover style, with the pointer at `at`.
@@ -51,5 +51,5 @@ fn hovering_the_pinned_prompt_over_a_hidden_link_row_highlights_nothing() {
 
 #[test]
 fn hovering_the_visible_link_row_still_highlights_it() {
-    assert!(hovered_rows((10, 2))[2]);
+    assert!(hovered_rows((10, 3))[3]);
 }

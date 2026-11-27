@@ -21,16 +21,7 @@ const STEER_PLACEHOLDER: &str = "Send a message to steer";
 /// Draw the chat input, returning the caret's screen cell while it is in view and takes keys.
 pub fn draw(app: &mut App, f: &mut Frame, area: Rect) -> Option<Position> {
     let title = composer_title::title(app, area.width);
-    composer_title::place_model(app, area, &title);
-    let caret = draw_box(app, f, area, title.line);
-    if app
-        .view
-        .mouse_position
-        .is_some_and(|at| composer_title::model_at(app, at))
-    {
-        super::list_hover::paint_button(f.buffer_mut(), app.view.model_area);
-    }
-    caret
+    draw_box(app, f, area, title)
 }
 
 fn draw_box(app: &App, f: &mut Frame, area: Rect, title: Line<'static>) -> Option<Position> {

@@ -1,0 +1,126 @@
+{
+  "run": "lean-prefix-v7-complex",
+  "date": "2026-11-24T19:44:24.856467+00:00",
+  "commit": "7a3cabc",
+  "note": "complex tasks with the lean prefix",
+  "model": "mistral/deepseek-v4-1-flash-1017",
+  "tasks": [
+    "mini_http",
+    "refactor_rates",
+    "txn_kv"
+  ],
+  "repeat": 2,
+  "results_dir": "/home/anhydrite/Documents/beta_labo/vibe_bench/harness_bench/results/20261124T193914Z",
+  "harnesses": {
+    "maki": {
+      "n": 6,
+      "passed": 6,
+      "mean_sec": 12.9,
+      "mean_prompt_tokens": 45896,
+      "mean_effective_tokens": 7090,
+      "mean_turns": 5.7,
+      "median_sec": 13.5,
+      "median_prompt_tokens": 45396,
+      "median_effective_tokens": 7014,
+      "median_turns": 5.5
+    },
+    "vibe": {
+      "n": 6,
+      "passed": 6,
+      "mean_sec": 38.1,
+      "mean_prompt_tokens": 30314,
+      "mean_effective_tokens": 5034,
+      "mean_turns": 5.7,
+      "median_sec": 19.8,
+      "median_prompt_tokens": 21783,
+      "median_effective_tokens": 4877,
+      "median_turns": 5.0
+    }
+  },
+  "per_task": {
+    "mini_http__maki__1": {
+      "passed": true,
+      "sec": 10.26,
+      "turns": 5,
+      "prompt": 39484,
+      "effective": 6972
+    },
+    "mini_http__maki__2": {
+      "passed": true,
+      "sec": 17.07,
+      "turns": 6,
+      "prompt": 51473,
+      "effective": 7057
+    },
+    "mini_http__vibe__1": {
+      "passed": true,
+      "sec": 27.14,
+      "turns": 8,
+      "prompt": 58475,
+      "effective": 6123
+    },
+    "mini_http__vibe__2": {
+      "passed": true,
+      "sec": 138.11,
+      "turns": 5,
+      "prompt": 24299,
+      "effective": 5355
+    },
+    "refactor_rates__maki__1": {
+      "passed": true,
+      "sec": 8.39,
+      "turns": 5,
+      "prompt": 36223,
+      "effective": 7167
+    },
+    "refactor_rates__maki__2": {
+      "passed": true,
+      "sec": 6.46,
+      "turns": 5,
+      "prompt": 36227,
+      "effective": 7683
+    },
+    "refactor_rates__vibe__1": {
+      "passed": true,
+      "sec": 10.86,
+      "turns": 4,
+      "prompt": 14890,
+      "effective": 4138
+    },
+    "refactor_rates__vibe__2": {
+      "passed": true,
+      "sec": 12.97,
+      "turns": 5,
+      "prompt": 19267,
+      "effective": 3779
+    },
+    "txn_kv__maki__1": {
+      "passed": true,
+      "sec": 16.8,
+      "turns": 7,
+      "prompt": 60659,
+      "effective": 6771
+    },
+    "txn_kv__maki__2": {
+      "passed": true,
+      "sec": 18.24,
+      "turns": 6,
+      "prompt": 51309,
+      "effective": 6893
+    },
+    "txn_kv__vibe__1": {
+      "passed": true,
+      "sec": 15.9,
+      "turns": 4,
+      "prompt": 16047,
+      "effective": 4399
+    },
+    "txn_kv__vibe__2": {
+      "passed": true,
+      "sec": 23.61,
+      "turns": 8,
+      "prompt": 48909,
+      "effective": 6413
+    }
+  }
+}

@@ -120,6 +120,8 @@ struct GroupSpan<'a> {
     /// The live trailing group still spins.
     open: bool,
     reasoning: bool,
+    /// Text lines of every reasoning trace in the group.
+    reasoning_lines: usize,
     /// A reasoning row is still streaming.
     thinking: bool,
     hooks: usize,
@@ -630,6 +632,7 @@ impl Transcript {
             kinds,
             running,
             reasoning: span.reasoning,
+            reasoning_lines: span.reasoning_lines,
             thinking: !finalized && span.thinking,
             hooks: span.hooks,
         })
@@ -672,6 +675,13 @@ impl Transcript {
             reasoning: visible
                 .iter()
                 .any(|(_, entry)| matches!(entry.typed, HistoryEntry::Reasoning(_))),
+            reasoning_lines: visible
+                .iter()
+                .filter_map(|(_, entry)| match &entry.typed {
+                    HistoryEntry::Reasoning(reasoning) => Some(reasoning.text.lines().count()),
+                    _ => None,
+                })
+                .sum(),
             thinking: visible.iter().any(|(_, entry)| {
                 matches!(entry.typed, HistoryEntry::Reasoning(_)) && entry.typed.in_progress()
             }),

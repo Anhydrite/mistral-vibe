@@ -14,6 +14,7 @@ pub struct SessionStats {
     pub last_turn_prompt_tokens: u64,
     pub last_turn_completion_tokens: u64,
     pub last_turn_cached_tokens: u64,
+    pub tokens_per_second: f64,
     pub input_price_per_million: f64,
     pub output_price_per_million: f64,
     pub cached_input_price_per_million: Option<f64>,

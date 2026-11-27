@@ -469,6 +469,12 @@ def _replace(
     text = _to_lf(original)
     matches = text.count(old_str)
     if matches == 0:
+        fuzzy = _fuzzy_replace(
+            original, old_str, new_str, replace_all, path, previews,
+            default_newline=default_newline,
+        )
+        if fuzzy is not None:
+            return fuzzy
         raise ValueError(_not_found_message(text, old_str, path))
     if matches > 1 and not replace_all:
         raise ValueError(_not_unique_message(text, old_str, path, matches))
@@ -495,6 +501,126 @@ def _replace(
         line_delta += new_line_count - old_line_count
     lines_changed = max(old_line_count, new_line_count) * replacement_count
     return updated, lines_changed
+
+
+_UNICODE_SPACES = "\u0085\u00a0\u1680\u2000\u2001\u2002\u2003\u2004\u2005" \
+    "\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000"
+_SPACE_TABLE = str.maketrans({character: " " for character in _UNICODE_SPACES})
+_INDENT = re.compile(r"^[ \t]*")
+
+
+def _plain(line: str) -> str:
+    return line.translate(_SPACE_TABLE).replace("\t", "    ")
+
+
+def _key(line: str, strategy: int) -> str:
+    """One line's comparison key, looser as the strategy number grows."""
+    plain = _plain(line)
+    if strategy == 1:
+        # Trailing whitespace, tabs and unicode spaces are already forgiven.
+        return plain.rstrip()
+    if strategy == 2:
+        # Leading indentation too: the model recopied it from memory.
+        return plain.strip()
+    # Every run of whitespace, inside the line included.
+    return " ".join(plain.split())
+
+
+def _indent_rebase(matched: list[str], wanted: list[str]) -> dict[str, str]:
+    """The model's indentation columns mapped to the file's, when they differ."""
+    drift: dict[str, str] = {}
+    for file_line, model_line in zip(matched, wanted):
+        if not model_line.strip() or not file_line.strip():
+            continue
+        model_indent = _INDENT.match(model_line).group()
+        file_indent = _INDENT.match(file_line).group()
+        drift.setdefault(model_indent, file_indent)
+    return drift if any(k != v for k, v in drift.items()) else {}
+
+
+def _rebase_line(line: str, drift: dict[str, str]) -> str:
+    if not drift or not line.strip():
+        return line
+    indent = _INDENT.match(line).group()
+    if indent in drift:
+        return drift[indent] + line[len(indent):]
+    deepest = max(
+        (model for model in drift if indent.startswith(model)),
+        key=len,
+        default=None,
+    )
+    if deepest is None:
+        return line
+    return drift[deepest] + indent[len(deepest):] + line[len(indent):]
+
+
+def _fuzzy_replace(
+    original: str,
+    old_str: str,
+    new_str: str,
+    replace_all: bool,
+    path: Path,
+    previews: list[dict[str, Any]],
+    *,
+    default_newline: Callable[[], str],
+) -> tuple[str, int] | None:
+    """Apply an edit whose ``old_string`` only matches after forgiving drift.
+
+    The model recopies a block from memory: trailing spaces, the indentation
+    level, tabs, a doubled space inside a line, a non-breaking space. The
+    strict pass fails on all of them, which costs a correction turn. This
+    locates the block by lines, loosening one kind of whitespace at a time,
+    then rewrites the replacement in the file's own indentation.
+
+    Returns None when nothing matches, so the caller keeps its usual error.
+    """
+    text = _to_lf(original)
+    file_lines = text.split("\n")
+    wanted = old_str.split("\n")
+    count = len(wanted)
+    if count > len(file_lines):
+        return None
+    for strategy in (1, 2, 3):
+        wanted_keys = [_key(line, strategy) for line in wanted]
+        if not any(wanted_keys):
+            return None
+        keys = [_key(line, strategy) for line in file_lines]
+        starts = [
+            start
+            for start in range(len(file_lines) - count + 1)
+            if keys[start:start + count] == wanted_keys
+        ]
+        if not starts:
+            continue
+        if len(starts) > 1 and not replace_all:
+            raise ValueError(
+                _not_unique_message(text, old_str, path, len(starts))
+            )
+        chosen = starts if replace_all else starts[:1]
+        drift = _indent_rebase(file_lines[chosen[0]:chosen[0] + count], wanted)
+        replacement = [_rebase_line(line, drift) for line in new_str.split("\n")]
+        line_delta = 0
+        for start in chosen:
+            passage = "\n".join(file_lines[start:start + count])
+            previews.append({
+                "old_start_line": start + 1,
+                "new_start_line": start + 1 + line_delta,
+                "old_lines": passage.splitlines(keepends=True),
+                "new_lines": "\n".join(replacement).splitlines(keepends=True),
+            })
+            line_delta += len(replacement) - count
+        # Rebuild by walking once, from the first replacement to the last.
+        out_lines: list[str] = []
+        cursor = 0
+        for start in chosen:
+            out_lines.extend(file_lines[cursor:start])
+            out_lines.extend(replacement)
+            cursor = start + count
+        out_lines.extend(file_lines[cursor:])
+        newline = _dominant_newline(text) or default_newline()
+        lines_changed = max(count, len(replacement)) * len(chosen)
+        return _from_lf("\n".join(out_lines), newline), lines_changed
+    return None
 
 
 def _replace_passages(

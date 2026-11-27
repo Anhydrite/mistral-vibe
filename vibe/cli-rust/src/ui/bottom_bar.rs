@@ -1,4 +1,5 @@
-//! Bottom bar: cwd (with a copy icon once shortened) on the left; usage and context gauges on the right.
+//! Bottom bar: cwd (with a copy icon once shortened) on the left; the active model, then the usage
+//! and context gauges, on the right.
 
 use ratatui::buffer::Buffer;
 use ratatui::layout::Rect;
@@ -61,11 +62,13 @@ pub fn draw(app: &mut App, f: &mut Frame, area: Rect) {
     // The history search line takes the quit hint's slot.
     let quit = quit.or_else(|| super::reverse_search::line(app, area.width));
     let path = app.session.cwd.clone().map(crate::replay::footer_cwd);
+    let model = app.session.startup_config.active_model.clone();
     let fitted = footer_fit::fit(footer_fit::Inputs {
         width: area.width as usize,
         cwd: &cwd,
         copy_icon: path.is_some(),
         quit: quit.as_ref().map(Line::width),
+        model: &model,
         tokens: app.session.tokens,
         usage: crate::usage_gauge::footer_usage(app),
     });
@@ -82,6 +85,13 @@ pub fn draw(app: &mut App, f: &mut Frame, area: Rect) {
         links.push((start, left.len(), BarLinkAction::CopyPath(path)));
     }
     let mut right = Vec::new();
+    // The model's name leads the right side, so it sits left of the usage gauges.
+    let model_width = fitted
+        .model
+        .iter()
+        .map(|(text, _)| text.width())
+        .sum::<usize>() as u16;
+    right.extend(spans(fitted.model));
     let context_width = fitted
         .context
         .iter()
@@ -136,6 +146,20 @@ pub fn draw(app: &mut App, f: &mut Frame, area: Rect) {
             ..area
         },
     );
+    // The model's name leads the right side; a click on it opens `/model`.
+    app.view.model_area = if right_width == 0 || model_width == 0 {
+        Rect::default()
+    } else {
+        Rect {
+            x: right_x,
+            width: model_width.min(area.right().saturating_sub(right_x)),
+            height: 1,
+            ..area
+        }
+    };
+    if app.view.mouse_position.is_some_and(|at| model_at(app, at)) {
+        super::list_hover::paint_button(f.buffer_mut(), app.view.model_area);
+    }
     // The context gauge ends the right side; a click on it opens `/context`.
     app.view.footer_tokens_area = if context_width == 0 {
         Rect::default()
@@ -154,6 +178,13 @@ pub fn draw(app: &mut App, f: &mut Frame, area: Rect) {
     paint_selection(app, f, area);
 }
 
+/// Whether `at` is on the model's name in the bar while a click there may open `/model`, which needs an idle session like the typed command.
+pub fn model_at(app: &App, at: (u16, u16)) -> bool {
+    app.focus() == crate::focus::Focus::Composer
+        && app.view.model_area.contains(at.into())
+        && crate::commands::submission::accepts_idle_command(app)
+}
+
 /// Whether `at` is on the footer's context gauge; a click there toggles `/context`, a side-channel read that also runs while a turn generates.
 pub fn tokens_at(app: &App, at: (u16, u16)) -> bool {
     use crate::focus::Focus;
@@ -164,9 +195,9 @@ pub fn tokens_at(app: &App, at: (u16, u16)) -> bool {
         && app.view.footer_tokens_area.contains(at.into())
 }
 
-/// Whether a click at `at` acts on the footer (the context gauge or a painted link) instead of selecting text.
+/// Whether a click at `at` acts on the footer (the model's name, the context gauge or a painted link) instead of selecting text.
 pub fn clickable_at(app: &App, at: (u16, u16)) -> bool {
-    tokens_at(app, at) || link_at(app, at).is_some()
+    model_at(app, at) || tokens_at(app, at) || link_at(app, at).is_some()
 }
 
 /// The painted link at `at` (the cwd's copy icon), unless an overlay drawn over the footer blocks it.

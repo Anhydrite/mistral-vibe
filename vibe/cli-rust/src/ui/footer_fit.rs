@@ -4,6 +4,7 @@ use unicode_segmentation::UnicodeSegmentation;
 use unicode_width::UnicodeWidthStr;
 
 use super::footer_gauge::{context_forms, usage_forms, Usage};
+use crate::utils::text::ellipsize;
 
 /// Between the gauges.
 pub const GAUGE_SEP: &str = " · ";
@@ -11,6 +12,8 @@ pub const GAUGE_SEP: &str = " · ";
 pub const COPY_ICON: &str = "⧉";
 /// The cwd shrinks to `…/` and its last component, at most this many cells, once the gauges are levels.
 const CWD_FLOOR: usize = 16;
+/// The model's name shrinks to this many cells before it hides.
+const MODEL_FLOOR: usize = 8;
 
 /// What a footer part means, mapped to a style by the renderer.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -29,6 +32,7 @@ pub type Form = Vec<(String, Tone)>;
 
 #[derive(Clone, Copy)]
 enum Slot {
+    Model,
     Usage,
     Context,
 }
@@ -37,15 +41,24 @@ impl Slot {
     /// The segment's position in `fit`'s array.
     fn index(self) -> usize {
         match self {
-            Slot::Usage => 0,
-            Slot::Context => 1,
+            Slot::Model => 0,
+            Slot::Usage => 1,
+            Slot::Context => 2,
         }
     }
 }
 
 /// Each step moves one segment to its next narrower form; a segment past its last form is hidden.
-/// The gauges turn from bars to one-cell levels, then lose their numbers, but never hide.
-const LADDER: [Slot; 4] = [Slot::Context, Slot::Usage, Slot::Context, Slot::Usage];
+/// The model's name shortens, then hides; the gauges turn from bars to one-cell levels, then lose
+/// their numbers, but never hide.
+const LADDER: [Slot; 6] = [
+    Slot::Model,
+    Slot::Context,
+    Slot::Usage,
+    Slot::Model,
+    Slot::Context,
+    Slot::Usage,
+];
 /// The steps taken before the cwd shortens: the gauges turn into levels.
 const BEFORE_CWD: usize = 2;
 
@@ -56,6 +69,8 @@ pub struct Inputs<'a> {
     pub copy_icon: bool,
     /// The quit hint's width; it replaces the cwd and never shrinks.
     pub quit: Option<usize>,
+    /// The active model's name, leading the right side; a click there opens `/model`.
+    pub model: &'a str,
     pub tokens: (u64, u64),
     pub usage: Option<Usage>,
 }
@@ -66,6 +81,7 @@ pub struct Fitted {
     pub cwd: String,
     /// Paint the copy icon after the shortened cwd.
     pub copy_icon: bool,
+    pub model: Form,
     pub context: Form,
     pub usage: Form,
 }
@@ -92,6 +108,7 @@ impl Segment {
 pub fn fit(inputs: Inputs) -> Fitted {
     let quit = inputs.quit.is_some();
     let mut segments = [
+        Segment::new(model_forms(inputs.model)),
         Segment::new(usage_forms(inputs.usage)),
         Segment::new(context_forms(inputs.tokens)),
     ];
@@ -124,7 +141,7 @@ pub fn fit(inputs: Inputs) -> Fitted {
         .rev()
         .find(|&cells| total(&segments, cwd(cells)) <= inputs.width)
         .unwrap_or(0);
-    let [usage, context] = segments.map(|segment| segment.current());
+    let [model, usage, context] = segments.map(|segment| segment.current());
     Fitted {
         cwd: if quit {
             String::new()
@@ -132,16 +149,30 @@ pub fn fit(inputs: Inputs) -> Fitted {
             elide_path(inputs.cwd, cwd_width)
         },
         copy_icon: icon > 0 && shortened(cwd_width),
+        model,
         context,
         usage,
     }
 }
 
+/// The model's name, then its elided form, then hidden.
+fn model_forms(model: &str) -> Vec<Form> {
+    if model.is_empty() {
+        return Vec::new();
+    }
+    let name = || (model.to_owned(), Tone::Text);
+    vec![
+        vec![name()],
+        vec![(ellipsize(model, MODEL_FLOOR), Tone::Text)],
+        Vec::new(),
+    ]
+}
+
 /// The whole row's cells with a `cwd`-cell cwd: left side, one-cell spacer, right side.
-fn total(segments: &[Segment; 2], cwd: usize) -> usize {
-    let [usage, context] = segments.each_ref().map(Segment::width);
-    let sep = GAUGE_SEP.width() * usize::from(usage > 0 && context > 0);
-    let right = usage + context + sep;
+fn total(segments: &[Segment; 3], cwd: usize) -> usize {
+    let widths = segments.each_ref().map(Segment::width);
+    let shown = widths.iter().filter(|width| **width > 0).count();
+    let right = widths.iter().sum::<usize>() + GAUGE_SEP.width() * shown.saturating_sub(1);
     cwd + right + usize::from(cwd > 0 && right > 0)
 }
 

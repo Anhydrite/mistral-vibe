@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
 from vibe.core.skills.models import SkillScope
+from vibe.core.utils.matching import name_matches
 
 if TYPE_CHECKING:
     from vibe.core.config import VibeConfigSchema
@@ -31,9 +32,16 @@ def is_required_plugin(plugin: PluginDescriptor) -> bool:
 def is_plugin_enabled(plugin: PluginDescriptor, config: VibeConfigSchema) -> bool:
     # le-chat decides a library plugin (only those that are on are synced),
     # so ``disabled_plugins`` naming it cannot turn it off.
-    if is_required_plugin(plugin) or plugin.scope is SkillScope.REMOTE:
+    if plugin.scope is SkillScope.REMOTE:
         return True
-    if plugin.name in config.disabled_plugins:
+    patterns = list(config.disabled_plugins)
+    disabled = bool(patterns) and name_matches(plugin.name, patterns)
+    if is_required_plugin(plugin):
+        # Naming a required plugin does not turn it off, but a wildcard does:
+        # that is how the PicoVibe agent silences plugins, skills included.
+        wildcard = any(pattern in {"*", "re:.*"} for pattern in patterns)
+        return not (disabled and wildcard)
+    if disabled:
         return False
     return plugin.default_enabled or plugin.name in config.enabled_plugins
 

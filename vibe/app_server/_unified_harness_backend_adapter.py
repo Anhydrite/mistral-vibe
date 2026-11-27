@@ -620,6 +620,7 @@ from vibe.app_server.models import (
     PublicHistoryEntry,
     PublicMessageEntry,
     PublicNoticeEntry,
+    PublicReasoningEntry,
     PublicSession,
     PublicSessionProject,
     PublicSessionState,
@@ -2943,6 +2944,9 @@ class UnifiedHarnessBackendHostAdapter:  # noqa: PLR0904 - implements app-server
             org_config=OrgConfigSource.ENSURED,
         )
         _require_session_logging(context)
+        await self._recover_stored_workspace(
+            params.session_id, _session_cwd(params.agent_config)
+        )
         seat = _terminal_seat(params.agent_config, context)
         context, derivation, resolution, settings = await self._pin_for_resume(
             params.agent_config,
@@ -3024,6 +3028,9 @@ class UnifiedHarnessBackendHostAdapter:  # noqa: PLR0904 - implements app-server
                 "No session to continue",
                 {"harnessCode": NOTHING_TO_CONTINUE},
             )
+        await self._recover_stored_workspace(
+            target_id, _session_cwd(params.agent_config)
+        )
         context, derivation, resolution, settings = await self._pin_for_resume(
             params.agent_config, target_id, context, derivation, require_api_key=True
         )
@@ -4107,6 +4114,43 @@ class UnifiedHarnessBackendHostAdapter:  # noqa: PLR0904 - implements app-server
         async with backend.relocation_reservation():
             return await self._relocate_reserved(params, backend)
 
+    async def _recover_stored_workspace(self, session_id: str, cwd: str) -> None:
+        """Move a session whose folder was renamed or deleted to ``cwd``.
+
+        The stored cwd wins on resume, and the Runtime chdirs every command
+        there, so a session left in a folder that no longer exists fails every
+        tool the model runs; relaunching the CLI was the only cure. The move is
+        the one ``/cd`` makes, on the record: the session opens where the user
+        is, and every open after it agrees.
+
+        Best effort: a move that fails leaves the session opened where it was,
+        for the user to `/cd` away from.
+        """
+        try:
+            stored = await harness_call(self._host.session_cwd(session_id))
+            if stored is None or await asyncio.to_thread(
+                Path(stored).expanduser().is_dir
+            ):
+                return
+            if Path(cwd).expanduser().resolve() == Path(stored).expanduser().resolve():
+                return
+            logger.warning(
+                "Session %s was last open in %s, which no longer exists; "
+                "opening it in %s",
+                session_id,
+                stored,
+                cwd,
+            )
+            await self._relocate_reserved(
+                SessionRelocateParams(session_id=session_id, cwd=cwd), None
+            )
+        except Exception:
+            logger.warning(
+                "Could not move session %s out of a folder that no longer exists",
+                session_id,
+                exc_info=True,
+            )
+
     async def _relocate_reserved(
         self,
         params: SessionRelocateParams,
@@ -4523,6 +4567,11 @@ class UnifiedHarnessBackendHostAdapter:  # noqa: PLR0904 - implements app-server
                 [VIBE_TOOL_GROUP],
                 context.vibe_tools.executor_factory(
                     context.storage_root,
+                    cwd=lambda: (
+                        context.workspace.workspace.cwd
+                        if context.workspace is not None
+                        else Path.cwd()
+                    ),
                     scheduled_loops=self.cron_scheduler,
                     session_spawner=context.session_spawner,
                     session_origin=self.spawn_origin,
@@ -6549,6 +6598,11 @@ class UnifiedHarnessBackendHostAdapter:  # noqa: PLR0904 - implements app-server
             [VIBE_TOOL_GROUP],
             context.vibe_tools.executor_factory(
                 context.storage_root,
+                cwd=lambda: (
+                    context.workspace.workspace.cwd
+                    if context.workspace is not None
+                    else Path.cwd()
+                ),
                 scheduled_loops=self.cron_scheduler,
                 session_spawner=context.session_spawner,
                 session_origin=self.spawn_origin,
@@ -8824,6 +8878,8 @@ class UnifiedHarnessBackendAdapter(  # noqa: PLR0904 - implements app-server ses
         # The derivation Core was last handed, which a parked change does not move.
         self._running = derivation
         self._runtime = derivation.runtime
+        # The live generation rate the composer shows while an answer streams.
+        self._stream_rate = _StreamRate()
         self._adapter_config = derivation.adapter_config
         self._model = derivation.adapter_config.model
         self._skills = derivation.skill_payloads
@@ -9136,7 +9192,15 @@ class UnifiedHarnessBackendAdapter(  # noqa: PLR0904 - implements app-server ses
             config=lambda: self._context.config_orchestrator.config,
             credentials=lambda: self._context.platform_credentials,
             refresh=refresh_registry_skills,
-            cleanup=None if context.skill_store is None else context.skill_store.run,
+            # With every skill disabled there is nothing for the store to
+            # prune, and starting the background worker costs a process spawn
+            # plus its shutdown on every one-shot run.
+            cleanup=(
+                None
+                if context.skill_store is None
+                or _skills_fully_disabled(self._context.config_orchestrator.config)
+                else context.skill_store.run
+            ),
             roots=lambda: self._context.harness_files.project_roots,
             running=lambda: self._running.registry_versions,
             resolve=self._resolved_registry_versions,
@@ -17474,7 +17538,12 @@ class UnifiedHarnessBackendAdapter(  # noqa: PLR0904 - implements app-server ses
             for app_event in reconcile_snapshot(previous, current)
             if not isinstance(app_event, SessionSnapshot | ChildSessionUpdated)
         ]
-        stats = self._advance_stats(previous, current, _approximate_steps(app_events))
+        stats = self._advance_stats(
+            previous,
+            current,
+            _approximate_steps(app_events),
+            live_rate=self._stream_rate.observe(_inflight_output(current)),
+        )
         updated = stats != self._runtime.stats
         self._runtime = self._runtime.model_copy(update={"stats": stats})
         translated, current = self._interleave_stats(
@@ -18866,7 +18935,12 @@ class UnifiedHarnessBackendAdapter(  # noqa: PLR0904 - implements app-server ses
         )
 
     def _advance_stats(
-        self, previous: PublicSessionState, current: PublicSessionState, steps: int
+        self,
+        previous: PublicSessionState,
+        current: PublicSessionState,
+        steps: int,
+        *,
+        live_rate: float | None = None,
     ) -> AgentStatsSnapshot:
         stats = self._runtime.stats
         update: dict[str, object] = {"steps": stats.steps + steps}
@@ -18905,6 +18979,11 @@ class UnifiedHarnessBackendAdapter(  # noqa: PLR0904 - implements app-server ses
             update["last_turn_prompt_tokens"] = added_prompt
             update["last_turn_completion_tokens"] = added_completion
             update["last_turn_cached_tokens"] = added_cached
+        # The rate follows the answer as it streams, not the turn it belongs to:
+        # a turn's wall time counts every tool call too. A snapshot that streamed
+        # nothing holds the last measured rate.
+        if live_rate is not None:
+            update["tokens_per_second"] = live_rate
         return stats.model_copy(update=update)
 
     def _stats_event(
@@ -20093,6 +20172,57 @@ def _context_tokens(context_usage: VibeTokenUsage | None) -> int | None:
     return context_usage.input_tokens + context_usage.output_tokens
 
 
+# Characters per token, the usual ratio for prose and code: the live rate
+# estimates a provider's stream, whose exact token count only arrives once the
+# call ends.
+_STREAM_CHARS_PER_TOKEN = 4
+
+
+def _inflight_output(state: PublicSessionState) -> str:
+    """What the running call has streamed so far: its reasoning, then its answer.
+
+    Reasoning streams first and the answer follows, in that history order, so
+    the text only ever grows: the rate keeps counting through the thinking phase.
+    """
+    streamed = []
+    for entry in state.history or []:
+        if entry.generation_status is not PublicEntryGenerationStatus.IN_PROGRESS:
+            continue
+        if isinstance(entry, PublicReasoningEntry):
+            streamed.append(entry.text)
+        elif isinstance(entry, PublicMessageEntry) and entry.role == "assistant":
+            streamed.append(entry.text)
+    return "".join(streamed)
+
+
+class _StreamRate:
+    """Output tokens per second, measured on the text a call streams.
+
+    The clock starts with a new answer, so the rate averages the whole call
+    rather than a window that a pause would skew, and it is recomputed every
+    time the answer grows: a hundred tokens in half a second read as two
+    hundred a second.
+    """
+
+    def __init__(self) -> None:
+        self._text = ""
+        self._started: float | None = None
+
+    def observe(self, text: str) -> float | None:
+        """The rate after ``text`` streamed, or ``None`` when nothing did."""
+        if text == self._text:
+            return None
+        if self._started is None or not text.startswith(self._text):
+            # A new answer, or one a retry restarted: its clock starts here.
+            self._text = ""
+            self._started = time.monotonic()
+        self._text = text
+        elapsed = time.monotonic() - self._started
+        if not text or elapsed <= 0:
+            return None
+        return len(text) / _STREAM_CHARS_PER_TOKEN / elapsed
+
+
 def _snapshot_stats(state: PublicSessionState) -> AgentStatsSnapshot:
     """Read a session's spend off one snapshot, with no running total to add to."""
     usage = state.session.token_usage
@@ -20759,6 +20889,12 @@ def _session_connector_state(
             source.alias: source.error for source in sources if source.error is not None
         },
     )
+
+
+def _skills_fully_disabled(config: Any) -> bool:
+    """Whether the config turns every skill off, by name or by wildcard."""
+    patterns = [str(pattern).strip().lower() for pattern in config.disabled_skills]
+    return any(pattern in {"*", "re:.*"} for pattern in patterns)
 
 
 def _goal_without_live_counts(goal: PublicGoal | None) -> PublicGoal | None:

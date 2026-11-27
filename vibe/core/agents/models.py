@@ -6,6 +6,7 @@ from pathlib import Path
 import tomllib
 from typing import Any
 
+from vibe.ablations import ablated
 from vibe.agents import AgentSafety, AgentType
 from vibe.core.agents._migration import (
     LEGACY_BASE_DISABLED_KEY,
@@ -176,6 +177,35 @@ DEFAULT = AgentProfile(
     AgentSafety.NEUTRAL,
 )
 
+# The lean agent the benchmark runs: the PicoVibe prompt, eight tools, no
+# skills, plugins, MCP, connectors, subagents or background processes. It is a
+# profile of its own so that plain ``vibe`` keeps every stock feature, and
+# selecting it (``--agent picovibe``) is what trades them for a smaller prompt.
+PICOVIBE = AgentProfile(
+    "picovibe",
+    "PicoVibe",
+    "Compact instructions and the core tool surface",
+    AgentSafety.NEUTRAL,
+    overrides={
+        "system_prompt_id": "picovibe",
+        "enabled_tools": [
+            "bash", "read_file", "write_file", "edit",
+            "webfetch", "websearch",
+            *(
+                []
+                if ablated("no-batch-tools")
+                else ["read_files", "index", "glob", "multiedit"]
+            ),
+        ],
+        "disabled_skills": [] if ablated("skills-on") else ["*"],
+        "disabled_plugins": [] if ablated("skills-on") else ["*"],
+        "enable_subagents": False,
+        "enable_background_processes": False,
+        "enable_connectors": False,
+        "enable_mcp": False,
+    },
+)
+
 ASK = AgentProfile(
     ApprovalPolicyName.ASK,
     "Ask",
@@ -268,11 +298,12 @@ LEAN = AgentProfile(
     },
 )
 
-BUILTIN_AGENTS: dict[str, AgentProfile] = {
-    BuiltinAgentName.DEFAULT: DEFAULT,
-    BuiltinAgentName.EXPLORE: EXPLORE,
-    BuiltinAgentName.LEAN: LEAN,
-}
+# This fork ships one agent: `picovibe`, which is also what plain ``vibe``
+# starts on. `DEFAULT`, `EXPLORE` and `LEAN` above stay defined so their
+# profiles, prompts and install machinery keep building, but nothing discovers
+# them: `DEFAULT` is the runtime's name for "no agent pinned", never a profile
+# to run. Restoring one is putting it back in this dict.
+BUILTIN_AGENTS: dict[str, AgentProfile] = {PICOVIBE.name: PICOVIBE}
 
 # A file in an agents directory named after one of these overrides the policy,
 # not an agent.

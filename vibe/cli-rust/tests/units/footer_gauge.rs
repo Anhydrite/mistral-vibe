@@ -70,7 +70,7 @@ fn a_wide_row_shows_the_usage_then_the_context() {
 
     let row = bottom_bar_row(&mut app, 120);
 
-    let tail = "   usage ██▍    40% · ctx ▎      23k/600k";
+    let tail = " mistral-medium-3.5 · usage ██▍    40% · ctx ▎      23k/600k";
     assert!(row.ends_with(tail), "{row:?}");
 }
 
@@ -80,7 +80,10 @@ fn without_a_budget_no_usage_gauge_is_painted() {
 
     let row = bottom_bar_row(&mut app, 120);
 
-    assert!(row.ends_with("   ctx ▎      23k/600k"), "{row:?}");
+    assert!(
+        row.ends_with(" mistral-medium-3.5 · ctx ▎      23k/600k"),
+        "{row:?}"
+    );
     assert!(!row.contains("usage"));
 }
 
@@ -103,21 +106,34 @@ fn pay_as_you_go_reads_by_the_gauge_and_a_spent_allowance_reads_full() {
 }
 
 #[test]
-fn narrowing_turns_bars_into_levels_then_drops_their_numbers() {
+fn narrowing_elides_the_model_then_turns_bars_into_levels_then_shortens_the_cwd() {
     let mut app = app(json!({ "usagePercentage": 40.0 }));
     let mut row = |width| bottom_bar_row(&mut app, width).trim_end().to_owned();
 
-    let wide = "/tmp/project usage ██▍    40% · ctx ▎      23k/600k";
+    let wide = "/tmp/project mistral-medium-3.5 · usage ██▍    40% · ctx ▎      23k/600k";
     let width = wide.chars().count() as u16;
     assert_eq!(row(width), wide);
-    // The gauges give way first, context then usage; the cwd keeps its path.
+    // The model's name gives way first, then the context gauge, then usage's; the cwd keeps its path.
     assert_eq!(
-        row(width - 1),
-        "/tmp/project           usage ██▍    40% · ctx ▁ 4%"
+        row(60),
+        "/tmp/project          mistral… · usage ██▍    40% · ctx ▁ 4%",
+        "the model elides, then the context turns into a level"
     );
-    assert_eq!(row(38), "/tmp/project    usage ▃ 40% · ctx ▁ 4%");
+    assert_eq!(
+        row(50),
+        "…/project ⧉ mistral… · usage ██▍    40% · ctx ▁ 4%",
+        "only then the cwd shortens"
+    );
+    assert_eq!(row(49), "/tmp/project    mistral… · usage ▃ 40% · ctx ▁ 4%");
+    assert_eq!(
+        row(44),
+        "/tmp/project          usage ▃ 40% · ctx ▁ 4%",
+        "the model hides before the cwd reaches its floor"
+    );
+    assert_eq!(row(35), "/tmp/project usage ▃ 40% · ctx ▁ 4%");
     assert_eq!(row(34), "…/project ⧉ usage ▃ 40% · ctx ▁ 4%");
-    assert_eq!(row(32), "/tmp/project usage ▃ 40% · ctx ▁");
+    assert_eq!(row(33), "/tmp/project  usage ▃ 40% · ctx ▁");
+    assert_eq!(row(28), "/tmp/project usage ▃ · ctx ▁");
 }
 
 /// The usage fill's color at `percent`, with or without pay-as-you-go.

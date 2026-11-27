@@ -1,0 +1,222 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="1635" viewBox="0 0 980 1635" font-family="Helvetica, Arial, sans-serif">
+<rect width="980" height="1635" fill="#ffffff"/>
+<text x="24.0" y="34.0" font-size="17" fill="#243040" text-anchor="start" font-weight="bold">Temps de travail par tâche</text>
+<text x="24.0" y="54.0" font-size="11.5" fill="#6b7785" text-anchor="start">Le plus court est le meilleur (médiane par tâche, en s)</text>
+<line x1="190.0" y1="73.0" x2="190.0" y2="1590.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
+<text x="190.0" y="1605.0" font-size="10" fill="#6b7785" text-anchor="middle">0</text>
+<line x1="330.0" y1="73.0" x2="330.0" y2="1590.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
+<text x="330.0" y="1605.0" font-size="10" fill="#6b7785" text-anchor="middle">300</text>
+<line x1="470.0" y1="73.0" x2="470.0" y2="1590.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
+<text x="470.0" y="1605.0" font-size="10" fill="#6b7785" text-anchor="middle">600</text>
+<line x1="610.0" y1="73.0" x2="610.0" y2="1590.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
+<text x="610.0" y="1605.0" font-size="10" fill="#6b7785" text-anchor="middle">900</text>
+<line x1="750.0" y1="73.0" x2="750.0" y2="1590.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
+<text x="750.0" y="1605.0" font-size="10" fill="#6b7785" text-anchor="middle">1,200</text>
+<line x1="890.0" y1="73.0" x2="890.0" y2="1590.0" stroke="#dfe4ea" stroke-width="1" opacity="1.0"/>
+<text x="890.0" y="1605.0" font-size="10" fill="#6b7785" text-anchor="middle">1,500</text>
+<text x="178.0" y="154.5" font-size="11.5" fill="#243040" text-anchor="end">schemelike-metacircular-eval</text>
+<rect x="190.0" y="98.0" width="479.8" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>schemelike-metacircular-eval maki: 1,028.2 s</title></rect>
+<text x="675.8" y="106.0" font-size="9.5" fill="#6b7785" text-anchor="start">1,028</text>
+<text x="196.0" y="118.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="129.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="140.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="151.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="190.0" y="153.0" width="219.6" height="9.0" rx="2" fill="#b07aa1" opacity="1.0"><title>schemelike-metacircular-eval vibe-custom: 470.5 s</title></rect>
+<text x="415.6" y="161.0" font-size="9.5" fill="#6b7785" text-anchor="start">470</text>
+<text x="196.0" y="173.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="184.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="195.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="20.0" y="204.0" width="936.0" height="115.0" rx="3" fill="#f7f8fa" opacity="1.0"></rect>
+<text x="178.0" y="269.5" font-size="11.5" fill="#243040" text-anchor="end">protein-assembly</text>
+<rect x="190.0" y="213.0" width="70.0" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>protein-assembly maki: 150.0 s</title></rect>
+<text x="266.0" y="221.0" font-size="9.5" fill="#6b7785" text-anchor="start">150</text>
+<text x="196.0" y="233.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="244.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="255.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="266.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="190.0" y="268.0" width="141.4" height="9.0" rx="2" fill="#b07aa1" opacity="1.0"><title>protein-assembly vibe-custom: 303.0 s</title></rect>
+<text x="337.4" y="276.0" font-size="9.5" fill="#6b7785" text-anchor="start">303</text>
+<text x="196.0" y="288.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="299.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="310.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="178.0" y="384.5" font-size="11.5" fill="#243040" text-anchor="end">overfull-hbox</text>
+<rect x="190.0" y="328.0" width="57.4" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>overfull-hbox maki: 123.0 s</title></rect>
+<text x="253.4" y="336.0" font-size="9.5" fill="#6b7785" text-anchor="start">123</text>
+<rect x="190.0" y="339.0" width="47.5" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>overfull-hbox vibe: 101.7 s</title></rect>
+<text x="243.5" y="347.0" font-size="9.5" fill="#6b7785" text-anchor="start">102</text>
+<rect x="190.0" y="350.0" width="129.8" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>overfull-hbox vibe@low: 278.1 s</title></rect>
+<text x="325.8" y="358.0" font-size="9.5" fill="#6b7785" text-anchor="start">278</text>
+<rect x="190.0" y="361.0" width="104.8" height="9.0" rx="2" fill="#59a14f" opacity="1.0"><title>overfull-hbox vibe@no-check: 224.6 s</title></rect>
+<text x="300.8" y="369.0" font-size="9.5" fill="#6b7785" text-anchor="start">225</text>
+<rect x="190.0" y="372.0" width="25.5" height="9.0" rx="2" fill="#bab0ac" opacity="1.0"><title>overfull-hbox vibe-classic: 54.6 s</title></rect>
+<text x="221.5" y="380.0" font-size="9.5" fill="#6b7785" text-anchor="start">55</text>
+<rect x="190.0" y="383.0" width="29.9" height="9.0" rx="2" fill="#b07aa1" opacity="1.0"><title>overfull-hbox vibe-custom: 64.1 s</title></rect>
+<text x="225.9" y="391.0" font-size="9.5" fill="#6b7785" text-anchor="start">64</text>
+<text x="196.0" y="403.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="190.0" y="405.0" width="22.8" height="9.0" rx="2" fill="#76b7b2" opacity="1.0"><title>overfull-hbox vibe@nohook: 48.9 s</title></rect>
+<text x="218.8" y="413.0" font-size="9.5" fill="#6b7785" text-anchor="start">49</text>
+<rect x="190.0" y="416.0" width="76.9" height="9.0" rx="2" fill="#ff9da7" opacity="1.0"><title>overfull-hbox vibe@prog: 164.8 s</title></rect>
+<text x="272.9" y="424.0" font-size="9.5" fill="#6b7785" text-anchor="start">165</text>
+<rect x="20.0" y="434.0" width="936.0" height="115.0" rx="3" fill="#f7f8fa" opacity="1.0"></rect>
+<text x="178.0" y="499.5" font-size="11.5" fill="#243040" text-anchor="end">cobol-modernization</text>
+<rect x="190.0" y="443.0" width="57.4" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>cobol-modernization maki: 123.0 s</title></rect>
+<text x="253.4" y="451.0" font-size="9.5" fill="#6b7785" text-anchor="start">123</text>
+<rect x="190.0" y="454.0" width="77.7" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>cobol-modernization vibe: 166.5 s</title></rect>
+<text x="273.7" y="462.0" font-size="9.5" fill="#6b7785" text-anchor="start">167</text>
+<rect x="190.0" y="465.0" width="58.1" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>cobol-modernization vibe@low: 124.4 s</title></rect>
+<text x="254.1" y="473.0" font-size="9.5" fill="#6b7785" text-anchor="start">124</text>
+<rect x="190.0" y="476.0" width="121.0" height="9.0" rx="2" fill="#59a14f" opacity="1.0"><title>cobol-modernization vibe@no-check: 259.3 s</title></rect>
+<text x="317.0" y="484.0" font-size="9.5" fill="#6b7785" text-anchor="start">259</text>
+<rect x="190.0" y="487.0" width="71.0" height="9.0" rx="2" fill="#bab0ac" opacity="1.0"><title>cobol-modernization vibe-classic: 152.1 s</title></rect>
+<text x="267.0" y="495.0" font-size="9.5" fill="#6b7785" text-anchor="start">152</text>
+<rect x="190.0" y="498.0" width="30.1" height="9.0" rx="2" fill="#b07aa1" opacity="1.0"><title>cobol-modernization vibe-custom: 64.6 s</title></rect>
+<text x="226.1" y="506.0" font-size="9.5" fill="#6b7785" text-anchor="start">65</text>
+<text x="196.0" y="518.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="190.0" y="520.0" width="80.3" height="9.0" rx="2" fill="#76b7b2" opacity="1.0"><title>cobol-modernization vibe@nohook: 172.2 s</title></rect>
+<text x="276.3" y="528.0" font-size="9.5" fill="#6b7785" text-anchor="start">172</text>
+<rect x="190.0" y="531.0" width="48.3" height="9.0" rx="2" fill="#ff9da7" opacity="1.0"><title>cobol-modernization vibe@prog: 103.4 s</title></rect>
+<text x="244.3" y="539.0" font-size="9.5" fill="#6b7785" text-anchor="start">103</text>
+<text x="178.0" y="614.5" font-size="11.5" fill="#243040" text-anchor="end">circuit-fibsqrt</text>
+<rect x="190.0" y="558.0" width="107.7" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>circuit-fibsqrt maki: 230.8 s</title></rect>
+<text x="303.7" y="566.0" font-size="9.5" fill="#6b7785" text-anchor="start">231</text>
+<text x="196.0" y="578.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="589.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="600.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="611.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="190.0" y="613.0" width="56.3" height="9.0" rx="2" fill="#b07aa1" opacity="1.0"><title>circuit-fibsqrt vibe-custom: 120.7 s</title></rect>
+<text x="252.3" y="621.0" font-size="9.5" fill="#6b7785" text-anchor="start">121</text>
+<text x="196.0" y="633.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="644.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="655.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="20.0" y="664.0" width="936.0" height="115.0" rx="3" fill="#f7f8fa" opacity="1.0"></rect>
+<text x="178.0" y="729.5" font-size="11.5" fill="#243040" text-anchor="end">dna-assembly</text>
+<rect x="190.0" y="673.0" width="67.4" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>dna-assembly maki: 144.5 s</title></rect>
+<text x="263.4" y="681.0" font-size="9.5" fill="#6b7785" text-anchor="start">145</text>
+<text x="196.0" y="693.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="704.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="715.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="726.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="190.0" y="728.0" width="81.3" height="9.0" rx="2" fill="#b07aa1" opacity="1.0"><title>dna-assembly vibe-custom: 174.3 s</title></rect>
+<text x="277.3" y="736.0" font-size="9.5" fill="#6b7785" text-anchor="start">174</text>
+<text x="196.0" y="748.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="759.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="770.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="178.0" y="844.5" font-size="11.5" fill="#243040" text-anchor="end">mvcc-lsm-compaction</text>
+<rect x="190.0" y="788.0" width="31.7" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>mvcc-lsm-compaction maki: 67.9 s</title></rect>
+<text x="227.7" y="796.0" font-size="9.5" fill="#6b7785" text-anchor="start">68</text>
+<rect x="190.0" y="799.0" width="19.5" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>mvcc-lsm-compaction vibe: 41.8 s</title></rect>
+<text x="215.5" y="807.0" font-size="9.5" fill="#6b7785" text-anchor="start">42</text>
+<text x="196.0" y="819.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="830.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="841.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="852.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="863.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="874.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="885.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="20.0" y="894.0" width="936.0" height="115.0" rx="3" fill="#f7f8fa" opacity="1.0"></rect>
+<text x="178.0" y="959.5" font-size="11.5" fill="#243040" text-anchor="end">polyglot-rust-c</text>
+<rect x="190.0" y="903.0" width="25.4" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>polyglot-rust-c maki: 54.5 s</title></rect>
+<text x="221.4" y="911.0" font-size="9.5" fill="#6b7785" text-anchor="start">54</text>
+<text x="196.0" y="923.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="934.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="945.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="956.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="190.0" y="958.0" width="28.9" height="9.0" rx="2" fill="#b07aa1" opacity="1.0"><title>polyglot-rust-c vibe-custom: 62.0 s</title></rect>
+<text x="224.9" y="966.0" font-size="9.5" fill="#6b7785" text-anchor="start">62</text>
+<text x="196.0" y="978.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="989.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1000.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="178.0" y="1074.5" font-size="11.5" fill="#243040" text-anchor="end">cancel-async-tasks</text>
+<rect x="190.0" y="1018.0" width="19.3" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>cancel-async-tasks maki: 41.3 s</title></rect>
+<text x="215.3" y="1026.0" font-size="9.5" fill="#6b7785" text-anchor="start">41</text>
+<text x="196.0" y="1038.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1049.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1060.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1071.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="190.0" y="1073.0" width="17.9" height="9.0" rx="2" fill="#b07aa1" opacity="1.0"><title>cancel-async-tasks vibe-custom: 38.4 s</title></rect>
+<text x="213.9" y="1081.0" font-size="9.5" fill="#6b7785" text-anchor="start">38</text>
+<text x="196.0" y="1093.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1104.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1115.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="20.0" y="1124.0" width="936.0" height="115.0" rx="3" fill="#f7f8fa" opacity="1.0"></rect>
+<text x="178.0" y="1189.5" font-size="11.5" fill="#243040" text-anchor="end">prove-plus-comm</text>
+<rect x="190.0" y="1133.0" width="8.8" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>prove-plus-comm maki: 18.8 s</title></rect>
+<text x="204.8" y="1141.0" font-size="9.5" fill="#6b7785" text-anchor="start">19</text>
+<rect x="190.0" y="1144.0" width="11.2" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>prove-plus-comm vibe: 24.1 s</title></rect>
+<text x="207.2" y="1152.0" font-size="9.5" fill="#6b7785" text-anchor="start">24</text>
+<rect x="190.0" y="1155.0" width="9.3" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>prove-plus-comm vibe@low: 19.9 s</title></rect>
+<text x="205.3" y="1163.0" font-size="9.5" fill="#6b7785" text-anchor="start">20</text>
+<rect x="190.0" y="1166.0" width="15.0" height="9.0" rx="2" fill="#59a14f" opacity="1.0"><title>prove-plus-comm vibe@no-check: 32.1 s</title></rect>
+<text x="211.0" y="1174.0" font-size="9.5" fill="#6b7785" text-anchor="start">32</text>
+<rect x="190.0" y="1177.0" width="11.0" height="9.0" rx="2" fill="#bab0ac" opacity="1.0"><title>prove-plus-comm vibe-classic: 23.5 s</title></rect>
+<text x="207.0" y="1185.0" font-size="9.5" fill="#6b7785" text-anchor="start">24</text>
+<rect x="190.0" y="1188.0" width="6.9" height="9.0" rx="2" fill="#b07aa1" opacity="1.0"><title>prove-plus-comm vibe-custom: 14.7 s</title></rect>
+<text x="202.9" y="1196.0" font-size="9.5" fill="#6b7785" text-anchor="start">15</text>
+<text x="196.0" y="1208.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="190.0" y="1210.0" width="7.3" height="9.0" rx="2" fill="#76b7b2" opacity="1.0"><title>prove-plus-comm vibe@nohook: 15.6 s</title></rect>
+<text x="203.3" y="1218.0" font-size="9.5" fill="#6b7785" text-anchor="start">16</text>
+<rect x="190.0" y="1221.0" width="14.7" height="9.0" rx="2" fill="#ff9da7" opacity="1.0"><title>prove-plus-comm vibe@prog: 31.6 s</title></rect>
+<text x="210.7" y="1229.0" font-size="9.5" fill="#6b7785" text-anchor="start">32</text>
+<text x="178.0" y="1304.5" font-size="11.5" fill="#243040" text-anchor="end">password-recovery</text>
+<rect x="190.0" y="1248.0" width="14.5" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>password-recovery maki: 31.1 s</title></rect>
+<text x="210.5" y="1256.0" font-size="9.5" fill="#6b7785" text-anchor="start">31</text>
+<text x="196.0" y="1268.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1279.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1290.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1301.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="190.0" y="1303.0" width="12.1" height="9.0" rx="2" fill="#b07aa1" opacity="1.0"><title>password-recovery vibe-custom: 25.9 s</title></rect>
+<text x="208.1" y="1311.0" font-size="9.5" fill="#6b7785" text-anchor="start">26</text>
+<text x="196.0" y="1323.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1334.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1345.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="20.0" y="1354.0" width="936.0" height="115.0" rx="3" fill="#f7f8fa" opacity="1.0"></rect>
+<text x="178.0" y="1419.5" font-size="11.5" fill="#243040" text-anchor="end">fix-git</text>
+<rect x="190.0" y="1363.0" width="7.9" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>fix-git maki: 17.0 s</title></rect>
+<text x="203.9" y="1371.0" font-size="9.5" fill="#6b7785" text-anchor="start">17</text>
+<rect x="190.0" y="1374.0" width="12.1" height="9.0" rx="2" fill="#2f6db5" opacity="1.0"><title>fix-git vibe: 26.0 s</title></rect>
+<text x="208.1" y="1382.0" font-size="9.5" fill="#6b7785" text-anchor="start">26</text>
+<rect x="190.0" y="1385.0" width="11.6" height="9.0" rx="2" fill="#7fa8d4" opacity="1.0"><title>fix-git vibe@low: 24.9 s</title></rect>
+<text x="207.6" y="1393.0" font-size="9.5" fill="#6b7785" text-anchor="start">25</text>
+<rect x="190.0" y="1396.0" width="13.7" height="9.0" rx="2" fill="#59a14f" opacity="1.0"><title>fix-git vibe@no-check: 29.4 s</title></rect>
+<text x="209.7" y="1404.0" font-size="9.5" fill="#6b7785" text-anchor="start">29</text>
+<rect x="190.0" y="1407.0" width="11.6" height="9.0" rx="2" fill="#bab0ac" opacity="1.0"><title>fix-git vibe-classic: 24.8 s</title></rect>
+<text x="207.6" y="1415.0" font-size="9.5" fill="#6b7785" text-anchor="start">25</text>
+<rect x="190.0" y="1418.0" width="11.2" height="9.0" rx="2" fill="#b07aa1" opacity="1.0"><title>fix-git vibe-custom: 23.9 s</title></rect>
+<text x="207.2" y="1426.0" font-size="9.5" fill="#6b7785" text-anchor="start">24</text>
+<rect x="190.0" y="1429.0" width="13.0" height="9.0" rx="2" fill="#edc948" opacity="1.0"><title>fix-git vibe@high: 27.8 s</title></rect>
+<text x="209.0" y="1437.0" font-size="9.5" fill="#6b7785" text-anchor="start">28</text>
+<rect x="190.0" y="1440.0" width="8.1" height="9.0" rx="2" fill="#76b7b2" opacity="1.0"><title>fix-git vibe@nohook: 17.4 s</title></rect>
+<text x="204.1" y="1448.0" font-size="9.5" fill="#6b7785" text-anchor="start">17</text>
+<rect x="190.0" y="1451.0" width="8.8" height="9.0" rx="2" fill="#ff9da7" opacity="1.0"><title>fix-git vibe@prog: 18.9 s</title></rect>
+<text x="204.8" y="1459.0" font-size="9.5" fill="#6b7785" text-anchor="start">19</text>
+<text x="178.0" y="1534.5" font-size="11.5" fill="#243040" text-anchor="end">fix-code-vulnerability</text>
+<rect x="190.0" y="1478.0" width="8.5" height="9.0" rx="2" fill="#d1495b" opacity="1.0"><title>fix-code-vulnerability maki: 18.3 s</title></rect>
+<text x="204.5" y="1486.0" font-size="9.5" fill="#6b7785" text-anchor="start">18</text>
+<text x="196.0" y="1498.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1509.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1520.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1531.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="190.0" y="1533.0" width="6.3" height="9.0" rx="2" fill="#b07aa1" opacity="1.0"><title>fix-code-vulnerability vibe-custom: 13.5 s</title></rect>
+<text x="202.3" y="1541.0" font-size="9.5" fill="#6b7785" text-anchor="start">13</text>
+<text x="196.0" y="1553.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1564.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<text x="196.0" y="1575.0" font-size="9" fill="#6b7785" text-anchor="start">non mesuré</text>
+<rect x="190.0" y="62.0" width="10.0" height="10.0" rx="2" fill="#d1495b" opacity="1.0"></rect>
+<text x="205.0" y="71.0" font-size="11" fill="#243040" text-anchor="start">maki</text>
+<rect x="238.8" y="62.0" width="10.0" height="10.0" rx="2" fill="#2f6db5" opacity="1.0"></rect>
+<text x="253.8" y="71.0" font-size="11" fill="#243040" text-anchor="start">vibe</text>
+<rect x="287.6" y="62.0" width="10.0" height="10.0" rx="2" fill="#7fa8d4" opacity="1.0"></rect>
+<text x="302.6" y="71.0" font-size="11" fill="#243040" text-anchor="start">vibe@low</text>
+<rect x="365.2" y="62.0" width="10.0" height="10.0" rx="2" fill="#59a14f" opacity="1.0"></rect>
+<text x="380.2" y="71.0" font-size="11" fill="#243040" text-anchor="start">vibe@no-check</text>
+<rect x="478.8" y="62.0" width="10.0" height="10.0" rx="2" fill="#bab0ac" opacity="1.0"></rect>
+<text x="493.8" y="71.0" font-size="11" fill="#243040" text-anchor="start">vibe-classic</text>
+<rect x="585.2" y="62.0" width="10.0" height="10.0" rx="2" fill="#b07aa1" opacity="1.0"></rect>
+<text x="600.2" y="71.0" font-size="11" fill="#243040" text-anchor="start">vibe-custom</text>
+<rect x="684.4" y="62.0" width="10.0" height="10.0" rx="2" fill="#edc948" opacity="1.0"></rect>
+<text x="699.4" y="71.0" font-size="11" fill="#243040" text-anchor="start">vibe@high</text>
+<rect x="769.2" y="62.0" width="10.0" height="10.0" rx="2" fill="#76b7b2" opacity="1.0"></rect>
+<text x="784.2" y="71.0" font-size="11" fill="#243040" text-anchor="start">vibe@nohook</text>
+<rect x="868.4" y="62.0" width="10.0" height="10.0" rx="2" fill="#ff9da7" opacity="1.0"></rect>
+<text x="883.4" y="71.0" font-size="11" fill="#243040" text-anchor="start">vibe@prog</text>
+</svg>

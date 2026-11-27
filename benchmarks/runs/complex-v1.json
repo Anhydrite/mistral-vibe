@@ -1,0 +1,126 @@
+{
+  "run": "complex-v1",
+  "date": "2026-11-24T19:12:03.363750+00:00",
+  "commit": "49b50f1",
+  "note": "complex tasks: transactional KV, HTTP API, multi-file refactor (2 attempts)",
+  "model": "mistral/deepseek-v4-1-flash-1017",
+  "tasks": [
+    "mini_http",
+    "refactor_rates",
+    "txn_kv"
+  ],
+  "repeat": 2,
+  "results_dir": "/home/anhydrite/Documents/beta_labo/vibe_bench/harness_bench/results/20261124T190306Z",
+  "harnesses": {
+    "maki": {
+      "n": 6,
+      "passed": 6,
+      "mean_sec": 52.8,
+      "mean_prompt_tokens": 44366,
+      "mean_effective_tokens": 7118,
+      "mean_turns": 5.3,
+      "median_sec": 18.7,
+      "median_prompt_tokens": 37462,
+      "median_effective_tokens": 7115,
+      "median_turns": 5.0
+    },
+    "vibe": {
+      "n": 6,
+      "passed": 6,
+      "mean_sec": 35.6,
+      "mean_prompt_tokens": 24862,
+      "mean_effective_tokens": 6131,
+      "mean_turns": 4.3,
+      "median_sec": 14.2,
+      "median_prompt_tokens": 24092,
+      "median_effective_tokens": 5834,
+      "median_turns": 4.5
+    }
+  },
+  "per_task": {
+    "mini_http__maki__1": {
+      "passed": true,
+      "sec": 132.92,
+      "turns": 5,
+      "prompt": 39651,
+      "effective": 7139
+    },
+    "mini_http__maki__2": {
+      "passed": true,
+      "sec": 131.09,
+      "turns": 5,
+      "prompt": 38728,
+      "effective": 6984
+    },
+    "mini_http__vibe__1": {
+      "passed": true,
+      "sec": 138.75,
+      "turns": 4,
+      "prompt": 22644,
+      "effective": 6004
+    },
+    "mini_http__vibe__2": {
+      "passed": true,
+      "sec": 20.62,
+      "turns": 5,
+      "prompt": 38296,
+      "effective": 8472
+    },
+    "refactor_rates__maki__1": {
+      "passed": true,
+      "sec": 7.15,
+      "turns": 5,
+      "prompt": 34514,
+      "effective": 7122
+    },
+    "refactor_rates__maki__2": {
+      "passed": true,
+      "sec": 8.08,
+      "turns": 5,
+      "prompt": 36197,
+      "effective": 7653
+    },
+    "refactor_rates__vibe__1": {
+      "passed": true,
+      "sec": 13.96,
+      "turns": 4,
+      "prompt": 19918,
+      "effective": 4942
+    },
+    "refactor_rates__vibe__2": {
+      "passed": true,
+      "sec": 12.86,
+      "turns": 5,
+      "prompt": 25540,
+      "effective": 5700
+    },
+    "txn_kv__maki__1": {
+      "passed": true,
+      "sec": 11.63,
+      "turns": 4,
+      "prompt": 30383,
+      "effective": 6703
+    },
+    "txn_kv__maki__2": {
+      "passed": true,
+      "sec": 25.75,
+      "turns": 8,
+      "prompt": 86724,
+      "effective": 7108
+    },
+    "txn_kv__vibe__1": {
+      "passed": true,
+      "sec": 14.45,
+      "turns": 5,
+      "prompt": 27129,
+      "effective": 5753
+    },
+    "txn_kv__vibe__2": {
+      "passed": true,
+      "sec": 13.16,
+      "turns": 3,
+      "prompt": 15644,
+      "effective": 5916
+    }
+  }
+}

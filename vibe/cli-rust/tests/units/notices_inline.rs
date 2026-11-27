@@ -68,7 +68,7 @@ fn a_squeezed_failure_block_still_ends_in_an_ellipsis() {
     let mut app = App::default();
     notices::inline(&mut app, Severity::Error, &"boom ".repeat(200));
 
-    let screen = rows(&crate::support::render(40, 11, |frame| app.draw(frame)));
+    let screen = rows(&crate::support::render(40, 9, |frame| app.draw(frame)));
 
     let boom: Vec<&String> = screen.iter().filter(|row| row.contains("boom")).collect();
     assert_eq!(boom.len(), 2, "the squeezed block keeps two rows");

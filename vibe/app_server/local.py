@@ -48,6 +48,9 @@ class LocalHarness:
         self._started = True
         return await self._host.connect(self._options)
 
+    async def close(self) -> None:
+        await self._host.close()
+
 
 class LocalHarnessHost:
     def __init__(self, *, shared: bool = True) -> None:

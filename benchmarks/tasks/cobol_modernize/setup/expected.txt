@@ -1,0 +1,13 @@
+ITEM         QTY   EXTENDED
+REGION north
+widget         3      13.50
+gadget        12      25.65
+bolt           7       6.93
+REGION TOTAL          46.08
+REGION south
+widget         1       4.50
+bolt          10       9.41
+REGION TOTAL          13.91
+GRAND TOTAL           59.99
+TAX                    4.95
+TOTAL                 64.94

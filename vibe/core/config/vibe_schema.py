@@ -25,6 +25,7 @@ from pydantic import (
 
 from vibe.core.agents.models import (
     BUILTIN_APPROVAL_POLICIES,
+    PICOVIBE,
     REMOVED_BUILTIN_AGENTS,
     ApprovalPolicyName,
     BuiltinAgentName,
@@ -1102,16 +1103,17 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
         ),
     )
     default_agent: Annotated[str, WithReplaceMerge()] = Field(
-        default=BuiltinAgentName.DEFAULT,
+        default=PICOVIBE.name,
         description=(
-            "Agent to use when no --agent flag is passed: 'default' (Vibe's own "
-            "instructions and tools), 'lean', or a custom agent. An approval policy "
-            "name here (ask, accept-edits, smart-approve, auto-approve) still sets "
-            "default_approval_policy, as before agents and policies were split."
+            "Agent to use when no --agent flag is passed: 'picovibe' in this fork, "
+            "or a custom agent. An "
+            "approval policy name here (ask, accept-edits, smart-approve, "
+            "auto-approve) still sets default_approval_policy, as before agents "
+            "and policies were split."
         ),
     )
     default_approval_policy: Annotated[str, WithReplaceMerge()] = Field(
-        default=ApprovalPolicyName.ACCEPT_EDITS,
+        default=ApprovalPolicyName.AUTO_APPROVE,
         description=(
             "Approval policy to use when no --approval-policy flag is passed and "
             "the agent names none. Builtin: ask, accept-edits, smart-approve, "
@@ -1463,7 +1465,8 @@ class VibeConfigSchema(ConfigSchema):  # noqa: PLR0904 - the effective config re
         description="Retired: accepted for older configs, with no effect.",
     )
     title_prompt_id: Annotated[str, WithReplaceMerge()] = UtilityPrompt.SESSION_TITLE
-    include_commit_signature: Annotated[bool, WithReplaceMerge()] = True
+    # The fork never signs a commit with a tool trailer.
+    include_commit_signature: Annotated[bool, WithReplaceMerge()] = False
     include_model_info: Annotated[bool, WithReplaceMerge()] = Field(
         default=True,
         deprecated="No longer used; remove this setting from your config.",
